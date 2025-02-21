@@ -1,0 +1,130 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #003366;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #003366;
+    margin-bottom: 20px;
+}
+
+form {
+    background-color: #f0f0f0;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+fieldset {
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+legend {
+    font-weight: bold;
+    color: #003366;
+    font-size: 1.1em;
+}
+
+label {
+    display: block;
+    margin: 5px 0 2px;
+    color: #003366;
+    font-size: 12px; /* Fonte menor para labels */
+}
+
+input[type="text"], input[type="date"] {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    font-size: 12px; /* Fonte menor para inputs */
+}
+
+input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.dados-pessoais .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.dados-pessoais .form-group {
+    flex: 1 1 45%;
+    margin-right: 10px;
+}
+
+.dados-pessoais .form-group:last-child {
+    margin-right: 0;
+}
+
+button {
+    background-color: #003366;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    margin: 20px auto 0;
+}
+
+button:hover {
+    background-color: #005599;
+}
+
+#resultado {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Estilos para impressão */
+@media print {
+    body {
+        font-size: 10pt;
+        background-color: #fff;
+    }
+    form, #resultado {
+        box-shadow: none;
+        border: none;
+        padding: 0;
+    }
+    fieldset {
+        padding: 5px;
+        margin: 5px 0;
+        border: none;
+    }
+    label, input {
+        font-size: 10pt; /* Fonte ainda menor para perguntas na impressão */
+        margin-bottom: 2px;
+    }
+    .dados-pessoais .form-row {
+        flex-direction: column; /* Empilhar dados pessoais em uma coluna na impressão */
+    }
+    .dados-pessoais .form-group {
+        flex: 1 1 100%;
+        margin-right: 0;
+    }
+    button {
+        display: none; /* Ocultar botão na impressão */
+    }
+}

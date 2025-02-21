@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estratificação de Risco em Saúde Mental – Versão Reduzida</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #003366;
+            margin: 0;
+            padding: 10px;
+            font-size: 12px;
+        }
+        h1 {
+            text-align: center;
+            color: #003366;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+        form {
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        fieldset {
+            border: 1px solid #ccc;
+            margin-bottom: 5px;
+            padding: 8px;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        legend {
+            font-weight: bold;
+            color: #003366;
+            font-size: 0.9em;
+        }
+        label {
+            display: block;
+            margin: 2px 0;
+            color: #003366;
+            font-size: 0.85em;
+        }
+        input[type="text"], input[type="date"] {
+            width: 100%;
+            padding: 4px;
+            margin-bottom: 4px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            font-size: 0.85em;
+        }
+        .checkbox-group {
+            margin-bottom: 2px;
+        }
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+        .destaque {
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #003366;
+        }
+        #resultado {
+            margin-top: 10px;
+            padding: 8px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+            font-size: 0.85em;
+        }
+        button {
+            background-color: #003366;
+            color: #fff;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85em;
+        }
+        button:hover {
+            background-color: #005599;
+        }
+        #instructions-button {
+            display: block;
+            margin: 8px 0;
+        }
+        .form-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .questions-row {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+        }
+        .left-questions {
+            width: calc(50% - 5px); /* Esquerda */
+        }
+        .right-questions {
+            width: calc(50% - 5px); /* Direita */
+        }
+        .group-title {
+            font-weight: bold;
+            font-size: 0.9em;
+            color: #003366;
+            margin-top: 10px;
+            margin-bottom: 5px;
+            display: inline-block;
+            margin-right: 5px;
+        }
+        .help-button {
+            background-color: #003366;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            font-size: 10px;
+            cursor: pointer;
+            vertical-align: middle;
+            padding: 0;
+            line-height: 16px;
+            text-align: center;
+        }
+        .help-button:hover {
+            background-color: #005599;
+        }
+        /* Ajuste para Dados Pessoais */
+        .personal-data .field-row {
+            display: flex;
+            gap: 10px;
+        }
+        .personal-data .field-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        /* Estilo para Pontuação Total */
+        #resultado .pontuacao-total {
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #003366;
+        }
+        /* Estilos para impressão */
+        @media print {
+            body {
+                padding: 5px;
+                font-size: 10px;
+            }
+            h1 {
+                margin-bottom: 5px;
+                font-size: 1.2em;
+            }
+            form, #resultado {
+                padding: 5px;
+            }
+            fieldset {
+                margin-bottom: 3px;
+                padding: 5px;
+            }
+            button, #instructions-button {
+                display: none;
+            }
+            .form-container, .questions-row {
+                gap: 5px;
+            }
+            .left-questions, .right-questions {
+                width: calc(50% - 2.5px);
+            }
+            .personal-data .field-row {
+                gap: 5px;
+            }
+            .group-title {
+                margin-top: 5px;
+                margin-bottom: 3px;
+            }
+            #resultado .pontuacao-total {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>ESTRATIFICAÇÃO DE RISCO EM SAÚDE MENTAL – VERSÃO REDUZIDA</h1>
+    <form id="riscoForm">
+        <fieldset class="personal-data">
+            <legend class="destaque">Dados Pessoais</legend>
+            <div class="field-row">
+                <div class="field-group">
+                    <label for="nome">Nome do usuário:</label>
+                    <input type="text" id="nome" name="nome">
+                </div>
+                <div class="field-group">
+                    <label for="ocupacao">Ocupação:</label>
+                    <input type="text" id="ocupacao" name="ocupacao">
+                </div>
+            </div>
+        </fieldset>
+
+        <button type="button" id="instructions-button">Instruções</button>
+
+        <div class="form-container">
+            <div class="questions-row">
+                <!-- Questões Grupos I a III (Esquerda) -->
+                <fieldset class="left-questions">
+                    <legend>Questões (Grupos I a III)</legend>
+                    <div class="group-title">GRUPO I – Sinais e Sintomas</div>
+                    <button type="button" class="help-button" onclick="window.open('grupo1.html', '_blank')">?</button>
+                    <label>Ansiedade com ou sem sensação de pânico <input type="checkbox" name="ansiedade" value="4"> (4)</label>
+                    <label>Insônia ou hipersonia <input type="checkbox" name="insonia" value="2"> (2)</label>
+                    <label>Fobia (medo intenso de algo sem risco real) <input type="checkbox" name="fobia" value="2"> (2)</label>
+                    <label>Crises conversivas e/ou dissociativas <input type="checkbox" name="crises_conversivas" value="2"> (2)</label>
+                    <label>Alterações do apetite ou comportamento alimentar <input type="checkbox" name="apetite" value="2"> (2)</label>
+                    <label>Preocupação excessiva com o peso ou forma corporal <input type="checkbox" name="preocupacao_peso" value="2"> (2)</label>
+                    <label>Hipocondria e/ou queixas físicas infundadas <input type="checkbox" name="hipocondria" value="2"> (2)</label>
+                    <label>Pensamento/comportamento obsessivo-compulsivo <input type="checkbox" name="obsessivo" value="2"> (2)</label>
+                    <label>Pensamento de inutilidade e/ou sentimento de culpa <input type="checkbox" name="inutilidade" value="4"> (4)</label>
+                    <label>Tristeza persistente com perda de interesse e prazer e/ou desesperança <input type="checkbox" name="tristeza" value="4"> (4)</label>
+                    <label>Prejuízo da atividade sexual <input type="checkbox" name="sexual" value="2"> (2)</label>
+                    <label>Desorientação temporal e/ou espacial <input type="checkbox" name="desorientacao" value="2"> (2)</label>
+
+                    <div class="group-title">GRUPO II – Sinais e Sintomas</div>
+                    <button type="button" class="help-button" onclick="window.open('grupo2.html', '_blank')">?</button>
+                    <label>Ideação suicida sem planejamento <input type="checkbox" name="ideacao_sem" value="4"> (4)</label>
+                    <label>Ideação suicida com planejamento ou recente tentativa de suicídio <input type="checkbox" name="ideacao_com" value="10"> (10)</label>
+                    <label>Apatia com ou sem isolamento social <input type="checkbox" name="apatia" value="4"> (4)</label>
+                    <label>Humor instável com impulsividade ou destrutividade <input type="checkbox" name="humor_instavel" value="6"> (6)</label>
+                    <label>Heteroagressividade e/ou autoagressividade <input type="checkbox" name="agressividade" value="8"> (8)</label>
+                    <label>Desinibição social, sexual ou perda de pudor <input type="checkbox" name="desinibicao" value="4"> (4)</label>
+                    <label>Hiperatividade motora <input type="checkbox" name="hiperatividade" value="4"> (4)</label>
+                    <label>Humor elevado, expansivo, irritável ou eufórico <input type="checkbox" name="humor_elevado" value="4"> (4)</label>
+                    <label>Delírio (pensamento) <input type="checkbox" name="delirio" value="8"> (8)</label>
+                    <label>Alucinação (sensopercepção) <input type="checkbox" name="alucinacao" value="8"> (8)</label>
+                    <label>Alteração do curso e/ou da forma do pensamento <input type="checkbox" name="alteracao_pensamento" value="6"> (6)</label>
+                    <label>Perda da capacidade crítica da realidade <input type="checkbox" name="realidade" value="8"> (8)</label>
+                    <label>Alteração da memória <input type="checkbox" name="memoria" value="2"> (2)</label>
+                    <label>Delirium tremens <input type="checkbox" name="delirium" value="10"> (10)</label>
+
+                    <div class="group-title">GRUPO III – Sinais e Sintomas</div>
+                    <button type="button" class="help-button" onclick="window.open('grupo3.html', '_blank')">?</button>
+                    <label>Sinais ou sintomas de abstinência ao uso continuado de álcool e/ou drogas <input type="checkbox" name="abstinencia" value="8"> (8)</label>
+                    <label>Incapacidade de redução e controle do consumo de álcool e/ou drogas <input type="checkbox" name="controle_consumo" value="8"> (8)</label>
+                    <label>Comportamento de risco, para si ou terceiros, sob efeito de álcool e/ou drogas <input type="checkbox" name="comportamento_risco" value="8"> (8)</label>
+                    <label>Tolerância ao efeito do consumo de álcool e/ou drogas <input type="checkbox" name="tolerancia" value="6"> (6)</label>
+                    <label>Uso abusivo de álcool e/ou drogas <input type="checkbox" name="uso_abusivo" value="8"> (8)</label>
+                </fieldset>
+
+                <!-- Questões Grupos IV e V (Direita) -->
+                <fieldset class="right-questions">
+                    <legend>Questões (Grupos IV e V)</legend>
+                    <div class="group-title">GRUPO IV – Sinais e Sintomas</div>
+                    <button type="button" class="help-button" onclick="window.open('grupo4.html', '_blank')">?</button>
+                    <label>Dificuldade de compreender e/ou transmitir informação verbal manifesta no desenvolvimento infantil <input type="checkbox" name="dificuldade_verbal" value="4"> (4)</label>
+                    <label>Movimentos corporais ou comportamentais repetitivos, bizarros ou paralisados <input type="checkbox" name="movimentos" value="4"> (4)</label>
+                    <label>Dificuldade para adquirir e desenvolver as habilidades escolares <input type="checkbox" name="habilidades_escolares" value="4"> (4)</label>
+                    <label>Dificuldade para adquirir e desenvolver as habilidades motoras <input type="checkbox" name="habilidades_motoras" value="4"> (4)</label>
+                    <label>Severa dificuldade na interação social e às mudanças na rotina <input type="checkbox" name="interacao_social" value="8"> (8)</label>
+                    <label>Desatenção com interrupção prematura de tarefas e/ou deixando tarefas inacabadas <input type="checkbox" name="desatencao" value="2"> (2)</label>
+                    <label>Comportamento provocativo, desafiador e/ou opositor persistente <input type="checkbox" name="comportamento_prov" value="6"> (6)</label>
+                    <label>Comportamentos ou reações emocionais que não correspondem ao esperado para a idade biológica <input type="checkbox" name="reacoes_emocionais" value="4"> (4)</label>
+
+                    <div class="group-title">GRUPO V – Sinais e Sintomas</div>
+                    <button type="button" class="help-button" onclick="window.open('grupo5.html', '_blank')">?</button>
+                    <label>Resistência, refratariedade, não adesão ao tratamento <input type="checkbox" name="resistencia" value="4"> (4)</label>
+                    <label>Recorrência ou recaída (após 2 meses de remissão dos sintomas) <input type="checkbox" name="recorrencia" value="4"> (4)</label>
+                    <label>Exposição continuada ao estresse ou evento traumático <input type="checkbox" name="estresse" value="4"> (4)</label>
+                    <label>Precariedade de suporte familiar e/ou social <input type="checkbox" name="suporte" value="4"> (4)</label>
+                    <label>Testemunha de violência <input type="checkbox" name="testemunha" value="2"> (2)</label>
+                    <label>Autor ou vítima de violência interpessoal <input type="checkbox" name="violencia" value="6"> (6)</label>
+                    <label>Perda da autonomia <input type="checkbox" name="autonomia" value="6"> (6)</label>
+                    <label>Perda da capacidade funcional/ocupacional devido agravo de saúde <input type="checkbox" name="capacidade_funcional" value="4"> (4)</label>
+                    <label>Vulnerabilidade social <input type="checkbox" name="vulnerabilidade" value="2"> (2)</label>
+                    <label>Histórico familiar de transtorno mental / dependência química / suicídio <input type="checkbox" name="historico_familiar" value="2"> (2)</label>
+                    <label>Comorbidade ou outra condição crônica de saúde <input type="checkbox" name="comorbidade" value="4"> (4)</label>
+                    <label>Faixa etária < 18 anos e > de 60 anos <input type="checkbox" name="faixa_etaria" value="6"> (6)</label>
+                    <label>Abandono e/ou atraso escolar <input type="checkbox" name="abandono_escolar" value="2"> (2)</label>
+
+                    <button type="submit" style="margin-top: 10px;">Calcular Pontuação</button>
+                    <div id="resultado"></div>
+
+                    <div class="group-title">Profissional e Serviço</div>
+                    <div class="field-group">
+                        <label for="profissional">Nome e inscrição profissional:</label>
+                        <input type="text" id="profissional" name="profissional">
+                    </div>
+                    <div class="field-group">
+                        <label for="servico">Serviço de saúde:</label>
+                        <input type="text" id="servico" name="servico">
+                    </div>
+                    <div class="field-group">
+                        <label for="data">Data (dd/mm/aaaa):</label>
+                        <input type="date" id="data" name="data">
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Obtém a data atual ajustada para o fuso horário de São Paulo (UTC-3)
+            const now = new Date();
+            const offsetSãoPaulo = -3 * 60; // Offset em minutos (-3 horas)
+            const localTime = new Date(now.getTime() + (offsetSãoPaulo * 60 * 1000));
+            
+            // Formata como YYYY-MM-DD para o campo de data
+            const year = localTime.getUTCFullYear();
+            const month = String(localTime.getUTCMonth() + 1).padStart(2, '0');
+            const day = String(localTime.getUTCDate()).padStart(2, '0');
+            const today = `${year}-${month}-${day}`;
+            
+            document.getElementById('data').value = today;
+
+            // Adiciona evento de clique no checkbox "ideacao_com"
+            const ideacaoComCheckbox = document.querySelector('input[name="ideacao_com"]');
+            ideacaoComCheckbox.addEventListener('change', function() {
+                if (this.checked) {
+                    alert('Atenção! - Caso o usuário apresente ideação suicida com planejamento e com acesso a um método, associado a um transtorno mental (especialmente depressão ou abuso de substâncias), desespero, presença de delírio ou alucinação, ele deverá ser encaminhado imediatamente a serviço de urgência.');
+                }
+            });
+
+            // Adiciona evento de clique no botão "Instruções"
+            document.getElementById('instructions-button').addEventListener('click', function() {
+                alert('Instruções de preenchimento: Devem ser consideradas as manifestações sintomáticas ocorridas somente nos últimos 12 meses.\n\nCondições Especiais: Gestação e maternidade recente (há menos de um ano); grupos vulneráveis (ex: indígena, LGBTQIA+, migrante, pessoa em situação de rua, população exposta a agrotóxicos), deficiência intelectual moderada ou severa.\n\nEventos agudos: Tentativa de suicídio; crise; surto psicótico.');
+            });
+        });
+
+        document.getElementById('riscoForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+            let pontuacaoTotal = 0;
+            checkboxes.forEach((checkbox) => {
+                pontuacaoTotal += parseInt(checkbox.value);
+            });
+
+            let estratificacao;
+            if (pontuacaoTotal >= 0 && pontuacaoTotal <= 40) {
+                estratificacao = "BAIXO RISCO";
+            } else if (pontuacaoTotal >= 42 && pontuacaoTotal <= 70) {
+                estratificacao = "MÉDIO RISCO";
+            } else if (pontuacaoTotal >= 72 && pontuacaoTotal <= 240) {
+                estratificacao = "ALTO RISCO";
+            } else {
+                estratificacao = "Pontuação fora do intervalo esperado";
+            }
+
+            document.getElementById('resultado').innerHTML = `
+                <p class="pontuacao-total">Pontuação Total: ${pontuacaoTotal}</p>
+                <p class="destaque">Estratificação: ${estratificacao}</p>
+                <button onclick="window.print()">Imprimir Formulário</button>
+            `;
+        });
+    </script>
+</body>
+</html>
