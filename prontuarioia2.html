@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prontuário Médico Off Line Simplificado</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3498db;    /* Azul principal */
+            --primary-light: #e1f0fa;    /* Azul claro */
+            --primary-dark: #2980b9;     /* Azul escuro */
+            --accent-color: #16a085;     /* Verde acento */
+            --text-color: #333;          /* Cor do texto principal */
+            --light-text: #777;          /* Texto claro */
+            --light-bg: #f5f9fc;         /* Fundo claro */
+            --danger-color: #e74c3c;     /* Vermelho */
+            --warning-color: #f39c12;    /* Amarelo */
+            --success-color: #2ecc71;    /* Verde */
+            --border-radius: 8px;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: var(--primary-dark);
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            font-size: 14px;
+            margin-bottom: 15px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+
+        h2 i {
+            margin-right: 10px;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            border-top: 3px solid var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow);
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .col {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .col-2 {
+            flex: 2;
+            min-width: 300px;
+        }
+
+        .col-small {
+            flex: 0 0 120px;
+        }
+
+        .col-nome {
+            flex: 2;
+            min-width: 300px;
+        }
+
+        .col-sexo {
+            flex: 0 0 120px; /* Reduzido de 150px para 120px (20% menor) */
+        }
+
+        .col-data {
+            flex: 0 0 160px; /* Reduzido de 200px para 160px (20% menor) */
+        }
+
+        .col-vital {
+            flex: 0 0 140px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--primary-dark);
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px var(--primary-light);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        #exames {
+            height: 10em;
+        }
+
+        .calculated-value {
+            padding: 10px;
+            background-color: var(--light-bg);
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            display: inline-block;
+            min-width: 80px;
+            color: var(--light-text);
+            font-style: italic;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+            font-size: 12px;
+        }
+
+        .checkbox-item input[type="checkbox"],
+        .checkbox-item input[type="radio"] {
+            width: auto;
+            margin-right: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: linear-gradient(to bottom, #2980b9, #000000);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 14px;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        button:hover {
+            background: linear-gradient(to bottom, #1d6fa5, #333333);
+            transform: translateY(-2px);
+        }
+
+        button i {
+            margin-right: 5px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+            justify-content: center;
+        }
+
+        .conditional-fields {
+            display: none;
+            padding: 10px;
+            background-color: var(--primary-light);
+            border-radius: var(--border-radius);
+            margin-top: 10px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: var(--light-text);
+            font-size: 12px;
+        }
+
+        .resultado-analise {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: var(--light-bg);
+            border-radius: var(--border-radius);
+            border: 1px solid #ddd;
+            font-size: 14px;
+            line-height: 1.4;
+            white-space: pre-wrap; /* Para respeitar quebras de linha */
+        }
+
+        .resultado-analise .corrigido {
+            color: #2c3e50; /* Azul-marinho */
+            font-weight: 500;
+        }
+
+        .resultado-analise .alerta {
+            color: var(--danger-color);
+            font-weight: 500;
+        }
+
+        .resultado-analise .aviso {
+            color: var(--warning-color);
+            font-style: italic;
+            font-size: 12px;
+        }
+
+        .resultado-analise .pensando {
+            color: var(--primary-dark);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .powered-by-grok {
+            font-size: 12px;
+            color: var(--light-text);
+            text-align: right;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .row {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .col, .col-2, .col-small, .col-nome, .col-sexo, .col-data, .col-vital {
+                min-width: 100%;
+            }
+        }
+
+        @media print {
+            @page {
+                margin: 2cm;
+            }
+            body {
+                background: none;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+            }
+            button {
+                display: none !important;
+            }
+            .card {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+            .print-header {
+                margin-bottom: 0;
+            }
+            .print-unidade {
+                margin-bottom: 0;
+            }
+            .print-text {
+                margin-top: 3em;
+            }
+            .print-footer {
+                page-break-inside: avoid;
+            }
+            .resultado-analise {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-notes-medical"></i> Prontuário Médico Off Line Simplificado</h1>
+        </header>
+
+        <div class="card">
+            <h2><i class="fas fa-hospital"></i> Dados do Médico e Unidade</h2>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="unidadeSaude">Unidade de Saúde</label>
+                        <input type="text" id="unidadeSaude" name="unidadeSaude" placeholder="Digite a unidade de saúde">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="medicoCrm">Nome do Médico e CRM</label>
+                        <input type="text" id="medicoCrm" name="medicoCrm" placeholder="Ex: Dr. João Silva - CRM 12345">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><i class="fas fa-user"></i> Dados do Paciente</h2>
+            <div class="row">
+                <div class="col-nome">
+                    <div class="form-group">
+                        <label for="nome">Nome do Paciente</label>
+                        <input type="text" id="nome" name="nome" required>
+                    </div>
+                </div>
+                <div class="col-sexo">
+                    <div class="form-group">
+                        <label for="sexo">Sexo</label>
+                        <select id="sexo" name="sexo">
+                            <option value="">Selecione</option>
+                            <option value="Masculino">Masculino</option>
+                            <option value="Feminino">Feminino</option>
+                            <option value="Outro">Outro</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-data">
+                    <div class="form-group">
+                        <label for="dataNascimento">Data de Nascimento</label>
+                        <input type="date" id="dataNascimento" name="dataNascimento" onchange="calcularIdade()" required>
+                    </div>
+                </div>
+                <div class="col-small">
+                    <div class="form-group">
+                        <label>Idade</label>
+                        <div class="calculated-value" id="idade">-</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><i class="fas fa-heartbeat"></i> Evolução Clínica</h2>
+            <div class="row">
+                <div class="col">
+                    <label>Data: <span id="dataAtual"></span></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-vital">
+                    <div class="form-group">
+                        <label for="pressaoArterial">Pressão Arterial</label>
+                        <input type="text" id="pressaoArterial" name="pressaoArterial" placeholder="Ex: 120/80 mmHg">
+                    </div>
+                </div>
+                <div class="col-vital">
+                    <div class="form-group">
+                        <label for="temperatura">Temperatura</label>
+                        <input type="number" id="temperatura" name="temperatura" step="0.1" placeholder="Ex: 36.5 (°C)">
+                    </div>
+                </div>
+                <div class="col-vital">
+                    <div class="form-group">
+                        <label for="peso">Peso (kg)</label>
+                        <input type="number" id="peso" name="peso" step="0.1" maxlength="3" placeholder="Ex: 70" oninput="calcularIMC()">
+                    </div>
+                </div>
+                <div class="col-vital">
+                    <div class="form-group">
+                        <label for="altura">Altura (cm)</label>
+                        <input type="number" id="altura" name="altura" step="1" maxlength="3" placeholder="Ex: 175" oninput="calcularIMC()">
+                    </div>
+                </div>
+                <div class="col-vital">
+                    <div class="form-group">
+                        <label>IMC</label>
+                        <div class="calculated-value" id="imc">-</div>
+                        <span id="imc-class"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="evolucao">Descrição</label>
+                <textarea id="evolucao" name="evolucao" placeholder="Descreva a evolução clínica do paciente..."></textarea>
+            </div>
+            <div class="btn-group">
+                <button onclick="analisarEvolucao()">
+                    <i class="fas fa-robot"></i> Analisar com IA
+                </button>
+            </div>
+            <div id="resultado-analise-evolucao" class="resultado-analise"></div>
+        </div>
+
+        <div class="card">
+            <h2><i class="fas fa-prescription-bottle-alt"></i> Prescrição</h2>
+            <div class="form-group">
+                <label for="medicamentos">Medicamentos</label>
+                <textarea id="medicamentos" name="medicamentos" placeholder="Liste os medicamentos prescritos..."></textarea>
+            </div>
+            <div class="btn-group">
+                <button onclick="analisarPrescricao()">
+                    <i class="fas fa-robot"></i> Analisar com IA
+                </button>
+                <button onclick="imprimir('medicamentos', 'Receituário Médico')">
+                    <i class="fas fa-print"></i> Imprimir Receituário
+                </button>
+            </div>
+            <div id="resultado-analise" class="resultado-analise"></div>
+        </div>
+
+        <div class="card">
+            <h2><i class="fas fa-vial"></i> Prescrição de Exames</h2>
+            <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="rotinaAdulto" name="rotinaAdulto" onclick="atualizarExames()">
+                    <label for="rotinaAdulto">Exame de Rotina Adulto</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="vitaminasMinerais" name="vitaminasMinerais" onclick="atualizarExames()">
+                    <label for="vitaminasMinerais">Vitaminas e Minerais</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="provasInflamatorias" name="provasInflamatorias" onclick="atualizarExames()">
+                    <label for="provasInflamatorias">Provas Inflamatórias</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="radio" id="examesNormal" name="prioridadeExames" value="Normal" checked>
+                    <label for="examesNormal">Normal</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="radio" id="examesUrgente" name="prioridadeExames" value="Urgente">
+                    <label for="examesUrgente">Urgente</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="exames">Exames</label>
+                <textarea id="exames" name="exames" placeholder="Liste os exames solicitados..."></textarea>
+            </div>
+            <div class="btn-group">
+                <button onclick="imprimir('exames', 'Solicitação de Exames')">
+                    <i class="fas fa-print"></i> Imprimir Solicitação
+                </button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><i class="fas fa-file-medical"></i> Atestado Médico ou Declaração</h2>
+            <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <input type="radio" id="declaracao" name="tipoAtestado" value="declaracao" onclick="toggleAtestadoFields()">
+                    <label for="declaracao">Declaração de Comparecimento</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="radio" id="atestado" name="tipoAtestado" value="atestado" onclick="toggleAtestadoFields()">
+                    <label for="atestado">Atestado Médico</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="radio" id="aptoPiscina" name="tipoAtestado" value="aptoPiscina" onclick="toggleAtestadoFields()">
+                    <label for="aptoPiscina">Apto para Uso de Piscinas</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="radio" id="boasCondicoes" name="tipoAtestado" value="boasCondicoes" onclick="toggleAtestadoFields()">
+                    <label for="boasCondicoes">Boas Condições Físicas e Mentais</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="radio" id="dataAuto" name="dataHora" value="auto" checked onclick="toggleDataHoraFields()">
+                    <label for="dataAuto">Data e Hora Automáticas</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="radio" id="dataManual" name="dataHora" value="manual" onclick="toggleDataHoraFields()">
+                    <label for="dataManual">Data e Hora Manuais</label>
+                </div>
+            </div>
+            <div id="dataHoraFields" class="conditional-fields">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="dataManualInput">Data</label>
+                            <input type="date" id="dataManualInput" name="dataManualInput">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="horaManualInput">Hora</label>
+                            <input type="time" id="horaManualInput" name="horaManualInput">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="atestadoFields" class="conditional-fields">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="diasAfastamento">Dias de Afastamento</label>
+                            <input type="number" id="diasAfastamento" name="diasAfastamento" min="1" placeholder="Digite os dias">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="cid10">CID-10</label>
+                            <input type="text" id="cid10" name="cid10" placeholder="Ex: J45">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="observacoesFields" class="conditional-fields">
+                <div class="form-group">
+                    <label for="observacoes">Observações</label>
+                    <textarea id="observacoes" name="observacoes" placeholder="Insira observações sobre o paciente, se necessário..."></textarea>
+                </div>
+            </div>
+            <div class="btn-group">
+                <button id="imprimirAtestado" onclick="imprimirAtestado()">
+                    <i class="fas fa-print"></i> Imprimir Atestado/Declaração
+                </button>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <button id="imprimirProntuario" onclick="imprimirProntuario()">
+                <i class="fas fa-file-medical-alt"></i> Imprimir Prontuário
+            </button>
+            <button id="salvarProntuario" onclick="salvarProntuario()">
+                <i class="fas fa-save"></i> Salvar Prontuário
+            </button>
+        </div>
+
+        <div class="footer">
+            <p>Versão 1.18 - Última alteração: 27/02/2025</p>
+            <p>Observação: Este prontuário foi concebido como uma ferramenta auxiliar para situações em que o sistema de prontuário online estiver indisponível. As informações aqui registradas não são automaticamente integradas ao prontuário oficial do paciente, sendo necessária a inclusão manual dos dados assim que o acesso ao sistema principal for restabelecido.</p>
+        </div>
+    </div>
+
+    <script>
+        // Inserir data e hora atuais automaticamente
+        const dataAtualSpan = document.getElementById('dataAtual');
+        const hoje = new Date();
+        const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+        const horaOptions = { hour: '2-digit', minute: '2-digit', hour12: false };
+        const dataHoje = hoje.toLocaleDateString('pt-BR', options);
+        const horaAtual = hoje.toLocaleTimeString('pt-BR', horaOptions);
+        dataAtualSpan.textContent = dataHoje;
+
+        // Variável para armazenar atestados emitidos
+        let atestadosEmitidos = [];
+
+        // Carregar dados salvos do localStorage
+        const unidadeSaudeInput = document.getElementById('unidadeSaude');
+        const medicoCrmInput = document.getElementById('medicoCrm');
+        unidadeSaudeInput.value = localStorage.getItem('unidadeSaude') || '';
+        medicoCrmInput.value = localStorage.getItem('medicoCrm') || '';
+
+        // Salvar dados no localStorage ao alterar
+        unidadeSaudeInput.addEventListener('input', () => localStorage.setItem('unidadeSaude', unidadeSaudeInput.value));
+        medicoCrmInput.addEventListener('input', () => localStorage.setItem('medicoCrm', medicoCrmInput.value));
+
+        // Calcular idade automaticamente
+        function calcularIdade() {
+            const dataNascInput = document.getElementById('dataNascimento').value;
+            const dataNasc = new Date(dataNascInput);
+            const hoje = new Date();
+            
+            let idade = hoje.getFullYear() - dataNasc.getFullYear();
+            const mes = hoje.getMonth() - dataNasc.getMonth();
+            
+            if (mes < 0 || (mes === 0 && hoje.getDate() < dataNasc.getDate())) {
+                idade--;
+            }
+            
+            document.getElementById('idade').textContent = idade + ' anos';
+            return idade;
+        }
+
+        // Calcular IMC e classificar automaticamente
+        function calcularIMC() {
+            const peso = parseFloat(document.getElementById('peso').value);
+            const alturaCm = parseFloat(document.getElementById('altura').value);
+            const imcSpan = document.getElementById('imc');
+            const imcClassSpan = document.getElementById('imc-class');
+            
+            if (peso && alturaCm && alturaCm > 0) {
+                const alturaM = alturaCm / 100;
+                const imc = peso / (alturaM * alturaM);
+                imcSpan.textContent = imc.toFixed(2) + ' kg/m²';
+                
+                let classificacao = '';
+                if (imc < 18.5) classificacao = 'Baixo Peso';
+                else if (imc < 25) classificacao = 'Eutrófico';
+                else if (imc < 30) classificacao = 'Sobrepeso';
+                else if (imc < 35) classificacao = 'Obesidade Grau I';
+                else if (imc < 40) classificacao = 'Obesidade Grau II';
+                else classificacao = 'Obesidade Grau III';
+                
+                imcClassSpan.textContent = `(${classificacao})`;
+            } else {
+                imcSpan.textContent = '-';
+                imcClassSpan.textContent = '';
+            }
+        }
+
+        // Atualizar exames automaticamente com base nos checkboxes
+        function atualizarExames() {
+            const rotinaAdulto = document.getElementById('rotinaAdulto').checked;
+            const vitaminasMinerais = document.getElementById('vitaminasMinerais').checked;
+            const provasInflamatorias = document.getElementById('provasInflamatorias').checked;
+            const examesTextarea = document.getElementById('exames');
+            const prioridade = document.querySelector('input[name="prioridadeExames"]:checked').value;
+            let exames = `Prioridade: ${prioridade}\n`;
+
+            if (rotinaAdulto) {
+                exames += `ANÁLISE DE CARACTERES FÍSICOS, ELEMENTOS E HEMOGRAMA COMPLETO
+DOSAGEM DE ÁCIDO ÚRICO
+DOSAGEM DE COLESTEROL HDL
+DOSAGEM DE COLESTEROL TOTAL
+DOSAGEM DE CREATININA
+DOSAGEM DE GLICOSE (EM JEJUM)
+DOSAGEM DE HEMOGLOBINA GLICOSILADA (HB1AC)
+DOSAGEM DE HORMÔNIO TIREOESTIMULANTE (TSH)
+DOSAGEM DE TRANSAMINASE GLUTÂMICO-OXALACÉTICA (TGO)
+DOSAGEM DE TRANSAMINASE GLUTÂMICO-PIRÚVICA (TGP)
+DOSAGEM DE TRIGLICERÍDEOS
+SEDIMENTO DA URINA`;
+            }
+
+            if (vitaminasMinerais) {
+                if (exames !== `Prioridade: ${prioridade}\n`) exames += '\n';
+                exames += `DOSAGEM DE POTÁSSIO
+DOSAGEM DE SÓDIO
+DOSAGEM DE FERRITINA
+DOSAGEM DE VITAMINA D
+DOSAGEM DE VITAMINA B12`;
+            }
+
+            if (provasInflamatorias) {
+                if (exames !== `Prioridade: ${prioridade}\n`) exames += '\n';
+                exames += `DOSAGEM DE VHS
+DOSAGEM DE PCR`;
+            }
+
+            examesTextarea.value = exames;
+        }
+
+        // Mostrar/esconder campos do atestado
+        function toggleAtestadoFields() {
+            const atestadoFields = document.getElementById('atestadoFields');
+            const observacoesFields = document.getElementById('observacoesFields');
+            const isAtestado = document.getElementById('atestado').checked;
+            const isBoasCondicoes = document.getElementById('boasCondicoes').checked;
+
+            atestadoFields.style.display = isAtestado ? 'block' : 'none';
+            observacoesFields.style.display = isBoasCondicoes ? 'block' : 'none';
+        }
+
+        // Mostrar/esconder campos de data/hora manual
+        function toggleDataHoraFields() {
+            const dataHoraFields = document.getElementById('dataHoraFields');
+            const isManual = document.getElementById('dataManual').checked;
+            dataHoraFields.style.display = isManual ? 'block' : 'none';
+        }
+
+        // Função para análise da evolução clínica com IA
+        async function analisarEvolucao() {
+            const evolucao = document.getElementById('evolucao').value.trim();
+            const resultadoDiv = document.getElementById('resultado-analise-evolucao');
+            const sexo = document.getElementById('sexo').value || "Não informado";
+            const pressaoArterial = document.getElementById('pressaoArterial').value || "Não informado";
+            const temperatura = document.getElementById('temperatura').value || "Não informada";
+            const peso = document.getElementById('peso').value || "Não informado";
+
+            if (!evolucao) {
+                resultadoDiv.innerHTML = '<span class="alerta">Por favor, insira a descrição da evolução clínica para análise.</span>';
+                return;
+            }
+
+            resultadoDiv.innerHTML = '<span class="pensando"><i class="fas fa-spinner fa-spin"></i> A IA está pensando...</span>';
+
+            const apiKey = 'xai-ETaoVJvj9tXgEdLBbLpKcxqgZqiLOwgeZafQrjkHbKvrWotCUHEGOWJkvkJsgEDZ2YbAeqCrrmiSramy';
+            const url = 'https://api.x.ai/v1/chat/completions';
+            const payload = {
+                messages: [
+                    {
+                        role: 'system',
+                        content: 'Você é uma IA médica especializada em análise de evolução clínica. Baseado na descrição fornecida, sexo, temperatura, pressão arterial e peso do paciente, sugira possíveis diagnósticos com códigos CID-10, condutas clínicas e prescrições médicas. Estruture a resposta em parágrafos claros com quebras de linha entre seções:\n\n1) Diagnósticos possíveis (com CID-10)\n\n2) Condutas sugeridas\n\n3) Prescrições recomendadas\n\nConsidere todos os dados disponíveis para maior acurácia. Não comente sobre informações irrelevantes e foque apenas em sugestões baseadas no relato.'
+                    },
+                    {
+                        role: 'user',
+                        content: `Analise a seguinte evolução clínica:\n\nDescrição: ${evolucao}\nDados Adicionais: Sexo: ${sexo} | Temperatura: ${temperatura} °C | Pressão Arterial: ${pressaoArterial} | Peso: ${peso} kg`
+                    }
+                ],
+                model: 'grok-2-latest',
+                stream: false,
+                temperature: 0.7,
+                max_tokens: 1000
+            };
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${apiKey}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Erro na API: ${response.status} - ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                const resultado = data.choices[0].message.content.trim();
+
+                let resultadoHTML = '<strong>Análise da Evolução Clínica:</strong><br>';
+                resultadoHTML += `<span class="corrigido">${resultado}</span><br><br>`;
+                resultadoHTML += '<span class="aviso">Estas sugestões devem ser validadas por um profissional médico após criteriosa análise.</span>';
+
+                resultadoDiv.innerHTML = resultadoHTML + `
+                    <div class="powered-by-grok">Powered by Grok</div>
+                `;
+            } catch (error) {
+                resultadoDiv.innerHTML = `<span class="alerta">Erro ao analisar a evolução: ${error.message}</span>`;
+            }
+        }
+
+        // Função para análise da prescrição com a API do Grok
+        async function analisarPrescricao() {
+            const prescricao = document.getElementById('medicamentos').value.trim();
+            const resultadoDiv = document.getElementById('resultado-analise');
+
+            if (!prescricao) {
+                resultadoDiv.innerHTML = '<span class="alerta">Por favor, insira uma prescrição para análise.</span>';
+                return;
+            }
+
+            resultadoDiv.innerHTML = '<span class="pensando"><i class="fas fa-spinner fa-spin"></i> A IA está pensando...</span>';
+
+            const apiKey = 'xai-ETaoVJvj9tXgEdLBbLpKcxqgZqiLOwgeZafQrjkHbKvrWotCUHEGOWJkvkJsgEDZ2YbAeqCrrmiSramy';
+            const url = 'https://api.x.ai/v1/chat/completions';
+            const payload = {
+                messages: [
+                    {
+                        role: 'system',
+                        content: 'Você é uma IA médica especializada em análise e melhora de prescricoes. Corrija nomes de medicamentos digitados incorretamente, avalie se a posologia condiz com a medicaçao prescrita, alerte sobre sobredoses e verifique interações medicamentosas perigosas, faça somente os alertas importantes e não comente se o que esteja adequado sugira melhora da redação para uma prescrição clara e profissional.'
+                    },
+                    {
+                        role: 'user',
+                        content: `Analise a seguinte prescrição médica:\n\n${prescricao}`
+                    }
+                ],
+                model: 'grok-2-latest',
+                stream: false,
+                temperature: 0.7,
+                max_tokens: 500
+            };
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${apiKey}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Erro na API: ${response.status} - ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                const resultado = data.choices[0].message.content.trim();
+
+                let resultadoHTML = '<strong>Prescrição Sugerida:</strong><br>';
+                resultadoHTML += `<span class="corrigido">${resultado}</span><br><br>`;
+                resultadoHTML += '<span class="aviso">Esta sugestão deve ser validada por um profissional médico após criteriosa análise.</span>';
+
+                resultadoDiv.innerHTML = resultadoHTML + `
+                    <div class="powered-by-grok">Powered by Grok</div>
+                `;
+            } catch (error) {
+                resultadoDiv.innerHTML = `<span class="alerta">Erro ao analisar a prescrição: ${error.message}</span>`;
+            }
+        }
+
+        // Função para impressão de Receituário ou Solicitação de Exames
+        function imprimir(campoId, titulo) {
+            const conteudo = document.getElementById(campoId).value;
+            const nomePaciente = document.getElementById('nome').value || "Paciente não identificado";
+            const unidadeSaude = document.getElementById('unidadeSaude').value || "Não informada";
+            const medicoCrm = document.getElementById('medicoCrm').value || "Não informado";
+            const dataNascInput = document.getElementById('dataNascimento').value;
+            const dataNascFormatada = dataNascInput ? new Date(dataNascInput).toLocaleDateString('pt-BR', options) : "Não informada";
+            const idade = document.getElementById('idade').textContent !== '-' ? document.getElementById('idade').textContent : "Não calculada";
+            const sexo = document.getElementById('sexo').value || "Não informado";
+            
+            const printContent = `
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <style>
+                        body { font-family: 'Times New Roman', serif; padding: 20px; line-height: 1.4; }
+                        .print-header { font-size: 22px; font-weight: bold; text-align: center; border-bottom: 1px solid #000; padding-bottom: 5px; margin-bottom: 10px; }
+                        .print-unidade { font-size: 16px; text-align: center; margin-bottom: 15px; }
+                        .print-unidade span { font-weight: bold; }
+                        .print-patient-info { font-size: 16px; text-align: center; margin-bottom: 20px; }
+                        .print-patient-info span { font-weight: bold; }
+                        .print-subtitle { font-size: 18px; font-weight: bold; margin-bottom: 15px; }
+                        .print-text { white-space: pre-wrap; font-size: 14px; margin-bottom: 40px; }
+                        .print-footer { display: flex; justify-content: space-between; align-items: flex-end; }
+                        .print-date { font-size: 14px; }
+                        .print-signature { width: 40%; text-align: center; }
+                        .print-signature-line { border-top: 1px solid #000; margin-bottom: 5px; }
+                        .print-signature-text { font-size: 12px; margin-bottom: 5px; }
+                        .print-medico-crm { font-size: 12px; font-style: italic; }
+                    </style>
+                </head>
+                <body>
+                    <div class="print-header">${titulo}</div>
+                    <div class="print-unidade"><span>Unidade de Saúde:</span> ${unidadeSaude}</div>
+                    <div class="print-patient-info">
+                        <div><span>Nome do Paciente:</span> ${nomePaciente}</div>
+                        <div>Data de Nascimento: ${dataNascFormatada} - Idade: ${idade} - Sexo: ${sexo}</div>
+                    </div>
+                    <div class="print-subtitle">${campoId === 'medicamentos' ? 'Prescrição Médica' : 'Exames Solicitados'}</div>
+                    <div class="print-text">${conteudo}</div>
+                    <div class="print-footer">
+                        <div class="print-date">Data: ${dataHoje}</div>
+                        <div class="print-signature">
+                            <div class="print-signature-line"></div>
+                            <div class="print-signature-text">Assinatura e Carimbo do Médico</div>
+                            <div class="print-medico-crm">${medicoCrm}</div>
+                        </div>
+                    </div>
+                </body>
+                </html>
+            `;
+
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(printContent);
+            printWindow.document.close();
+            printWindow.focus();
+            printWindow.print();
+            printWindow.close();
+        }
+
+        // Função para impressão do Prontuário Completo
+        function imprimirProntuario() {
+            const unidadeSaude = document.getElementById('unidadeSaude').value || "Não informada";
+            const nomePaciente = document.getElementById('nome').value || "Paciente não identificado";
+            const medicoCrm = document.getElementById('medicoCrm').value || "Não informado";
+            const dataNascInput = document.getElementById('dataNascimento').value;
+            const dataNascFormatada = dataNascInput ? new Date(dataNascInput).toLocaleDateString('pt-BR', options) : "Não informada";
+            const idade = document.getElementById('idade').textContent !== '-' ? document.getElementById('idade').textContent : "Não calculada";
+            const sexo = document.getElementById('sexo').value || "Não informado";
+            const evolucao = document.getElementById('evolucao').value || "Não informada";
+            const pressaoArterial = document.getElementById('pressaoArterial').value || "Não informada";
+            const temperatura = document.getElementById('temperatura').value || "Não informada";
+            const peso = document.getElementById('peso').value || "Não informado";
+            const altura = document.getElementById('altura').value || "Não informado";
+            const imc = document.getElementById('imc').textContent !== '-' ? document.getElementById('imc').textContent : "Não calculado";
+            const imcClass = document.getElementById('imc-class').textContent || "";
+            const medicamentos = document.getElementById('medicamentos').value || "Não informados";
+            const exames = document.getElementById('exames').value || "Não informados";
+            
+            let atestadoTexto = '';
+            if (atestadosEmitidos.length > 0) {
+                atestadoTexto = '\nAtestado Emitido:\n';
+                atestadosEmitidos.forEach(atestado => {
+                    atestadoTexto += `Data: ${atestado.data} | Tipo: ${atestado.tipo} | Dias de Afastamento: ${atestado.dias || 'N/A'} | CID-10: ${atestado.cid || 'N/A'}\n`;
+                    if (atestado.observacoes) {
+                        atestadoTexto += `Observações: ${atestado.observacoes}\n`;
+                    }
+                });
+            }
+
+            const printContent = `
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <style>
+                        body { font-family: 'Times New Roman', serif; padding: 20px; line-height: 1.4; }
+                        .print-header { font-size: 22px; font-weight: bold; text-align: center; border-bottom: 1px solid #000; padding-bottom: 5px; margin-bottom: 10px; }
+                        .print-section { font-size: 16px; margin-bottom: 15px; }
+                        .print-section span { font-weight: bold; }
+                        .print-text { white-space: pre-wrap; font-size: 14px; margin-top: 5px; }
+                        .print-date { font-size: 14px; margin-top: 20px; }
+                        .print-medico-crm { font-size: 12px; font-style: italic; margin-top: 5px; }
+                        .imc-class { font-size: 12px; }
+                        .sinais-vitais { font-size: 12px; margin-top: 5px; }
+                    </style>
+                </head>
+                <body>
+                    <div class="print-header">Prontuário Médico Off Line Simplificado</div>
+                    <div class="print-section">
+                        <span>Unidade de Saúde:</span> ${unidadeSaude}
+                    </div>
+                    <div class="print-section">
+                        <span>Nome do Paciente:</span> ${nomePaciente}
+                        <div>Data de Nascimento: ${dataNascFormatada} - Idade: ${idade} - Sexo: ${sexo}</div>
+                    </div>
+                    <div class="print-section">
+                        <span>Evolução Clínica (${dataHoje}):</span>
+                        <div class="sinais-vitais">Pressão Arterial: ${pressaoArterial} | Temperatura: ${temperatura} °C | Peso: ${peso} kg | Altura: ${altura} cm | IMC: ${imc} <span class="imc-class">${imcClass}</span></div>
+                        <div class="print-text">${evolucao}${atestadoTexto}</div>
+                    </div>
+                    <div class="print-section">
+                        <span>Medicamentos Prescritos:</span>
+                        <div class="print-text">${medicamentos}</div>
+                    </div>
+                    <div class="print-section">
+                        <span>Exames Solicitados:</span>
+                        <div class="print-text">${exames}</div>
+                    </div>
+                    <div class="print-date">Data: ${dataHoje}</div>
+                    <div class="print-section" style="text-align: center;">
+                        <div style="display: inline-block; width: 40%; border-top: 1px solid #000; margin-top: 10px;"></div>
+                        <div>Assinatura e Carimbo do Médico</div>
+                        <div class="print-medico-crm">${medicoCrm}</div>
+                    </div>
+                </body>
+                </html>
+            `;
+
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(printContent);
+            printWindow.document.close();
+            printWindow.focus();
+            printWindow.print();
+            printWindow.close();
+        }
+
+        // Função para salvar o Prontuário como .txt
+        function salvarProntuario() {
+            const unidadeSaude = document.getElementById('unidadeSaude').value || "Não informada";
+            const nomePaciente = document.getElementById('nome').value || "Paciente não identificado";
+            const medicoCrm = document.getElementById('medicoCrm').value || "Não informado";
+            const dataNascInput = document.getElementById('dataNascimento').value;
+            const dataNascFormatada = dataNascInput ? new Date(dataNascInput).toLocaleDateString('pt-BR', options) : "Não informada";
+            const idade = document.getElementById('idade').textContent !== '-' ? document.getElementById('idade').textContent : "Não calculada";
+            const sexo = document.getElementById('sexo').value || "Não informado";
+            const evolucao = document.getElementById('evolucao').value || "Não informada";
+            const pressaoArterial = document.getElementById('pressaoArterial').value || "Não informada";
+            const temperatura = document.getElementById('temperatura').value || "Não informada";
+            const peso = document.getElementById('peso').value || "Não informado";
+            const altura = document.getElementById('altura').value || "Não informado";
+            const imc = document.getElementById('imc').textContent !== '-' ? document.getElementById('imc').textContent : "Não calculado";
+            const imcClass = document.getElementById('imc-class').textContent || "";
+            const medicamentos = document.getElementById('medicamentos').value || "Não informados";
+            const exames = document.getElementById('exames').value || "Não informados";
+
+            let atestadoTexto = '';
+            if (atestadosEmitidos.length > 0) {
+                atestadoTexto = '\nAtestado Emitido:\n';
+                atestadosEmitidos.forEach(atestado => {
+                    atestadoTexto += `Data: ${atestado.data} | Tipo: ${atestado.tipo} | Dias de Afastamento: ${atestado.dias || 'N/A'} | CID-10: ${atestado.cid || 'N/A'}\n`;
+                    if (atestado.observacoes) {
+                        atestadoTexto += `Observações: ${atestado.observacoes}\n`;
+                    }
+                });
+            }
+
+            const conteudoTxt = `Prontuário Médico Off Line Simplificado
+----------------
+Unidade de Saúde: ${unidadeSaude}
+Dados do Paciente: 
+Nome: ${nomePaciente} | Data de Nascimento: ${dataNascFormatada} | Idade: ${idade} | Sexo: ${sexo}
+Evolução Clínica (${dataHoje}): 
+Sinais Vitais: Pressão Arterial: ${pressaoArterial} | Temperatura: ${temperatura} °C | Peso: ${peso} kg | Altura: ${altura} cm | IMC: ${imc} ${imcClass}
+Descrição: ${evolucao}${atestadoTexto}
+Prescrição Médica:
+Medicamentos: ${medicamentos}
+Exames Solicitados: ${exames}
+Registro:
+Data: ${dataHoje} | Médico Responsável: ${medicoCrm}
+----------------`;
+
+            const nomeArquivo = `${nomePaciente.replace(/[^a-zA-Z0-9]/g, '_')} ${dataHoje.replace(/\//g, '-')}.txt`;
+
+            const blob = new Blob([conteudoTxt], { type: 'text/plain;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = nomeArquivo;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Função para impressão de Atestado ou Declaração
+        function imprimirAtestado() {
+            const nomePaciente = document.getElementById('nome').value || "Paciente não identificado";
+            const nomePacienteMaiusculo = nomePaciente.toUpperCase();
+            const unidadeSaude = document.getElementById('unidadeSaude').value || "Não informada";
+            const medicoCrm = document.getElementById('medicoCrm').value || "Não informado";
+            const dataNascInput = document.getElementById('dataNascimento').value;
+            const dataNascFormatada = dataNascInput ? new Date(dataNascInput).toLocaleDateString('pt-BR', options) : "Não informada";
+            const sexo = document.getElementById('sexo').value || "Não informado";
+            const isAtestado = document.getElementById('atestado').checked;
+            const isAptoPiscina = document.getElementById('aptoPiscina').checked;
+            const isBoasCondicoes = document.getElementById('boasCondicoes').checked;
+            const isManual = document.getElementById('dataManual').checked;
+            const dataManualInput = document.getElementById('dataManualInput').value;
+            const horaManualInput = document.getElementById('horaManualInput').value;
+            const dataUsada = isManual && dataManualInput ? new Date(dataManualInput).toLocaleDateString('pt-BR', options) : dataHoje;
+            const horaUsada = isManual && horaManualInput ? horaManualInput : horaAtual;
+            const diasAfastamento = document.getElementById('diasAfastamento').value || "Não informado";
+            const cid10 = document.getElementById('cid10').value || "Não informado";
+            const observacoes = document.getElementById('observacoes').value.trim();
+
+            let conteudo = '';
+            let autorizacaoCid10 = '';
+            let titulo = '';
+
+            if (isAtestado) {
+                titulo = 'Atestado Médico';
+                conteudo = `Declaro que na data de ${dataUsada} às ${horaUsada}, o paciente <strong>${nomePacienteMaiusculo}</strong>, nascido em ${dataNascFormatada}, sexo ${sexo}, compareceu neste consultório para consulta médica e necessita de ${diasAfastamento} dias de afastamento de suas atividades por motivos de doença.\n\nCID-10: ${cid10}`;
+                if (cid10 !== "Não informado") {
+                    autorizacaoCid10 = `\n\n${nomePacienteMaiusculo} autoriza a exibição do CID-10 neste documento.\n\n___________________________\nAssinatura do Paciente`;
+                }
+                atestadosEmitidos.push({
+                    data: dataUsada,
+                    tipo: "Atestado Médico",
+                    dias: diasAfastamento,
+                    cid: cid10
+                });
+            } else if (isAptoPiscina) {
+                titulo = 'Atestado de Aptidão para Uso de Piscinas';
+                conteudo = `Declaro que na data de ${dataUsada} às ${horaUsada}, o paciente <strong>${nomePacienteMaiusculo}</strong>, nascido em ${dataNascFormatada}, sexo ${sexo}, foi submetido a avaliação médica neste consultório e no momento encontra-se <strong>APTO PARA USO DE PISCINAS</strong>, não apresentando condições de saúde que contraindiquem essa atividade.`;
+                atestadosEmitidos.push({
+                    data: dataUsada,
+                    tipo: "Atestado de Aptidão para Uso de Piscinas",
+                    dias: null,
+                    cid: null
+                });
+            } else if (isBoasCondicoes) {
+                titulo = 'Atestado de Boas Condições Físicas e Mentais';
+                conteudo = `Declaro que na data de ${dataUsada} às ${horaUsada}, o paciente <strong>${nomePacienteMaiusculo}</strong>, nascido em ${dataNascFormatada}, sexo ${sexo}, foi avaliado neste consultório e encontra-se em pleno gozo de suas condições físicas e mentais, apto para desempenhar atividades que requeiram tais capacidades.`;
+                if (observacoes) {
+                    conteudo += `\n\nObservações: ${observacoes}`;
+                }
+                atestadosEmitidos.push({
+                    data: dataUsada,
+                    tipo: "Atestado de Boas Condições Físicas e Mentais",
+                    dias: null,
+                    cid: null,
+                    observacoes: observacoes || null
+                });
+            } else {
+                titulo = 'Declaração de Comparecimento';
+                conteudo = `Declaro que na data de ${dataUsada} às ${horaUsada}, o paciente <strong>${nomePacienteMaiusculo}</strong>, nascido em ${dataNascFormatada}, sexo ${sexo}, compareceu neste consultório para consulta médica.`;
+            }
+
+            const printContent = `
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <style>
+                        body { font-family: 'Times New Roman', serif; padding: 20px; line-height: 1.4; }
+                        .print-header { font-size: 22px; font-weight: bold; text-align: center; border-bottom: 1px solid #000; padding-bottom: 5px; margin-bottom: 10px; }
+                        .print-unidade { font-size: 16px; text-align: center; margin-bottom: 15px; }
+                        .print-unidade span { font-weight: bold; }
+                        .print-text { white-space: pre-wrap; font-size: 14px; text-align: justify; margin-bottom: 80px; }
+                        .print-footer { display: flex; justify-content: space-between; align-items: flex-end; }
+                        .print-date { font-size: 14px; }
+                        .print-signature { width: 40%; text-align: center; }
+                        .print-signature-line { border-top: 1px solid #000; margin-bottom: 5px; }
+                        .print-signature-text { font-size: 12px; margin-bottom: 5px; }
+                        .print-medico-crm { font-size: 12px; font-style: italic; }
+                        .print-autorizacao { font-size: 14px; margin-top: 20px; text-align: center; }
+                        .print-autorizacao-line { width: 40%; border-top: 1px solid #000; margin: 5px auto 0; }
+                    </style>
+                </head>
+                <body>
+                    <div class="print-header">${titulo}</div>
+                    <div class="print-unidade"><span>Unidade de Saúde:</span> ${unidadeSaude}</div>
+                    <div class="print-text">${conteudo}${autorizacaoCid10}\n\n\n\n</div>
+                    <div class="print-footer">
+                        <div class="print-date">Data: ${dataHoje}</div>
+                        <div class="print-signature">
+                            <div class="print-signature-line"></div>
+                            <div class="print-signature-text">Assinatura e Carimbo do Médico</div>
+                            <div class="print-medico-crm">${medicoCrm}</div>
+                        </div>
+                    </div>
+                </body>
+                </html>
+            `;
+
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(printContent);
+            printWindow.document.close();
+            printWindow.focus();
+            printWindow.print();
+            printWindow.close();
+        }
+    </script>
+</body>
+</html>
