@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Glicemia Capilar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --background-light: #f4f7f6;
+            --text-color: #333;
+            --border-color: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-light);
+            padding: 20px; /* Reduzindo o padding do body */
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 10px auto; /* Reduzindo a margem do container */
+            background-color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .header {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 12px; /* Reduzindo o padding do cabeçalho */
+        }
+
+        .header h1 {
+            font-weight: 300;
+            letter-spacing: 1px;
+            font-size: 2.2em; /* Aumentando novamente a fonte do título */
+            margin-bottom: 3px; /* Reduzindo a margem inferior do título */
+        }
+
+        .print-section {
+            display: flex;
+            justify-content: center;
+            padding: 8px 19px; /* Reduzindo o padding da seção de impressão */
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .print-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 8px 15px; /* Reduzindo o padding do botão */
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 0.9em; /* Reduzindo a fonte do botão */
+        }
+
+        .print-btn:hover {
+            background-color: var(--primary-color);
+        }
+
+        .patient-info {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px; /* Reduzindo o padding das informações do paciente */
+            background-color: #f9f9f9;
+            border-bottom: 1px solid var(--border-color);
+            align-items: center;
+        }
+
+        .patient-info div {
+            display: flex;
+            flex-direction: column;
+            width: 48%;
+        }
+
+        .patient-info label {
+            font-weight: bold;
+            margin-bottom: 3px; /* Reduzindo a margem inferior da label */
+            font-size: 0.9em; /* Reduzindo a fonte da label */
+        }
+
+        .patient-info input {
+            border: none;
+            border-bottom: 1px solid var(--secondary-color);
+            width: 100%;
+            padding: 4px; /* Reduzindo o padding do input */
+            font-size: 14px; /* Reduzindo a fonte do input */
+            transition: border-color 0.3s ease;
+        }
+
+        .patient-info input:focus {
+            outline: none;
+            border-bottom-color: var(--primary-color);
+        }
+
+        .bp-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 0.8em; /* Reduzindo a fonte da tabela */
+        }
+
+        .bp-table th {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 15px; /* Reduzindo o padding do cabeçalho da tabela */
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .bp-table td {
+            border: 1px solid var(--border-color);
+            text-align: center;
+            padding: 6px; /* Reduzindo o padding das células da tabela */
+        }
+
+        .bp-table input {
+            width: 100%;
+            border: none;
+            text-align: center;
+            font-size: 12px; /* Reduzindo a fonte do input na tabela */
+            padding: 3px; /* Reduzindo o padding do input na tabela */
+        }
+
+        .bp-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .instructions {
+            padding: 15px; /* Reduzindo o padding das instruções */
+            background-color: #f4f4f4;
+            font-size: 0.8em; /* Reduzindo a fonte das instruções */
+        }
+
+        .instructions h3 {
+            color: var(--primary-color);
+            border-bottom: 1px solid var(--secondary-color);
+            padding-bottom: 4px; /* Reduzindo o padding inferior do título das instruções */
+            margin-bottom: 8px; /* Reduzindo a margem inferior do título das instruções */
+            font-size: 0.9em; /* Reduzindo a fonte do título das instruções */
+            font-weight: bold;
+        }
+
+        .instructions ul, .instructions ol {
+            padding-left: 20px; /* Reduzindo o padding esquerdo das listas */
+            margin-bottom: 10px; /* Reduzindo a margem inferior das listas */
+        }
+
+        .instructions li {
+            margin-bottom: 5px; /* Reduzindo a margem inferior dos itens da lista */
+        }
+
+        .doctor-info {
+            padding: 12px; /* Reduzindo o padding das informações do médico */
+            background-color: #f9f9f9;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 15px; /* Reduzindo o gap entre os campos */
+            align-items: baseline;
+            font-size: 0.9em; /* Reduzindo a fonte das informações do médico */
+            font-weight: bold;
+        }
+
+        .doctor-info div {
+            flex-grow: 1;
+        }
+
+        .doctor-info label {
+            display: block;
+            margin-bottom: 3px; /* Reduzindo a margem inferior da label */
+            font-size: 0.8em; /* Reduzindo a fonte da label */
+        }
+
+        .doctor-info input {
+            border: none;
+            border-bottom: 1px solid var(--secondary-color);
+            width: 100%;
+            padding: 4px; /* Reduzindo o padding do input */
+            font-size: 0.9em; /* Reduzindo a fonte do input */
+            font-weight: normal;
+        }
+
+        .reminder {
+            text-align: center;
+            margin-top: 15px; /* Reduzindo a margem superior do lembrete */
+            font-weight: bold;
+            color: #dc3545;
+            font-size: 1em; /* Reduzindo a fonte do lembrete */
+        }
+
+        .bp-table thead tr:first-child th:nth-child(1),
+        .bp-table thead tr:first-child th:nth-child(4),
+        .bp-table thead tr:first-child th:nth-child(7) {
+            font-weight: bold;
+        }
+
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+                font-size: 0.8em;
+            }
+            .container {
+                box-shadow: none;
+                border-radius: 0;
+                margin: 0;
+            }
+            .header {
+                background-color: #ccc !important;
+                color: black !important;
+                padding: 8px;
+            }
+            .header h1 {
+                font-size: 2.5em;
+                margin-bottom: 2px;
+            }
+            .print-section {
+                display: none;
+            }
+            .patient-info {
+                background-color: #eee !important;
+                border-bottom: 1px solid #ccc !important;
+                display: flex;
+                flex-direction: row;
+                align-items: baseline;
+                padding: 2px 5px;
+            }
+            .patient-info div {
+                display: flex;
+                flex-direction: row;
+                width: auto;
+                margin-right: 10px;
+            }
+            .patient-info label {
+                display: inline;
+                font-size: 0.7em;
+                font-weight: bold;
+                margin-right: 3px;
+                margin-bottom: 0;
+            }
+            .patient-info input {
+                border-bottom: 1px solid black !important;
+                flex-grow: 1;
+                min-width: 100px;
+                font-size: 0.7em;
+            }
+            .bp-table th {
+                background-color: #ddd !important;
+                color: black !important;
+                border: 1px solid #ccc !important;
+                padding: 3px;
+                font-size: 0.7em;
+            }
+            .bp-table td {
+                border: 1px solid #ccc !important;
+                padding: 2px;
+                font-size: 0.7em;
+            }
+            .bp-table input {
+                border: none !important;
+                text-align: center;
+                padding: 1px;
+                font-size: 0.7em;
+            }
+            .instructions {
+                background-color: white !important;
+                padding: 8px;
+                column-count: 2;
+                column-gap: 10px;
+                font-size: 0.7em;
+            }
+            .instructions h3 {
+                color: black !important;
+                border-bottom: 1px solid #ccc !important;
+                margin-top: 0;
+                font-size: 0.8em;
+            }
+            .instructions ul, .instructions ol {
+                padding-left: 10px;
+                margin-bottom: 5px;
+                column-count: 1;
+                column-gap: 5px;
+            }
+            .instructions li {
+                margin-bottom: 3px;
+            }
+            .doctor-info {
+                border-top: 1px solid #ccc !important;
+                padding: 8px;
+                display: flex;
+                flex-direction: row;
+                align-items: baseline;
+                gap: 10px;
+                font-size: 0.8em;
+                font-weight: normal;
+            }
+            .doctor-info label {
+                display: none;
+            }
+            .doctor-info div {
+                flex-grow: 0;
+            }
+            .doctor-info div:first-child input {
+                width: 150px;
+                border-bottom: 1px solid black;
+                text-align: left;
+                padding-left: 3px;
+                font-weight: bold;
+                font-size: 0.8em;
+            }
+            .doctor-info div:last-child input {
+                width: 100px;
+                border-bottom: 1px solid black;
+                text-align: left;
+                padding-left: 3px;
+                font-weight: bold;
+                font-size: 0.8em;
+            }
+            .reminder {
+                text-align: center;
+                margin-top: 10px;
+                font-size: 0.9em;
+                font-weight: bold;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Controle de Glicemia Capilar</h1>
+        </div>
+
+        <div class="print-section">
+            <button class="print-btn" onclick="window.print()">Imprimir Relatório</button>
+        </div>
+
+        <div class="patient-info">
+            <div style="width: auto; margin-right: 10px;">
+                <label for="patientName">Nome do Paciente:</label>
+                <input type="text" id="patientName" placeholder="Digite o nome completo" style="min-width: 200px;">
+            </div>
+            <div style="width: auto;">
+                <label for="patientAge">Idade:</label>
+                <input type="text" id="patientAge" placeholder="Idade" style="max-width: 60px;">
+            </div>
+        </div>
+
+        <table class="bp-table">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th colspan="2">Glicemia (mg/dL)</th>
+                    <th>Data</th>
+                    <th colspan="2">Glicemia (mg/dL)</th>
+                    <th>Data</th>
+                    <th colspan="2">Glicemia (mg/dL)</th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th>Manhã</th>
+                    <th>Tarde</th>
+                    <th></th>
+                    <th>Manhã</th>
+                    <th>Tarde</th>
+                    <th></th>
+                    <th>Manhã</th>
+                    <th>Tarde</th>
+                </tr>
+            </thead>
+            <tbody id="bp-entries">
+            </tbody>
+        </table>
+
+        <div class="doctor-info">
+            <div>
+                <label for="doctorName">Nome do Médico e CRM-PR</label>
+                <input type="text" id="doctorName" placeholder="Nome do Médico e CRM-PR">
+            </div>
+            <div>
+                <label for="healthUnit">Unidade de Saúde</label>
+                <input type="text" id="healthUnit" placeholder="Unidade de Saúde">
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h3>Valores de Referência para Glicemia Capilar (em jejum)</h3>
+            <ul>
+                <li><strong>Normal:</strong> 70 a 99 mg/dL</li>
+                <li><strong>Pré-diabetes:</strong> 100 a 125 mg/dL</li>
+                <li><strong>Diabetes:</strong> 126 mg/dL ou superior (em duas medições diferentes)</li>
+                <li><strong>Valores ocasionais (após as refeições):</strong> Geralmente abaixo de 180 mg/dL</li>
+            </ul>
+            <h3>Como Medir a Glicemia Capilar com Glicosímetro</h3>
+            <ol>
+                <li>Lave bem as mãos com água e sabão e seque-as completamente.</li>
+                <li>Prepare o lancetador e insira uma lanceta nova.</li>
+                <li>Insira uma tira de teste nova no glicosímetro.</li>
+                <li>Escolha um local para a punção (geralmente a lateral da ponta do dedo). Limpe o local com álcool 70% e espere secar.</li>
+                <li>Utilize o lancetador para obter uma pequena gota de sangue.</li>
+                <li>Delicadamente, pressione a ponta do dedo para obter sangue suficiente para a tira de teste.</li>
+                <li>Encoste a borda da tira de teste na gota de sangue. O glicosímetro indicará quando houver sangue suficiente.</li>
+                <li>Aguarde o resultado aparecer no visor do glicosímetro.</li>
+                <li>Descarte a lanceta de forma segura em um recipiente apropriado.</li>
+            </ol>
+        </div>
+
+        <p class="reminder">Traga este controle de glicemia em sua próxima consulta.</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tbody = document.getElementById('bp-entries');
+            const startDate = new Date(); // Usar a data atual do sistema
+            const rows = 31; // 31 linhas
+
+            for (let i = 0; i < rows; i++) {
+                const row = tbody.insertRow();
+
+                for (let j = 0; j < 3; j++) {
+                    const dateCell = row.insertCell();
+                    const glicemiaManhaCell = row.insertCell();
+                    const glicemiaTardeCell = row.insertCell();
+
+                    const currentDate = new Date(startDate);
+                    currentDate.setDate(startDate.getDate() + (i * 3) + j);
+
+                    const dateSpan = document.createElement('span');
+                    dateSpan.textContent = formatDate(currentDate);
+                    dateSpan.style.fontWeight = 'bold';
+                    dateSpan.style.fontSize = '1.3em'; // Aumentando um pouco mais a fonte da data
+                    dateCell.appendChild(dateSpan);
+
+                    glicemiaManhaCell.innerHTML = '<input type="text">';
+                    glicemiaTardeCell.innerHTML = '<input type="text">';
+                }
+            }
+
+            function formatDate(date) {
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = date.getFullYear();
+                return `${day}/${month}/${year}`;
+            }
+
+            // Carregar informações do médico e unidade de saúde do localStorage
+            const doctorNameInput = document.getElementById('doctorName');
+            const healthUnitInput = document.getElementById('healthUnit');
+            const patientNameInput = document.getElementById('patientName');
+            const patientAgeInput = document.getElementById('patientAge');
+
+            doctorNameInput.value = localStorage.getItem('doctorName') || '';
+            healthUnitInput.value = localStorage.getItem('healthUnit') || '';
+            patientNameInput.value = localStorage.getItem('patientName') || '';
+            patientAgeInput.value = localStorage.getItem('patientAge') || '';
+
+            // Salvar informações no localStorage ao mudar
+            doctorNameInput.addEventListener('change', function() {
+                localStorage.setItem('doctorName', this.value);
+            });
+
+            healthUnitInput.addEventListener('change', function() {
+                localStorage.setItem('healthUnit', this.value);
+            });
+
+            patientNameInput.addEventListener('change', function() {
+                localStorage.setItem('patientName', this.value);
+            });
+
+            patientAgeInput.addEventListener('change', function() {
+                localStorage.setItem('patientAge', this.value);
+            });
+        });
+    </script>
+</body>
+</html>

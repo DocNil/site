@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Pressão Arterial</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --background-light: #f4f7f6;
+            --text-color: #333;
+            --border-color: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-light);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .header {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 15px;
+        }
+
+        .header h1 {
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .print-section {
+            display: flex;
+            justify-content: center;
+            padding: 10px 20px; /* Reduzindo um pouco o padding */
+            border-bottom: 1px solid var(--border-color); /* Adicionando uma linha abaixo do botão */
+        }
+
+        .print-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 1em; /* Ajustando tamanho da fonte do botão */
+        }
+
+        .print-btn:hover {
+            background-color: var(--primary-color);
+        }
+
+        .patient-info {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-bottom: 1px solid var(--border-color);
+            align-items: center; /* Alinhar verticalmente */
+        }
+
+        .patient-info div {
+            display: flex;
+            flex-direction: column;
+            width: 48%; /* Ajustando a largura para os campos ficarem lado a lado */
+        }
+
+        .patient-info label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 1em; /* Aumentando a fonte */
+        }
+
+        .patient-info input {
+            border: none;
+            border-bottom: 1px solid var(--secondary-color);
+            width: 100%;
+            padding: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .patient-info input:focus {
+            outline: none;
+            border-bottom-color: var(--primary-color);
+        }
+
+        .bp-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 0.85em;
+        }
+
+        .bp-table th {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-weight: 400;
+        }
+
+        .bp-table td {
+            border: 1px solid var(--border-color);
+            text-align: center;
+            padding: 8px;
+        }
+
+        .bp-table input {
+            width: 100%;
+            border: none;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .bp-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .instructions {
+            padding: 20px;
+            background-color: #f4f4f4;
+            font-size: 0.8em;
+        }
+
+        .instructions h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            font-size: 1em; /* Ajustando tamanho do título das instruções */
+        }
+
+        .instructions ul, .instructions ol {
+            padding-left: 30px;
+            margin-bottom: 15px;
+        }
+
+        .doctor-info {
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 30px;
+            align-items: baseline;
+            font-size: 1em; /* Aumentando a fonte */
+            font-weight: bold; /* Colocando em negrito */
+        }
+
+        .doctor-info div {
+            flex-grow: 1;
+        }
+
+        .doctor-info label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .doctor-info input {
+            border: none;
+            border-bottom: 1px solid var(--secondary-color);
+            width: 100%;
+            padding: 5px;
+            font-size: 1em; /* Mantendo um tamanho para o input */
+            font-weight: normal; /* Removendo negrito do input */
+        }
+
+        .reminder {
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+            color: #dc3545;
+            font-size: 1.2em; /* Aumentando a fonte do lembrete */
+        }
+
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+                font-size: 0.9em;
+            }
+            .container {
+                box-shadow: none;
+                border-radius: 0;
+            }
+            .header {
+                background-color: #ccc !important;
+                color: black !important;
+            }
+            .print-section {
+                display: none;
+            }
+            .patient-info {
+                background-color: #eee !important;
+                border-bottom: 1px solid #ccc !important;
+                display: flex;
+                flex-direction: row; /* Colocar label e input na mesma linha */
+                align-items: baseline; /* Alinhar pela linha de base */
+                padding: 2px 5px; /* Reduzir padding para impressão */
+            }
+            .patient-info div {
+                display: flex;
+                flex-direction: row; /* Colocar label e input na mesma linha */
+                width: auto; /* Ajustar largura automaticamente */
+                margin-right: 20px; /* Espaço entre os campos */
+            }
+            .patient-info label {
+                display: inline; /* Mostrar label na mesma linha */
+                font-size: 0.9em;
+                font-weight: bold;
+                margin-right: 5px;
+                margin-bottom: 0; /* Resetar margem inferior */
+            }
+            .patient-info input {
+                border-bottom: 1px solid black !important;
+                flex-grow: 1; /* Input ocupa o espaço restante */
+                min-width: 150px; /* Largura mínima para o input de nome */
+            }
+            .bp-table th {
+                background-color: #ddd !important;
+                color: black !important;
+                border: 1px solid #ccc !important;
+                padding: 4px;
+            }
+            .bp-table td {
+                border: 1px solid #ccc !important;
+                padding: 3px; /* Reduzindo ainda mais o padding para linhas mais compactas */
+            }
+            .bp-table input {
+                border: none !important;
+                text-align: center;
+                padding: 1px; /* Reduzindo padding interno do input */
+            }
+            .instructions {
+                background-color: white !important;
+                padding: 10px;
+                column-count: 2;
+                column-gap: 20px;
+            }
+            .instructions h2, .instructions h3 {
+                color: black !important;
+                border-bottom: 1px solid #ccc !important;
+                margin-top: 0;
+            }
+            .doctor-info {
+                border-top: 1px solid #ccc !important;
+                padding: 10px;
+                display: flex;
+                flex-direction: row;
+                align-items: baseline;
+                gap: 30px;
+                font-size: 0.9em;
+                font-weight: normal;
+            }
+            .doctor-info label {
+                display: none;
+            }
+            .doctor-info div {
+                flex-grow: 0;
+            }
+            .doctor-info div:first-child input {
+                width: 250px;
+                border-bottom: 1px solid black;
+                text-align: left;
+                padding-left: 5px;
+                font-weight: bold;
+            }
+            .doctor-info div:last-child input {
+                width: 150px;
+                border-bottom: 1px solid black;
+                text-align: left;
+                padding-left: 5px;
+                font-weight: bold;
+            }
+            .reminder {
+                text-align: center;
+                margin-top: 10px;
+                font-size: 1em;
+                font-weight: bold;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Controle de Pressão Arterial</h1>
+        </div>
+
+        <div class="print-section">
+            <button class="print-btn" onclick="window.print()">Imprimir Relatório</button>
+        </div>
+
+        <div class="patient-info">
+            <div style="width: auto; margin-right: 10px;">
+                <label for="patientName">Nome do Paciente:</label>
+                <input type="text" id="patientName" placeholder="Digite o nome completo" style="min-width: 200px;">
+            </div>
+            <div style="width: auto;">
+                <label for="patientAge">Idade:</label>
+                <input type="text" id="patientAge" placeholder="Idade" style="max-width: 60px;">
+            </div>
+        </div>
+
+        <table class="bp-table">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>PA (mmHg)</th>
+                    <th>Data</th>
+                    <th>PA (mmHg)</th>
+                    <th>Data</th>
+                    <th>PA (mmHg)</th>
+                </tr>
+            </thead>
+            <tbody id="bp-entries">
+                </tbody>
+        </table>
+
+        <div class="doctor-info">
+            <div>
+                <label for="doctorName">Nome do Médico e CRM-PR</label>
+                <input type="text" id="doctorName" placeholder="Nome do Médico e CRM-PR">
+            </div>
+            <div>
+                <label for="healthUnit">Unidade de Saúde</label>
+                <input type="text" id="healthUnit" placeholder="Unidade de Saúde">
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h3>Valores de Referência</h3>
+            <ul>
+                <li><strong>Ideal:</strong> Abaixo de 120/80 mmHg</li>
+                <li><strong>Normal:</strong> 120-129/80-84 mmHg</li>
+                <li><strong>Limítrofe:</strong> 130-139/85-89 mmHg</li>
+                <li><strong>Hipertensão Estágio 1:</strong> 140-159/90-99 mmHg</li>
+                <li><strong>Hipertensão Estágio 2:</strong> 160/100 mmHg ou mais</li>
+            </ul>
+            <h3>Como Medir Corretamente</h3>
+            <ol>
+                <li>Repouse por 5 minutos antes da medição</li>
+                <li>Evite cafeína, álcool e exercícios 30 minutos antes</li>
+                <li>Sente-se com as costas retas e pés apoiados</li>
+                <li>Mantenha o braço na altura do coração</li>
+            </ol>
+            <h3>Hábitos Saudáveis</h3>
+            <ul>
+                <li>Mantenha uma dieta equilibrada, rica em frutas, verduras e fibras, com baixo teor de sal e gorduras saturadas.</li>
+                <li>Pratique atividade física regularmente.</li>
+                <li>Mantenha um peso saudável.</li>
+                <li>Evite o consumo excessivo de álcool.</li>
+                <li>Não fume.</li>
+                <li>Gerencie o estresse.</li>
+                <li>Durma bem.</li>
+                <li>Siga as orientações médicas.</li>
+            </ul>
+        </div>
+
+        <p class="reminder">Traga este controle de pressão em sua próxima consulta.</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tbody = document.getElementById('bp-entries');
+            const startDate = new Date(); // Usar a data atual do sistema
+            const rows = 18; //  18 linhas
+
+            for (let i = 0; i < rows; i++) {
+                const row = tbody.insertRow();
+
+                for (let j = 0; j < 3; j++) {
+                    const dateCell = row.insertCell();
+                    const bpCell = row.insertCell();
+
+                    const currentDate = new Date(startDate);
+                    currentDate.setDate(startDate.getDate() + (i * 3) + j);
+
+                    dateCell.textContent = formatDate(currentDate);
+                    bpCell.innerHTML = '<input type="text">'; // Removendo placeholder
+                }
+            }
+
+            function formatDate(date) {
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = date.getFullYear();
+                return `${day}/${month}/${year}`;
+            }
+
+            // Carregar informações do médico e unidade de saúde do localStorage
+            const doctorNameInput = document.getElementById('doctorName');
+            const healthUnitInput = document.getElementById('healthUnit');
+            const patientNameInput = document.getElementById('patientName');
+            const patientAgeInput = document.getElementById('patientAge');
+
+            doctorNameInput.value = localStorage.getItem('doctorName') || '';
+            healthUnitInput.value = localStorage.getItem('healthUnit') || '';
+            patientNameInput.value = localStorage.getItem('patientName') || '';
+            patientAgeInput.value = localStorage.getItem('patientAge') || '';
+
+            // Salvar informações no localStorage ao mudar
+            doctorNameInput.addEventListener('change', function() {
+                localStorage.setItem('doctorName', this.value);
+            });
+
+            healthUnitInput.addEventListener('change', function() {
+                localStorage.setItem('healthUnit', this.value);
+            });
+
+            patientNameInput.addEventListener('change', function() {
+                localStorage.setItem('patientName', this.value);
+            });
+
+            patientAgeInput.addEventListener('change', function() {
+                localStorage.setItem('patientAge', this.value);
+            });
+        });
+    </script>
+</body>
+</html>

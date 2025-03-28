@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ferramentas Clínicas Avançadas</title>
+    <title>Ferramentas Clínicas</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -25,62 +25,83 @@
     </style>
 </head>
 <body class="min-h-screen flex items-center justify-center">
-    <div class="container mx-auto px-4 py-12 max-w-5xl">
-        <header class="text-center mb-16">
-            <h1 class="text-5xl font-extrabold tracking-tight mb-4 text-gray-800" style="font-family: 'Inter', sans-serif;">
+    <div class="container mx-auto px-4 py-6 max-w-5xl">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl font-extrabold tracking-tight mb-2 text-gray-800" style="font-family: 'Inter', sans-serif;">
                 Plataforma Clínica Integrada
             </h1>
-            <p class="text-xl text-gray-600 max-w-2xl mx-auto">Soluções avançadas para profissionais de saúde</p>
+            <p class="text-sm text-gray-600 max-w-2xl mx-auto">Soluções para profissionais de saúde</p>
         </header>
 
-        <div class="grid md:grid-cols-3 gap-8">
-            <div class="card-gradient rounded-2xl overflow-hidden transform transition duration-500 hover:scale-105">
-                <a href="prontuario.html" class="block p-8 text-center">
-                    <div class="bg-gradient-to-br from-blue-500 to-cyan-600 text-white rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-6 shadow-lg">
-                        <i class="fas fa-file-medical text-4xl"></i>
+        <div class="grid md:grid-cols-3 gap-4">
+            <div class="card-gradient rounded-xl overflow-hidden transform transition duration-500 hover:scale-105">
+                <a href="prontuario.html" class="block p-4 text-center">
+                    <div class="bg-gradient-to-br from-blue-500 to-cyan-600 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3 shadow-lg">
+                        <i class="fas fa-file-medical text-2xl"></i>
                     </div>
-                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Prontuário Digital</h2>
-                    <p class="text-gray-600 mb-4">Registro Off-Line Inteligente</p>
-                    <span class="inline-block bg-blue-50 text-blue-600 px-4 py-2 rounded-full text-sm font-semibold">
-                        Acessar Ferramenta
+                    <h2 class="text-base font-bold text-gray-800 mb-2">Prontuário Digital</h2>
+                    <p class="text-gray-600 mb-2 text-xs">Registro Off-Line</p>
+                    <span class="inline-block bg-blue-50 text-blue-600 px-2 py-1 rounded-full text-xs font-semibold">
+                        Acessar
                     </span>
                 </a>
             </div>
 
-            <div class="card-gradient rounded-2xl overflow-hidden transform transition duration-500 hover:scale-105">
-                <a href="mental.html" class="block p-8 text-center">
-                    <div class="bg-gradient-to-br from-green-500 to-teal-600 text-white rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-6 shadow-lg">
-                        <i class="fas fa-brain text-4xl"></i>
+            <div class="card-gradient rounded-xl overflow-hidden transform transition duration-500 hover:scale-105">
+                <a href="mental.html" class="block p-4 text-center">
+                    <div class="bg-gradient-to-br from-green-500 to-teal-600 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3 shadow-lg">
+                        <i class="fas fa-brain text-2xl"></i>
                     </div>
-                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Saúde Mental</h2>
-                    <p class="text-gray-600 mb-4">Estratificação de Risco</p>
-                    <span class="inline-block bg-green-50 text-green-600 px-4 py-2 rounded-full text-sm font-semibold">
-                        Acessar Ferramenta
+                    <h2 class="text-base font-bold text-gray-800 mb-2">Saúde Mental</h2>
+                    <p class="text-gray-600 mb-2 text-xs">Estratificação</p>
+                    <span class="inline-block bg-green-50 text-green-600 px-2 py-1 rounded-full text-xs font-semibold">
+                        Acessar
                     </span>
                 </a>
             </div>
 
-            <div class="card-gradient rounded-2xl overflow-hidden transform transition duration-500 hover:scale-105">
-                <a href="idoso.html" class="block p-8 text-center">
-                    <div class="bg-gradient-to-br from-purple-500 to-indigo-600 text-white rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-6 shadow-lg">
-                        <i class="fas fa-user-elderly text-4xl"></i>
+            <div class="card-gradient rounded-xl overflow-hidden transform transition duration-500 hover:scale-105">
+                <a href="idoso.html" class="block p-4 text-center">
+                    <div class="bg-gradient-to-br from-purple-500 to-indigo-600 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3 shadow-lg">
+                        <i class="fas fa-wheelchair text-2xl"></i>
                     </div>
-                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Vulnerabilidade</h2>
-                    <p class="text-gray-600 mb-4">IVCF-20 Idosos</p>
-                    <span class="inline-block bg-purple-50 text-purple-600 px-4 py-2 rounded-full text-sm font-semibold">
-                        Acessar Ferramenta
+                    <h2 class="text-base font-bold text-gray-800 mb-2">Vulnerabilidade</h2>
+                    <p class="text-gray-600 mb-2 text-xs">IVCF-20 Idosos</p>
+                    <span class="inline-block bg-purple-50 text-purple-600 px-2 py-1 rounded-full text-xs font-semibold">
+                        Acessar
+                    </span>
+                </a>
+            </div>
+
+            <div class="card-gradient rounded-xl overflow-hidden transform transition duration-500 hover:scale-105">
+                <a href="controlepa.html" class="block p-4 text-center">
+                    <div class="bg-gradient-to-br from-red-500 to-orange-600 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3 shadow-lg">
+                        <i class="fas fa-heartbeat text-2xl"></i>
+                    </div>
+                    <h2 class="text-base font-bold text-gray-800 mb-2">Pressão Arterial</h2>
+                    <p class="text-gray-600 mb-2 text-xs">Monitoramento</p>
+                    <span class="inline-block bg-red-50 text-red-600 px-2 py-1 rounded-full text-xs font-semibold">
+                        Acessar
+                    </span>
+                </a>
+            </div>
+
+            <div class="card-gradient rounded-xl overflow-hidden transform transition duration-500 hover:scale-105">
+                <a href="hgt.html" class="block p-4 text-center">
+                    <div class="bg-gradient-to-br from-yellow-500 to-amber-600 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3 shadow-lg">
+                        <i class="fas fa-tachometer-alt text-2xl"></i>
+                    </div>
+                    <h2 class="text-base font-bold text-gray-800 mb-2">Glicemia Capilar</h2>
+                    <p class="text-gray-600 mb-2 text-xs">Controle</p>
+                    <span class="inline-block bg-yellow-50 text-yellow-600 px-2 py-1 rounded-full text-xs font-semibold">
+                        Acessar
                     </span>
                 </a>
             </div>
         </div>
 
-        <footer class="text-center mt-16">
-            <div class="flex justify-center space-x-4 text-gray-500 mb-4">
-                <a href="#" class="hover:text-blue-600 transition"><i class="fab fa-linkedin text-2xl"></i></a>
-                <a href="#" class="hover:text-blue-600 transition"><i class="fas fa-globe text-2xl"></i></a>
-                <a href="#" class="hover:text-blue-600 transition"><i class="fas fa-envelope text-2xl"></i></a>
-            </div>
-            <p class="text-sm text-gray-500">© 2024 Plataforma Clínica Integrada | Todos os direitos reservados</p>
+        <footer class="text-center mt-6">
+            <p class="text-xs text-gray-500">© 2024 Plataforma Clínica</p>
         </footer>
     </div>
 </body>
