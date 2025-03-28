@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="ubs-theme">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,29 +8,149 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap');
-        body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        
+        /* Theme Base Styles */
+        :root {
+            --bg-primary: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --card-bg: rgba(255,255,255,0.5);
+            --text-primary: #1a202c;
+            --text-secondary: #2d3748;
+            --title-color: #1a202c;
+            --subtitle-color: #2d3748;
         }
+
+        .dark-theme {
+            --bg-primary: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+            --card-bg: rgba(45,55,72,0.5);
+            --text-primary: #e2e8f0;
+            --text-secondary: #a0aec0;
+            --title-color: #e2e8f0;
+            --subtitle-color: #a0aec0;
+        }
+
+        .ubs-theme {
+            --bg-primary: url('ubs.png') no-repeat center center fixed;
+            --bg-primary-size: cover;
+            --card-bg: rgba(255,255,255,0.5);
+            --text-primary: #1a202c;
+            --text-secondary: #2d3748;
+            --title-color: #1a202c;
+            --subtitle-color: #2d3748;
+        }
+
+        .forest-theme {
+            --bg-primary: url('floresta.jpg') no-repeat center center fixed;
+            --bg-primary-size: cover;
+            --card-bg: rgba(255,255,255,0.5);
+            --text-primary: #1a2e05;
+            --text-secondary: #3a4f25;
+            --title-color: #f0f4f0;
+            --subtitle-color: #e6f0e6;
+        }
+
+        .terra-theme {
+            --bg-primary: url('terra.png') no-repeat center center fixed;
+            --bg-primary-size: cover;
+            --card-bg: rgba(255,255,255,0.5);
+            --text-primary: #2c1810;
+            --text-secondary: #4a2c22;
+            --title-color: #f0e6e0;
+            --subtitle-color: #f0e0d6;
+        }
+
+        .hosp-theme {
+            --bg-primary: url('hosp.png') no-repeat center center fixed;
+            --bg-primary-size: cover;
+            --card-bg: rgba(255,255,255,0.5);
+            --text-primary: #1a3b5a;
+            --text-secondary: #2c5275;
+            --title-color: #1a3b5a;
+            --subtitle-color: #2c5275;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--bg-primary);
+            background-size: cover;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         .card-gradient {
-            background: linear-gradient(145deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.6) 100%);
-            border: 1px solid rgba(255,255,255,0.3);
+            background: var(--card-bg);
             backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
         }
+
         .card-gradient:hover {
             transform: translateY(-10px);
             box-shadow: 0 15px 40px rgba(0,0,0,0.15);
         }
+
+        /* Ensure text visibility */
+        body {
+            color: var(--text-primary);
+        }
+
+        h1 {
+            color: var(--title-color) !important;
+        }
+
+        .subtitle {
+            color: var(--subtitle-color) !important;
+        }
+
+        h2, p:not(.subtitle), span {
+            color: var(--text-primary) !important;
+        }
+
+        /* Rest of the CSS remains the same as in the previous version */
+        .theme-selector {
+            position: fixed;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,255,255,0.3);
+            backdrop-filter: blur(5px);
+            border-radius: 30px;
+            padding: 5px;
+            display: flex;
+            gap: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .theme-btn {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .theme-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .theme-btn.active {
+            border-color: #4299e1;
+        }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center">
+<body>
     <div class="container mx-auto px-4 py-6 max-w-5xl">
         <header class="text-center mb-8">
-            <h1 class="text-3xl font-extrabold tracking-tight mb-2 text-gray-800" style="font-family: 'Inter', sans-serif;">
+            <h1 class="text-3xl font-extrabold tracking-tight mb-2">
                 Plataforma Clínica Integrada
             </h1>
-            <p class="text-sm text-gray-600 max-w-2xl mx-auto">Soluções para profissionais de saúde</p>
+            <p class="subtitle text-sm">Soluções para profissionais de saúde</p>
         </header>
 
         <div class="grid md:grid-cols-3 gap-4">
@@ -39,8 +159,8 @@
                     <div class="bg-gradient-to-br from-blue-500 to-cyan-600 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3 shadow-lg">
                         <i class="fas fa-file-medical text-2xl"></i>
                     </div>
-                    <h2 class="text-base font-bold text-gray-800 mb-2">Prontuário Digital</h2>
-                    <p class="text-gray-600 mb-2 text-xs">Registro Off-Line</p>
+                    <h2 class="text-base font-bold mb-2">Prontuário Digital</h2>
+                    <p class="mb-2 text-xs">Registro Off-Line</p>
                     <span class="inline-block bg-blue-50 text-blue-600 px-2 py-1 rounded-full text-xs font-semibold">
                         Acessar
                     </span>
@@ -52,8 +172,8 @@
                     <div class="bg-gradient-to-br from-green-500 to-teal-600 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3 shadow-lg">
                         <i class="fas fa-brain text-2xl"></i>
                     </div>
-                    <h2 class="text-base font-bold text-gray-800 mb-2">Saúde Mental</h2>
-                    <p class="text-gray-600 mb-2 text-xs">Estratificação</p>
+                    <h2 class="text-base font-bold mb-2">Saúde Mental</h2>
+                    <p class="mb-2 text-xs">Estratificação</p>
                     <span class="inline-block bg-green-50 text-green-600 px-2 py-1 rounded-full text-xs font-semibold">
                         Acessar
                     </span>
@@ -65,8 +185,8 @@
                     <div class="bg-gradient-to-br from-purple-500 to-indigo-600 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3 shadow-lg">
                         <i class="fas fa-wheelchair text-2xl"></i>
                     </div>
-                    <h2 class="text-base font-bold text-gray-800 mb-2">Vulnerabilidade</h2>
-                    <p class="text-gray-600 mb-2 text-xs">IVCF-20 Idosos</p>
+                    <h2 class="text-base font-bold mb-2">Vulnerabilidade</h2>
+                    <p class="mb-2 text-xs">IVCF-20 Idosos</p>
                     <span class="inline-block bg-purple-50 text-purple-600 px-2 py-1 rounded-full text-xs font-semibold">
                         Acessar
                     </span>
@@ -78,8 +198,8 @@
                     <div class="bg-gradient-to-br from-red-500 to-orange-600 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3 shadow-lg">
                         <i class="fas fa-heartbeat text-2xl"></i>
                     </div>
-                    <h2 class="text-base font-bold text-gray-800 mb-2">Pressão Arterial</h2>
-                    <p class="text-gray-600 mb-2 text-xs">Monitoramento</p>
+                    <h2 class="text-base font-bold mb-2">Pressão Arterial</h2>
+                    <p class="mb-2 text-xs">Monitoramento</p>
                     <span class="inline-block bg-red-50 text-red-600 px-2 py-1 rounded-full text-xs font-semibold">
                         Acessar
                     </span>
@@ -91,8 +211,8 @@
                     <div class="bg-gradient-to-br from-yellow-500 to-amber-600 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-3 shadow-lg">
                         <i class="fas fa-tachometer-alt text-2xl"></i>
                     </div>
-                    <h2 class="text-base font-bold text-gray-800 mb-2">Glicemia Capilar</h2>
-                    <p class="text-gray-600 mb-2 text-xs">Controle</p>
+                    <h2 class="text-base font-bold mb-2">Glicemia Capilar</h2>
+                    <p class="mb-2 text-xs">Controle</p>
                     <span class="inline-block bg-yellow-50 text-yellow-600 px-2 py-1 rounded-full text-xs font-semibold">
                         Acessar
                     </span>
@@ -100,9 +220,52 @@
             </div>
         </div>
 
-        <footer class="text-center mt-6">
-            <p class="text-xs text-gray-500">© 2024 Plataforma Clínica</p>
+        <footer class="text-center mt-4">
+            <p class="text-xs">© 2025 Plataforma Clínica</p>
         </footer>
+
+        <div class="theme-selector">
+            <button class="theme-btn" data-theme="light" style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)"></button>
+            <button class="theme-btn" data-theme="dark" style="background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%)"></button>
+            <button class="theme-btn active" data-theme="ubs" style="background: url('ubs.png') center/cover"></button>
+            <button class="theme-btn" data-theme="forest" style="background: url('floresta.jpg') center/cover"></button>
+            <button class="theme-btn" data-theme="terra" style="background: url('terra.png') center/cover"></button>
+            <button class="theme-btn" data-theme="hosp" style="background: url('hosp.png') center/cover"></button>
+        </div>
     </div>
+
+    <script>
+        // Function to set theme
+        function setTheme(theme) {
+            // Remove all theme classes
+            document.documentElement.classList.remove('light-theme', 'dark-theme', 'ubs-theme', 'forest-theme', 'terra-theme', 'hosp-theme');
+            
+            // Add the selected theme class
+            document.documentElement.classList.add(`${theme}-theme`);
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+            
+            // Add active class to the selected theme button
+            document.querySelector(`.theme-btn[data-theme="${theme}"]`).classList.add('active');
+            
+            // Save theme preference to localStorage
+            localStorage.setItem('selectedTheme', theme);
+        }
+
+        // Event listeners for theme buttons
+        document.querySelectorAll('.theme-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const theme = btn.getAttribute('data-theme');
+                setTheme(theme);
+            });
+        });
+
+        // Load saved theme on page load, default to UBS if no saved theme
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('selectedTheme') || 'ubs';
+            setTheme(savedTheme);
+        });
+    </script>
 </body>
 </html>
