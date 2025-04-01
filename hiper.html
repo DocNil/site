@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ficha de Encaminhamento para o MACC - Hipertensão</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 10px;
+            line-height: 1.1;
+            margin: 0;
+            padding: 10px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            border: 1px solid #ccc;
+            padding: 15px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 8px;
+        }
+        
+        .header h1 {
+            font-size: 14px;
+            margin: 0;
+            font-weight: bold;
+        }
+        
+        .header p {
+            margin: 4px 0;
+            font-size: 8px;
+        }
+        
+        .section {
+            margin-bottom: 10px;
+        }
+        
+        .section-title {
+            font-weight: bold;
+            margin-bottom: 4px;
+            background-color: #f0f0f0;
+            padding: 2px;
+        }
+        
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 4px;
+        }
+        
+        .form-group {
+            margin-right: 10px;
+            margin-bottom: 4px;
+        }
+        
+        .form-control {
+            border: 1px solid #ccc;
+            padding: 2px;
+            width: 180px;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            width: 48%;
+            margin-bottom: 3px;
+        }
+        
+        .checkbox-item input {
+            margin-right: 4px;
+        }
+        
+        .textarea {
+            width: 100%;
+            border: 1px solid #ccc;
+            padding: 2px;
+            resize: vertical;
+        }
+        
+        .textarea-anamnese {
+            height: 22px;
+        }
+        
+        .textarea-medicacao {
+            height: 11px;
+        }
+        
+        .exames-row {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .exame-item {
+            margin-right: 8px;
+            margin-bottom: 4px;
+            white-space: nowrap;
+        }
+        
+        .btn-print {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            font-size: 12px;
+            margin: 8px auto 0;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        
+        .footer {
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .signature-line {
+            border-top: 1px solid #333;
+            width: 250px;
+            margin-top: 15px;
+            text-align: center;
+            padding-top: 4px;
+        }
+        
+        .date-input {
+            letter-spacing: 2px;
+            font-family: monospace;
+            font-size: 10px;
+        }
+        
+        @media print {
+            .btn-print {
+                display: none;
+            }
+            
+            body {
+                padding: 0;
+                margin: 0;
+            }
+            
+            .container {
+                box-shadow: none;
+                border: none;
+                padding: 8px;
+            }
+            
+            @page {
+                margin: 0.8cm;
+                size: A4;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>FICHA DE ENCAMINHAMENTO PARA O MACC - HIPERTENSÃO</h1>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">1 - IDENTIFICAÇÃO:</div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Nome:</label>
+                    <input type="text" class="form-control" id="nome" style="width: 225px;">
+                </div>
+                <div class="form-group">
+                    <label>Data de Nasc:</label>
+                    <input type="text" class="form-control date-input" id="dataNasc" style="width: 88px;" maxlength="10" placeholder="dd/mm/aaaa">
+                </div>
+                <div class="form-group">
+                    <label>Idade:</label>
+                    <input type="text" class="form-control" id="idade" style="width: 25px;" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Celular:</label>
+                    <input type="text" class="form-control" id="celular" style="width: 100px;">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Município:</label>
+                    <input type="text" class="form-control" id="municipio" style="width: 135px;">
+                </div>
+                <div class="form-group">
+                    <label>Unidade de Saúde:</label>
+                    <input type="text" class="form-control" id="unidadeSaude" style="width: 126px;">
+                </div>
+                <div class="form-group">
+                    <label>ACS responsável:</label>
+                    <input type="text" class="form-control" id="acsResponsavel" style="width: 126px;">
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">2 - ESTRATIFICAÇÃO</div>
+            
+            <div>
+                <div><strong>HAS > 180 (estágio 3):</strong></div>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="has3">
+                        <label for="has3">SIM → (não há necessidade de apresentar fator de risco)</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 8px;">
+                <div><strong>HAS > 160 (estágio 2) + 2 fatores de risco:</strong></div>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="has2">
+                        <label for="has2">SIM (PA > 160)</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="triglicerideos2">
+                        <label for="triglicerideos2">Triglicerídeos > 150</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="imc2">
+                        <label for="imc2">IMC > 30kg/m²</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="colesterol2">
+                        <label for="colesterol2">Colesterol Total > 190</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="dcv2">
+                        <label for="dcv2">DCV</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="circ2">
+                        <label for="circ2">Circunferência Abdominal > 102 homens e > 88 mulheres</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="drc2">
+                        <label for="drc2">DRC</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="tab2">
+                        <label for="tab2">Tabagismo</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="dm2">
+                        <label for="dm2">DM</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="ri2">
+                        <label for="ri2">Resistência Insulínica (hemoglobina glicada 5,7-6,4 + glicemia jejum 100-125)</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="ldl2">
+                        <label for="ldl2">LDL > 115</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="hdl2">
+                        <label for="hdl2">HDL < 40</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="hipertrofia2">
+                        <label for="hipertrofia2">Hipertrofia ventricular esquerda</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="idade2">
+                        <label for="idade2">Idade Homens ≥ 55 anos ou mulheres ≥ 65 anos</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="doencacerebro2">
+                        <label for="doencacerebro2">Doença cérebro vascular (AVC, hemorragia, ataque isquêmico)</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="loa2">
+                        <label for="loa2">LOA - doença artéria coronária</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 8px;">
+                <div><strong>HAS > 140 (estágio 1) + 3 fatores de risco:</strong></div>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="has1">
+                        <label for="has1">SIM (PA > 140)</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="dcv1">
+                        <label for="dcv1">DCV</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="imc1">
+                        <label for="imc1">IMC > 30kg/m²</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="drc1">
+                        <label for="drc1">DRC</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="dm1">
+                        <label for="dm1">DM</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="hdl1">
+                        <label for="hdl1">HDL < 40</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="idade1">
+                        <label for="idade1">Idade Homens ≥ 55 anos ou mulheres ≥ 65 anos</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="tab1">
+                        <label for="tab1">Tabagismo</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="circ1">
+                        <label for="circ1">Circunferência Abdominal > 102 homens e > 88 mulheres</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="triglicerideos1">
+                        <label for="triglicerideos1">Triglicerídeos > 150</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="ri1">
+                        <label for="ri1">Resistência Insulínica</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="colesterol1">
+                        <label for="colesterol1">Colesterol Total > 190</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="hipertrofia1">
+                        <label for="hipertrofia1">Hipertrofia ventricular esquerda</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="ldl1">
+                        <label for="ldl1">LDL > 115</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="loa1">
+                        <label for="loa1">LOA - doença artéria coronária</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="doencacerebro1">
+                        <label for="doencacerebro1">Doença cérebro vascular</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 8px;">
+                <div><strong>HAS > 130 + presença 1 ou mais lesão em órgão alvo:</strong></div>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="has130">
+                        <label for="has130">SIM (PA > 130)</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="dcv130">
+                        <label for="dcv130">DCV (doença cardiovascular)</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="drc130">
+                        <label for="drc130">DRC (doença renal crônica)</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="hipertrofia130">
+                        <label for="hipertrofia130">Hipertrofia ventricular esquerda</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="doencacerebro130">
+                        <label for="doencacerebro130">Doença cérebro vascular</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="loa130">
+                        <label for="loa130">LOA - doença artéria coronária</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">3 – ANAMNESE E OUTRAS CONDUTAS REALIZADAS NA UNIDADE:</div>
+            <textarea class="textarea textarea-anamnese"></textarea>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">4- EXAMES SOLICITADOS OBRIGATÓRIOS (pedir para paciente levar exames laboratoriais e demais exames na consulta):</div>
+            <div class="exames-row">
+                <div class="exame-item">
+                    <label>Data dos exames:</label>
+                    <input type="text" class="date-input" id="dataExames" style="width: 80px;" maxlength="10" placeholder="dd/mm/aaaa">
+                </div>
+                <div class="exame-item">
+                    <label>Glicose:</label>
+                    <input type="text" style="width: 40px;">
+                </div>
+                <div class="exame-item">
+                    <label>Triglicérides:</label>
+                    <input type="text" style="width: 40px;">
+                </div>
+                <div class="exame-item">
+                    <label>Colesterol Total:</label>
+                    <input type="text" style="width: 40px;">
+                </div>
+                <div class="exame-item">
+                    <label>HDL:</label>
+                    <input type="text" style="width: 40px;">
+                </div>
+                <div class="exame-item">
+                    <label>Acido Úrico:</label>
+                    <input type="text" style="width: 40px;">
+                </div>
+                <div class="exame-item">
+                    <label>Potássio:</label>
+                    <input type="text" style="width: 40px;">
+                </div>
+                <div class="exame-item">
+                    <label>Creatinina:</label>
+                    <input type="text" style="width: 40px;">
+                </div>
+                <div class="exame-item">
+                    <label>Parcial Urina:</label>
+                    <input type="text" style="width: 80px;">
+                </div>
+                <div class="exame-item">
+                    <label>Outros exames:</label>
+                    <input type="text" style="width: 200px;">
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">5 - MEDICAÇÃO EM USO:</div>
+            <textarea class="textarea textarea-medicacao"></textarea>
+        </div>
+        
+        <div class="footer">
+            <div id="dataFooter"></div>
+            <div class="signature-line">
+                Carimbo e Assinatura do Profissional
+            </div>
+        </div>
+    </div>
+    <button class="btn-print" onclick="window.print()">Imprimir</button>
+
+    <script>
+        // Formatação de data com barras fixas
+        function formatarDataInput(input) {
+            input.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, ''); // Remove tudo que não é número
+                if (value.length <= 8) {
+                    let formatted = '';
+                    if (value.length > 4) {
+                        formatted = value.slice(0, 2) + '/' + value.slice(2, 4) + '/' + value.slice(4);
+                    } else if (value.length > 2) {
+                        formatted = value.slice(0, 2) + '/' + value.slice(2);
+                    } else {
+                        formatted = value;
+                    }
+                    e.target.value = formatted;
+                }
+            });
+        }
+
+        // Campos da identificação
+        const camposIdentificacao = [
+            { id: 'nome', storageKey: 'ident_nome' },
+            { id: 'dataNasc', storageKey: 'ident_dataNasc' },
+            { id: 'celular', storageKey: 'ident_celular' },
+            { id: 'municipio', storageKey: 'ident_municipio' },
+            { id: 'unidadeSaude', storageKey: 'ident_unidadeSaude' },
+            { id: 'acsResponsavel', storageKey: 'ident_acsResponsavel' }
+        ];
+
+        // Carregar valores salvos do localStorage ao abrir a página
+        function carregarValoresSalvos() {
+            camposIdentificacao.forEach(campo => {
+                const valorSalvo = localStorage.getItem(campo.storageKey);
+                if (valorSalvo) {
+                    document.getElementById(campo.id).value = valorSalvo;
+                }
+            });
+            const dataNasc = document.getElementById('dataNasc').value;
+            if (dataNasc && dataNasc.length === 10) {
+                calcularIdade(dataNasc);
+            }
+        }
+
+        // Salvar valores no localStorage ao digitar
+        function salvarValores() {
+            camposIdentificacao.forEach(campo => {
+                const input = document.getElementById(campo.id);
+                input.addEventListener('input', function() {
+                    localStorage.setItem(campo.storageKey, this.value);
+                });
+            });
+        }
+
+        // Aplicar formatação aos campos de data
+        const dataNascInput = document.getElementById('dataNasc');
+        const dataExamesInput = document.getElementById('dataExames');
+        formatarDataInput(dataNascInput);
+        formatarDataInput(dataExamesInput);
+
+        // Cálculo automático da idade
+        function calcularIdade(dataStr) {
+            if (dataStr.length === 10) { // Verifica se está no formato "dd/mm/aaaa"
+                const [dia, mes, ano] = dataStr.split('/').map(Number);
+                const dataNasc = new Date(ano, mes - 1, dia);
+                const hoje = new Date();
+                
+                if (dataNasc <= hoje && !isNaN(dataNasc.getTime())) {
+                    let idade = hoje.getFullYear() - dataNasc.getFullYear();
+                    const m = hoje.getMonth() - dataNasc.getMonth();
+                    if (m < 0 || (m === 0 && hoje.getDate() < dataNasc.getDate())) {
+                        idade--;
+                    }
+                    document.getElementById('idade').value = idade;
+                } else {
+                    document.getElementById('idade').value = '';
+                    alert('Data de nascimento inválida!');
+                }
+            } else {
+                document.getElementById('idade').value = '';
+            }
+        }
+
+        dataNascInput.addEventListener('input', function(e) {
+            calcularIdade(e.target.value);
+        });
+
+        // Ajuste da altura dos textareas
+        document.querySelectorAll('textarea').forEach(function(textarea) {
+            textarea.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = (this.scrollHeight) + 'px';
+            });
+        });
+
+        // Data automática no footer
+        function atualizarDataFooter() {
+            const municipioInput = document.getElementById('municipio');
+            const municipio = municipioInput.value || '[Município]';
+            const hoje = new Date();
+            const dia = String(hoje.getDate()).padStart(2, '0');
+            const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+            const ano = hoje.getFullYear();
+            document.getElementById('dataFooter').innerHTML = `${municipio}, ${dia}/${mes}/${ano}`;
+        }
+
+        // Inicializar
+        document.getElementById('municipio').addEventListener('input', atualizarDataFooter);
+        window.addEventListener('load', function() {
+            carregarValoresSalvos();
+            salvarValores();
+            atualizarDataFooter();
+        });
+    </script>
+</body>
+</html>

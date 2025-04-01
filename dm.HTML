@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Encaminhamento - Diabetes Alto Risco</title>
+    <style>
+        @media print {
+            .print-button {
+                display: none !important;
+            }
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            .container {
+                border: none;
+                width: 100%;
+                max-width: 100%;
+                padding: 10px 15px;
+            }
+            @page {
+                size: A4;
+                margin: 10mm;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 10px;
+            font-size: 10pt; /* Reduced from 11pt */
+            color: #333;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 21cm;
+            margin: 0 auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 12px; /* Reduced from 15px */
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 13pt; /* Reduced from 14pt */
+            margin-bottom: 12px; /* Reduced from 15px */
+            color: #1e4c82;
+            border-bottom: 2px solid #1e4c82;
+            padding-bottom: 6px; /* Reduced from 8px */
+        }
+
+        .form-group {
+            margin-bottom: 4px; /* Reduced from 5px */
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 1px; /* Reduced from 2px */
+            font-size: 8.5pt; /* Reduced from 9pt */
+            color: #444;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="number"],
+        textarea {
+            padding: 3px 5px; /* Reduced from 4px 6px */
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+            font-size: 8.5pt; /* Reduced from 9pt */
+            width: 100%;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        input[type="number"]:focus,
+        textarea:focus {
+            border-color: #1e4c82;
+            outline: none;
+            box-shadow: 0 0 3px rgba(30, 76, 130, 0.3);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            font-size: 8.5pt; /* Reduced from 9pt */
+            margin-bottom: 1px; /* Reduced from 2px */
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 4px; /* Reduced from 5px */
+        }
+
+        .section-title {
+            background-color: #eef2f7;
+            padding: 4px 7px; /* Reduced from 5px 8px */
+            margin: 8px 0 4px 0; /* Reduced from 10px 0 5px 0 */
+            font-size: 9pt; /* Reduced from 10pt */
+            font-weight: bold;
+            color: #1e4c82;
+            border-left: 3px solid #1e4c82;
+        }
+
+        .print-button {
+            padding: 7px 14px; /* Reduced from 8px 15px */
+            background-color: #1e4c82;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 9pt; /* Reduced from 10pt */
+            margin-top: 12px; /* Reduced from 15px */
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+
+        .print-button:hover {
+            background-color: #153761;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* Changed from 3 to 4 columns */
+            gap: 6px; /* Reduced from 8px */
+            margin-bottom: 6px; /* Reduced from 8px */
+        }
+
+        .grid-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        
+        /* Removed the ::after pseudo-element that contained "Carimbo e Assinatura do Profissional" */
+
+        .professional-name-input {
+            width: 50%; /* Changed from 100% to 50% */
+            padding: 4px; /* Reduced from 5px */
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+            font-size: 9pt; /* Reduced from 10pt */
+            margin-top: 4px; /* Reduced from 5px */
+        }
+
+        .date-container {
+            text-align: right;
+            font-size: 8.5pt; /* Reduced from 9pt */
+            margin: 8px 0; /* Reduced from 10px 0 */
+            color: #444;
+        }
+
+        .two-column-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px; /* Reduced from 8px */
+            margin-bottom: 4px; /* Reduced from 5px */
+        }
+
+        .identification-grid {
+            display: grid;
+            grid-template-columns: 2.5fr 1fr 1.5fr;
+            gap: 6px; /* Reduced from 8px */
+            margin-bottom: 4px; /* Reduced from 5px */
+        }
+
+        .identification-grid > div {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .identification-grid > div > label {
+            font-size: 8.5pt; /* Reduced from 9pt */
+            margin-bottom: 1px; /* Reduced from 2px */
+        }
+
+        .identification-grid > div > input[type="text"],
+        .identification-grid > div > input[type="date"] {
+            font-size: 8.5pt; /* Reduced from 9pt */
+            padding: 3px 5px; /* Reduced from 4px 6px */
+        }
+
+        .age-display {
+            font-size: 8.5pt; /* Reduced from 9pt */
+            font-weight: bold;
+            color: #1e4c82;
+            margin-top: 1px; /* Reduced from 2px */
+            display: inline-block;
+        }
+
+        .dob-container {
+            position: relative;
+        }
+
+        .inline-age {
+            position: absolute;
+            top: 50%;
+            right: 5px;
+            transform: translateY(-50%);
+            font-size: 8.5pt; /* Reduced from 9pt */
+            color: #1e4c82;
+            font-weight: bold;
+            z-index: 10;
+        }
+
+        textarea {
+            resize: none;
+            width: 100%;
+            font-size: 8.5pt; /* Reduced from 9pt */
+        }
+
+        .subsection {
+            margin-left: 14px; /* Reduced from 15px */
+            padding-left: 7px; /* Reduced from 8px */
+            border-left: 1px solid #ddd;
+        }
+
+        .header-logo {
+            text-align: center;
+            margin-bottom: 8px; /* Reduced from 10px */
+        }
+
+        .header-text {
+            text-align: center;
+            font-size: 8.5pt; /* Reduced from 9pt */
+            margin-bottom: 8px; /* Reduced from 10px */
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>FICHA DE ENCAMINHAMENTO PARA O MACC - DIABETES ALTO RISCO</h1>
+        
+        <div class="section-title">1 - IDENTIFICAÇÃO</div>
+        <div class="identification-grid">
+            <div>
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" name="nome">
+            </div>
+            <div class="dob-container">
+                <label for="data_nasc">Data de Nasc.:</label>
+                <input type="text" id="data_nasc" name="data_nasc" placeholder="DD/MM/AAAA" maxlength="10">
+                <span id="ageDisplay" class="inline-age"></span>
+            </div>
+            <div>
+                <label for="unidade_saude">Unidade de Saúde:</label>
+                <input type="text" id="unidade_saude" name="unidade_saude">
+            </div>
+            <div>
+                <label for="municipio">Município:</label>
+                <input type="text" id="municipio" name="municipio" value="Toledo" readonly>
+            </div>
+            <div>
+                <label for="celular">Celular:</label>
+                <input type="text" id="celular" name="celular" placeholder="(00) 00000-0000">
+            </div>
+            <div>
+                <label for="acs_responsavel">ACS responsável:</label>
+                <input type="text" id="acs_responsavel" name="acs_responsavel">
+            </div>
+        </div>
+
+        <div class="section-title">2 - ESTRATIFICAÇÃO PARA ENCAMINHAR AO MACC</div>
+        <div class="form-group">
+            <div class="checkbox-group">
+                <input type="checkbox" id="dm1_sim" name="apresenta_dm1" value="SIM">
+                <label for="dm1_sim"><strong>Apresenta DM 1:</strong> SIM (não há necessidade de apresentar fator de risco)</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="checkbox-group">
+                <input type="checkbox" id="glicada_acima_7_1" name="diabetes_descontrolada" value="acima_7_1">
+                <label for="glicada_acima_7_1"><strong>Paciente com Diabetes descontrolada</strong> (controle metabólico regular ou ruim - glicada acima de 7,1%)*:</label>
+            </div>
+            
+            <div class="subsection">
+                <div class="checkbox-group">
+                    <input type="checkbox" id="hemoglobina_glicada_acima" name="compl_diabetes_descontrolada" value="hemoglobina_glicada_acima">
+                    <label for="hemoglobina_glicada_acima">Apresenta controle metabólico regular ou ruim (glicada) + controle pressórico inadequado nos últimos 12 meses e/ou complicações crônicas:</label>
+                </div>
+                
+                <div class="two-column-grid" style="margin-left: 14px;">
+                    <div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="hemoglobina_glicada_acima_valor" name="compl_diabetes_descontrolada" value="hemoglobina_glicada_acima">
+                            <label for="hemoglobina_glicada_acima_valor">Hemoglobina glicada acima de 7,1%</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="retinopatia_diabetica_dc" name="compl_diabetes_descontrolada" value="retinopatia_diabetica">
+                            <label for="retinopatia_diabetica_dc">Retinopatia diabética</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="irc_dc" name="compl_diabetes_descontrolada" value="irc">
+                            <label for="irc_dc">Insuficiência Renal Crônica</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="dvp_dc" name="compl_diabetes_descontrolada" value="dvp">
+                            <label for="dvp_dc">Doença Vascular Periférica</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="pe_diabetico_dc" name="compl_diabetes_descontrolada" value="pe_diabetico">
+                            <label for="pe_diabetico_dc">Pé Diabético</label>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="pa_acima_130_80" name="compl_diabetes_descontrolada" value="pa_acima_130_80">
+                            <label for="pa_acima_130_80">PA > 130/80</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="nefropatia_diabetica_dc" name="compl_diabetes_descontrolada" value="nefropatia_diabetica">
+                            <label for="nefropatia_diabetica_dc">Nefropatia Diabética</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="neuropatia_diabetica_dc" name="compl_diabetes_descontrolada" value="neuropatia_diabetica">
+                            <label for="neuropatia_diabetica_dc">Neuropatia Diabética</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="dac_dc" name="compl_diabetes_descontrolada" value="dac">
+                            <label for="dac_dc">Doença arterial coronariana</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="ave_dc" name="compl_diabetes_descontrolada" value="ave">
+                            <label for="ave_dc">Acidente vascular encefálico</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="checkbox-group">
+                <input type="checkbox" id="diabetes_estabilizada" name="diabetes_estabilizada" value="sim">
+                <label for="diabetes_estabilizada"><strong>Paciente com Diabetes Estabilizada</strong> (controle metabólico bom - glicada abaixo de 7%)*:</label>
+            </div>
+            
+            <div class="subsection">
+                <div class="checkbox-group">
+                    <input type="checkbox" id="internacoes_agudas" name="diabetes_estabilizada_tipo" value="internacoes_agudas">
+                    <label for="internacoes_agudas">Apresenta controle metabólico bom + 1 ou mais internações por complicações agudas nos últimos 12 meses:</label>
+                </div>
+                
+                <div class="two-column-grid" style="margin-left: 14px;">
+                    <div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="hemoglobina_glicada_abaixo_7" name="compl_internacoes_agudas" value="hemoglobina_glicada_abaixo_7">
+                            <label for="hemoglobina_glicada_abaixo_7">Hemoglobina glicada abaixo de 7%</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="hipoglicemia" name="compl_internacoes_agudas" value="hipoglicemia">
+                            <label for="hipoglicemia">Internação por hipoglicemia</label>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="cetoacidose" name="compl_internacoes_agudas" value="cetoacidose">
+                            <label for="cetoacidose">Internação por cetoacidose</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="sindrome_hiperosmolar" name="compl_internacoes_agudas" value="sindrome_hiperosmolar">
+                            <label for="sindrome_hiperosmolar">Internação por síndrome hiperosmolar</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="complicacoes_cronicas" name="diabetes_estabilizada_tipo" value="complicacoes_cronicas">
+                    <label for="complicacoes_cronicas">Apresenta controle metabólico bom + 1 ou mais complicações crônicas*:</label>
+                </div>
+                
+                <div class="two-column-grid" style="margin-left: 14px;">
+                    <div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="hemoglobina_glicada_abaixo_7_cc" name="compl_cronicas" value="hemoglobina_glicada_abaixo_7">
+                            <label for="hemoglobina_glicada_abaixo_7_cc">Hemoglobina glicada abaixo de 7%</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="nefropatia_diabetica_cc" name="compl_cronicas" value="nefropatia_diabetica">
+                            <label for="nefropatia_diabetica_cc">Nefropatia Diabética</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="dvp_cc" name="compl_cronicas" value="dvp">
+                            <label for="dvp_cc">Doença Vascular Periférica</label>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="retinopatia_diabetica_cc" name="compl_cronicas" value="retinopatia_diabetica">
+                            <label for="retinopatia_diabetica_cc">Retinopatia diabética</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="irc_cc" name="compl_cronicas" value="irc">
+                            <label for="irc_cc">Insuficiência Renal Crônica</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="pe_diabetico_cc" name="compl_cronicas" value="pe_diabetico">
+                            <label for="pe_diabetico_cc">Pé Diabético</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-title">3 - ANAMNESE E CONDUTA REALIZADA NA UNIDADE</div>
+        <div class="form-group">
+            <textarea id="anamnese_conduta" name="anamnese_conduta" rows="2"></textarea>
+        </div>
+
+        <div class="section-title">4 - EXAMES SOLICITADOS OBRIGATÓRIOS</div>
+        <div class="grid-container">
+            <div class="grid-item">
+                <label for="data_exame">Data exame:</label>
+                <input type="date" id="data_exame" name="data_exame">
+            </div>
+            <div class="grid-item">
+                <label for="glicose_jejum">Glicose jejum:</label>
+                <input type="text" id="glicose_jejum" name="glicose_jejum">
+            </div>
+            <div class="grid-item">
+                <label for="hemoglobina_glicada">Hemoglobina glicada:</label>
+                <input type="text" id="hemoglobina_glicada" name="hemoglobina_glicada">
+            </div>
+            <div class="grid-item">
+                <label for="potassio">Potássio:</label>
+                <input type="text" id="potassio" name="potassio">
+            </div>
+            <div class="grid-item">
+                <label for="glicose_pos_prandial">Glicose Pós Prandial:</label>
+                <input type="text" id="glicose_pos_prandial" name="glicose_pos_prandial">
+            </div>
+            <div class="grid-item">
+                <label for="parcial_de_urina">Parcial de Urina:</label>
+                <input type="text" id="parcial_de_urina" name="parcial_de_urina">
+            </div>
+            <div class="grid-item">
+                <label for="creatinina">Creatinina:</label>
+                <input type="text" id="creatinina" name="creatinina">
+            </div>
+            <div class="grid-item">
+                <label for="estimativa_taxa_filtracao_glomerular">Taxa de filtração Glomerular:</label>
+                <input type="text" id="estimativa_taxa_filtracao_glomerular" name="estimativa_taxa_filtracao_glomerular">
+            </div>
+            <div class="grid-item">
+                <label for="microalbuminuria_de_urina_24hs">Microalbuminuria 24hs:</label>
+                <input type="text" id="microalbuminuria_de_urina_24hs" name="microalbuminuria_de_urina_24hs">
+            </div>
+            <div class="grid-item">
+                <label for="colesterol_total">Colesterol Total:</label>
+                <input type="text" id="colesterol_total" name="colesterol_total">
+            </div>
+            <div class="grid-item">
+                <label for="triglicerides">Triglicérides:</label>
+                <input type="text" id="triglicerides" name="triglicerides">
+            </div>
+            <div class="grid-item">
+                <label for="outros_exames">Outros exames:</label>
+                <input type="text" id="outros_exames" name="outros_exames">
+            </div>
+        </div>
+
+        <div class="section-title">5 - MEDICAÇÃO EM USO</div>
+        <div class="form-group">
+            <textarea id="medicacao_em_uso" name="medicacao_em_uso" rows="1"></textarea>
+        </div>
+
+        <div class="section-title">6 - OUTRAS CONDUTAS</div>
+        <div class="form-group">
+            <textarea id="outras_condutas" name="outras_condutas" rows="1"></textarea>
+        </div>
+
+        <div class="date-container">
+            Toledo, <span id="currentDate"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="professional_name">Nome do Profissional e CRMPR:</label>
+            <input type="text" id="professional_name" class="professional-name-input" name="professional_name">
+        </div>
+        <button class="print-button" onclick="window.print()">Imprimir Formulário</button>
+    </div>
+
+    <script>
+        // Formatar data atual
+        function getCurrentDate() {
+            const today = new Date();
+            const day = String(today.getDate()).padStart(2, '0');
+            const month = getMonthName(today.getMonth());
+            const year = today.getFullYear();
+            return `${day} de ${month} de ${year}`;
+        }
+
+        function getMonthName(monthIndex) {
+            const months = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
+            return months[monthIndex];
+        }
+
+        // Definir data atual no documento
+        document.getElementById("currentDate").textContent = getCurrentDate();
+
+        // Carregar nome profissional do localStorage
+        const professionalNameInput = document.getElementById("professional_name");
+        const storedName = localStorage.getItem('professionalName');
+        if (storedName) {
+            professionalNameInput.value = storedName;
+        }
+
+        // Salvar nome do profissional no localStorage
+        professionalNameInput.addEventListener('input', function() {
+            localStorage.setItem('professionalName', this.value);
+        });
+
+        // Máscara e cálculo de idade para data de nascimento
+        const dataNascInput = document.getElementById('data_nasc');
+        const ageDisplay = document.getElementById('ageDisplay');
+
+        // Função para calcular idade
+        function calculateAge(birthDateStr) {
+            // Verificar formato DD/MM/AAAA
+            if (!/^\d{2}\/\d{2}\/\d{4}$/.test(birthDateStr)) {
+                return '';
+            }
+
+            const parts = birthDateStr.split('/');
+            const day = parseInt(parts[0], 10);
+            const month = parseInt(parts[1], 10) - 1; // Mês começa em 0
+            const year = parseInt(parts[2], 10);
+            
+            // Validar data
+            if (month < 0 || month > 11 || day < 1 || day > 31) {
+                return '';
+            }
+            
+            const birthDate = new Date(year, month, day);
+            
+            // Verificar se a data é válida
+            if (birthDate.getFullYear() !== year || birthDate.getMonth() !== month || birthDate.getDate() !== day) {
+                return '';
+            }
+            
+            const today = new Date();
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const m = today.getMonth() - birthDate.getMonth();
+            
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            
+            return `${age} anos`;
+        }
+
+        // Máscara para data de nascimento
+        dataNascInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            
+            if (value.length > 8) {
+                value = value.substr(0, 8);
+            }
+            
+            if (value.length > 4) {
+                value = value.substr(0, 2) + '/' + value.substr(2, 2) + '/' + value.substr(4);
+            } else if (value.length > 2) {
+                value = value.substr(0, 2) + '/' + value.substr(2);
+            }
+            
+            e.target.value = value;
+            
+            // Calcular idade quando formato estiver completo
+            if (value.length === 10) {
+                const age = calculateAge(value);
+                ageDisplay.textContent = age ? age : '';
+            } else {
+                ageDisplay.textContent = '';
+            }
+        });
+
+        // Máscara para celular
+        const celularInput = document.getElementById('celular');
+        celularInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            
+            if (value.length > 11) {
+                value = value.substr(0, 11);
+            }
+            
+            if (value.length > 7) {
+                value = '(' + value.substr(0, 2) + ') ' + value.substr(2, 5) + '-' + value.substr(7);
+            } else if (value.length > 2) {
+                value = '(' + value.substr(0, 2) + ') ' + value.substr(2);
+            } else if (value.length > 0) {
+                value = '(' + value;
+            }
+            
+            e.target.value = value;
+        });
+
+        // Ajustar altura de textareas
+        const textareas = document.querySelectorAll('textarea');
+        textareas.forEach(function(textarea) {
+            textarea.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = (this.scrollHeight) + 'px';
+            });
+        });
+    </script>
+</body>
+</html>
