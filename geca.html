@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orientações Gastroenterite</title>
+    <style>
+        /* Estilos de tela */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.4; /* Reduzido */
+            color: #333;
+            max-width: 750px;
+            margin: 30px auto; /* Reduzido */
+            padding: 15px; /* Reduzido */
+            background-color: #f7f7f7;
+            font-size: 14px; /* Fonte base reduzida */
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px 30px; /* Reduzido */
+            border-radius: 6px; /* Reduzido */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #1a5c6d;
+            border-bottom: 2px solid #6c757d; /* Linha mais fina */
+            padding-bottom: 8px;
+            margin-bottom: 15px; /* Reduzido */
+            text-align: center;
+            font-size: 20px; /* Reduzido */
+        }
+
+        h2 {
+            color: #2b7a8d;
+            margin-top: 20px; /* Reduzido */
+            margin-bottom: 10px;
+            padding: 3px 0;
+            border-left: 4px solid #6c757d;
+            padding-left: 8px;
+            font-size: 16px; /* Reduzido */
+        }
+
+        /* Otimização da Tabela */
+        .diet-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 12px; /* Fonte da tabela bastante reduzida */
+            table-layout: fixed; /* Ajuda a controlar a largura das colunas */
+        }
+
+        .diet-table th, .diet-table td {
+            padding: 8px 10px; /* Preenchimento reduzido */
+            border: 1px solid #ddd;
+            vertical-align: top;
+        }
+
+        .diet-table th {
+            background-color: #e9ecef;
+            color: #495057;
+        }
+        
+        /* Destaques (Ênfase) */
+        .destaque-positivo { color: #28a745; font-weight: bold; }
+        .destaque-negativo { color: #dc3545; font-weight: bold; }
+
+        /* Lista e Alerta */
+        ul { margin-left: 15px; padding-left: 0; }
+        li { margin-bottom: 4px; }
+
+        .alerta {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 10px; /* Reduzido */
+            border-radius: 4px;
+            border: 1px solid #f5c6cb;
+            font-size: 13px; /* Reduzido */
+        }
+        
+        .alerta ul {
+            list-style-type: none; /* Remove marcadores da lista no alerta */
+            margin-left: 0;
+            padding-left: 0;
+        }
+        .alerta li {
+            margin-bottom: 2px;
+            padding-left: 10px;
+            text-indent: -10px;
+        }
+
+        /* Botão de Impressão */
+        .print-button {
+            display: block;
+            margin: 20px auto 10px;
+            padding: 8px 15px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Estilos de Impressão (Mídia Print) */
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+                font-size: 11pt; /* Otimiza para impressão */
+            }
+            .container {
+                box-shadow: none;
+                padding: 10mm; /* Usa unidades de impressão */
+            }
+            .print-button { display: none; }
+            h1, h2, .diet-table, .alerta {
+                page-break-inside: avoid; /* Evita quebras no meio dos blocos */
+            }
+            .diet-table { font-size: 10pt; }
+            .alerta { font-size: 11pt; }
+            h1 { font-size: 18pt; }
+            h2 { font-size: 14pt; }
+            
+            /* Ajustes finais para economizar espaço vertical na impressão */
+            h1 { margin-bottom: 10px; }
+            h2 { margin-top: 15px; margin-bottom: 5px; }
+            .diet-table th, .diet-table td { padding: 5px 8px; }
+            ul { margin-top: 5px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Orientações para Gastroenterite</h1>
+    <p style="margin-top: -5px;">Esta orientação foca na <span class="destaque-positivo">hidratação</span> e na <span class="destaque-positivo">dieta de fácil digestão</span> para acelerar a recuperação intestinal.</p>
+
+    <button onclick="window.print()" class="print-button">Imprimir Esta Página</button>
+
+    <h2>Dieta de Repouso Intestinal</h2>
+
+    <table class="diet-table">
+        <thead>
+            <tr>
+                <th style="width: 20%;">Categoria</th>
+                <th style="width: 40%;" class="destaque-positivo">PRIORIZAR (COMER)</th>
+                <th style="width: 40%;" class="destaque-negativo">EVITAR (Enquanto houver Diarreia)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>**Hidratação**</td>
+                <td><span class="destaque-positivo">Soro de Reidratação Oral (SRO)</span> (1 copo após cada evacuação). Água, água de coco, chás claros e fracos.</td>
+                <td>Refrigerantes, café forte, álcool, sucos industrializados.</td>
+            </tr>
+            <tr>
+                <td>**Carboidratos**</td>
+                <td>Arroz branco, batata, mandioca (cozidos/purê simples). **Torradas, bolacha água e sal, pão branco.**</td>
+                <td>Cereais e pães integrais, alimentos com alto teor de açúcar.</td>
+            </tr>
+            <tr>
+                <td>**Proteínas**</td>
+                <td>Carnes magras (frango/peixe) <span class="destaque-positivo">assadas ou cozidas (sem gordura).</span> Ovos cozidos.</td>
+                <td>Frituras, carnes gordurosas (porco, linguiça), embutidos.</td>
+            </tr>
+            <tr>
+                <td>**Frutas**</td>
+                <td><span class="destaque-positivo">Banana-maçã, Maçã e Pera (cozidas, sem casca)</span>, Goiaba, Caju. Gelatina.</td>
+                <td>Frutas laxativas (mamão, ameixa, melancia) e frutas ácidas (laranja, abacaxi).</td>
+            </tr>
+            <tr>
+                <td>**Outros**</td>
+                <td>Caldo de legumes coado.</td>
+                <td><span class="destaque-negativo">Leite e Derivados</span>, Maionese, Molhos, Chocolate, Pimenta, Condimentos.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Regras Essenciais para a Casa</h2>
+    <ul>
+        <li>**Hidratação Fracionada:** Beba líquidos em **pequenos goles e frequentemente**.</li>
+        <li>**Alimentação Suave:** Faça refeições **pequenas e fracionadas** (5 a 6 vezes ao dia).</li>
+        <li>**Higiene Rigorosa:** Lave as mãos frequentemente.</li>
+        <li>**Reintrodução:** Após 2-3 dias de melhora, reintroduza vegetais cozidos e laticínios leves **lentamente**.</li>
+    </ul>
+
+    <h2>⚠️ Retorno ao Médico (Sinais de Alerta)</h2>
+    <div class="alerta">
+        Volte imediatamente ao serviço de saúde se houver:
+        <ul>
+            <li>• Diarreia com <span class="destaque-negativo">sangue ou muco</span>.</li>
+            <li>• Febre alta (> 38,5°C) ou vômitos persistentes.</li>
+            <li>• Sinais claros de desidratação (boca muito seca, pouca urina, sonolência).</li>
+        </ul>
+    </div>
+    
+    <p style="text-align: center; margin-top: 20px; font-size: 0.8em; color: #6c757d;">
+        *Esta orientação não substitui a consulta médica. Siga sempre as instruções específicas do seu médico.
+    </p>
+
+</div>
+
+</body>
+</html>

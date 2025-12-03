@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orientações para Intolerância à Lactose</title>
+    <style>
+        /* Estilos de tela (já reduzidos) */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.3; /* Mais reduzido */
+            color: #333;
+            max-width: 700px; /* Largura levemente menor */
+            margin: 20px auto; /* Reduzido */
+            padding: 10px; /* Reduzido */
+            background-color: #f7f7f7;
+            font-size: 13px; /* Fonte base reduzida */
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 15px 25px; /* Reduzido */
+            border-radius: 5px;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #5d5c61;
+            border-bottom: 1px solid #a2a2a7; /* Linha mais fina */
+            padding-bottom: 6px;
+            margin-bottom: 12px; /* Reduzido */
+            font-size: 18px; /* Reduzido */
+        }
+
+        h2 {
+            color: #7395ae;
+            margin-top: 15px; /* Reduzido */
+            margin-bottom: 8px; /* Reduzido */
+            padding: 2px 0;
+            border-left: 3px solid #a2a2a7; /* Borda mais fina */
+            padding-left: 6px;
+            font-size: 15px; /* Reduzido */
+        }
+
+        /* Otimização da Tabela */
+        .diet-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px; /* Reduzido */
+            font-size: 11px; /* Fonte da tabela bastante reduzida */
+            table-layout: fixed;
+        }
+
+        .diet-table th, .diet-table td {
+            padding: 6px 8px; /* Preenchimento reduzido */
+            border: 1px solid #ddd;
+            vertical-align: top;
+        }
+
+        .diet-table th {
+            background-color: #e9ecef;
+            color: #495057;
+        }
+        
+        .destaque-positivo { color: #1e88e5; font-weight: bold; }
+        .destaque-negativo { color: #dc3545; font-weight: bold; }
+
+        /* Estilo Lactase Box (Redução) */
+        .lactase-box {
+            background-color: #e8f5e9;
+            border: 1px solid #c8e6c9;
+            padding: 10px; /* Reduzido */
+            border-radius: 4px;
+            margin-top: 10px;
+            font-size: 12px; /* Reduzido */
+        }
+        .lactase-box h3 {
+            color: #388e3c;
+            margin-bottom: 5px;
+            font-size: 14px;
+            padding-bottom: 3px;
+        }
+        .lactase-box ul {
+            margin-left: 10px;
+        }
+        .lactase-box li {
+             margin-bottom: 3px;
+        }
+
+        /* Lista e Alerta (Redução) */
+        ul { margin-left: 10px; padding-left: 0; }
+        li { margin-bottom: 3px; }
+
+        .alerta {
+            padding: 8px; /* Reduzido */
+            font-size: 12px; /* Reduzido */
+        }
+        .alerta li {
+            padding-left: 8px;
+            text-indent: -8px;
+        }
+        
+        /* Botão de Impressão */
+        .print-button {
+            display: block;
+            margin: 15px auto 8px;
+            padding: 7px 14px;
+            font-size: 13px;
+        }
+
+        /* Estilos de Impressão (@media print) - OTIMIZAÇÃO CRÍTICA */
+        @media print {
+            body { 
+                margin: 0; 
+                padding: 0; 
+                font-size: 9pt; /* Fonte base de impressão agressivamente reduzida */
+            }
+            .container { 
+                box-shadow: none; 
+                padding: 5mm; /* Margem da página reduzida */
+            }
+            .print-button { 
+                display: none; 
+            }
+            
+            /* Redução dos espaçamentos em impressão */
+            h1 { font-size: 15pt; margin-bottom: 8px; padding-bottom: 4px; }
+            h2 { font-size: 12pt; margin-top: 12px; margin-bottom: 4px; }
+            p { margin-top: 0; margin-bottom: 5px; }
+            
+            /* Tabela em impressão */
+            .diet-table { font-size: 9pt; margin-top: 8px; }
+            .diet-table th, .diet-table td { padding: 4px 6px; }
+
+            /* Lactase Box em impressão */
+            .lactase-box { margin-top: 10px; padding: 8px; font-size: 9pt; }
+            .lactase-box h3 { font-size: 11pt; margin-bottom: 4px; }
+            .lactase-box ul { margin-left: 8px; }
+            .lactase-box li { margin-bottom: 2px; }
+
+            /* Alerta em impressão */
+            .alerta { padding: 6px; font-size: 9pt; }
+            .alerta ul { margin-top: 2px; }
+            
+            /* Rodapé */
+            .container > p:last-child { margin-top: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Orientações Básicas para Intolerância à Lactose</h1>
+    <p style="margin-top: -5px;">A Intolerância à Lactose é gerenciada pela <span class="destaque-negativo">exclusão ou redução</span> de alimentos. Siga as instruções médicas e nutricionais.</p>
+
+    <button onclick="window.print()" class="print-button">Imprimir Esta Página</button>
+
+    <h2>🚫 Alimentos a EXCLUIR ou REDUZIR Drasticamente</h2>
+
+    <table class="diet-table">
+        <thead>
+            <tr>
+                <th style="width: 30%;">Grupo</th>
+                <th class="destaque-negativo">Excluir (Alto Risco)</th>
+                <th class="destaque-positivo">Alternativas Seguras</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>**Lácteos Puros**</td>
+                <td>Leite de vaca, Leite de cabra.</td>
+                <td><span class="destaque-positivo">Leite Zero Lactose.</span> Bebidas vegetais (Soja, Arroz, Amêndoa).</td>
+            </tr>
+            <tr>
+                <td>**Derivados Lácteos**</td>
+                <td>Iogurte (tradicional), Queijos (mussarela, prato), Requeijão, Creme de Leite.</td>
+                <td><span class="destaque-positivo">Iogurte/Queijos Zero Lactose.</span> Queijo de Soja. Margarinas sem leite.</td>
+            </tr>
+            <tr>
+                <td>**Processados**</td>
+                <td>Sorvetes, Achocolatados, Pães/Biscoitos com leite, Sopas cremosas, Doce de Leite.</td>
+                <td>Sorvetes à base de água/vegetais. Alimentos com selo **"SEM LACTOSE"**.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="lactase-box">
+        <h3>💊 COMO TOMAR SUA LACTASE (ICL)</h3>
+        <ul>
+            <li>**QUANDO TOMAR:** A cápsula deve ser ingerida <span class="destaque-positivo">antes</span> da primeira mordida do alimento que contém lactose.</li>
+            <li>**NUNCA DEPOIS:** Tomar após a refeição <span class="destaque-negativo">não será eficaz</span>.</li>
+            <li>**DOSAGEM:** Siga a orientação do seu médico sobre quantas doses (FCC/U) usar por refeição.</li>
+            <li>**REPETIÇÃO:** Se a refeição for longa (> 30 min) ou com muita lactose, pode ser necessária uma dose extra.</li>
+        </ul>
+    </div>
+
+    <h2>🔎 Regras de Ouro e Dicas Essenciais</h2>
+    <ul>
+        <li>**Leitura de Rótulos:** <span class="destaque-positivo">Crucial!</span> Procure por: **Lactose, Soro de Leite, Leite em pó, Caseinato, Manteiga.**</li>
+        <li>**Tolerância Individual:** Teste pequenas quantidades de queijos curados (Parmeão) <span class="destaque-positivo">com moderação e sob orientação.</span></li>
+        <li>**Restaurantes:** Pergunte sobre os ingredientes! Peça para excluir molho branco ou manteiga.</li>
+    </ul>
+
+    <h2>🦴 Atenção ao Cálcio e Vitamina D</h2>
+    <div class="alerta">
+        A exclusão de laticínios pode reduzir a ingestão de Cálcio e Vitamina D.
+        <ul>
+            <li>• **Fontes de Cálcio:** Vegetais verde-escuros (Brócolis, Couve), Sardinha, Amêndoas.</li>
+            <li>• **Alimentos Fortificados:** Verifique se as bebidas vegetais são fortificadas com Cálcio.</li>
+            <li>• **Suplementação:** Converse com seu médico ou nutricionista sobre a necessidade de suplementos.</li>
+        </ul>
+    </div>
+    
+    <p style="text-align: center; margin-top: 15px; font-size: 0.75em; color: #6c757d;">
+        *O acompanhamento com nutricionista é fundamental para um plano alimentar seguro e completo.
+    </p>
+
+</div>
+
+</body>
+</html>

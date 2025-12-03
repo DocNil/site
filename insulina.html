@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia de Aplicação e Rodízio de Insulina</title>
+    <style>
+        /* Estilos de tela (Otimizados) */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.3;
+            color: #333;
+            max-width: 700px;
+            margin: 20px auto;
+            padding: 10px;
+            background-color: #f7f7f7;
+            font-size: 13px;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 15px 25px;
+            border-radius: 5px;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #008080; /* Cor primária para saúde */
+            border-bottom: 2px solid #a9a9a9;
+            padding-bottom: 6px;
+            margin-bottom: 12px;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        h2 {
+            color: #3cb371; /* Verde para destaque */
+            margin-top: 15px;
+            margin-bottom: 8px;
+            padding: 2px 0;
+            border-left: 3px solid #008080;
+            padding-left: 6px;
+            font-size: 15px;
+        }
+
+        /* Área da Imagem */
+        .image-section {
+            text-align: center;
+            margin: 15px 0;
+            padding: 5px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .image-section img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* Tabela de Absorção */
+        .absorcao-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 11px;
+            table-layout: fixed;
+        }
+
+        .absorcao-table th, .absorcao-table td {
+            padding: 5px 8px;
+            border: 1px solid #ddd;
+            vertical-align: top;
+        }
+
+        .absorcao-table th {
+            background-color: #e0f7fa;
+            color: #004d40;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        /* Destaques */
+        .destaque-negativo { color: #dc3545; font-weight: bold; }
+        .destaque-positivo { color: #008080; font-weight: bold; }
+        
+        /* Lista e Seções Gerais */
+        ul { margin-left: 10px; padding-left: 0; font-size: 12px; }
+        li { margin-bottom: 3px; }
+        
+        /* Alerta Rodízio */
+        .alerta-rodizio {
+            background-color: #fffbe6; /* Amarelo suave */
+            color: #856404;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ffecb5;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+
+        /* Botão de Impressão */
+        .print-button {
+            display: block;
+            margin: 15px auto 8px;
+            padding: 7px 14px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #008080;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Estilos de Impressão (@media print) - OTIMIZAÇÃO CRÍTICA */
+        @media print {
+            body { 
+                margin: 0; 
+                padding: 0; 
+                font-size: 9.5pt;
+            }
+            .container { 
+                box-shadow: none; 
+                padding: 5mm; 
+            }
+            .print-button { display: none; }
+            
+            /* Redução dos espaçamentos em impressão */
+            h1 { font-size: 16pt; margin-bottom: 8px; padding-bottom: 4px; }
+            h2 { font-size: 13pt; margin-top: 12px; margin-bottom: 4px; }
+            p { margin-top: 0; margin-bottom: 5px; }
+            
+            .image-section { 
+                margin: 5px 0; 
+                padding: 0;
+                border: none;
+            }
+            
+            /* Tabela em impressão */
+            .absorcao-table { font-size: 9pt; margin-top: 8px; }
+            .absorcao-table th, .absorcao-table td { padding: 4px 6px; }
+
+            /* Alerta em impressão */
+            .alerta-rodizio { padding: 6px; font-size: 9.5pt; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Guia de Aplicação e Rodízio de Insulina</h1>
+    <p style="margin-top: -5px;">A aplicação correta é essencial para o controle da glicemia. A injeção deve ser feita no tecido subcutâneo (gordura), **não no músculo**.</p>
+
+    <button onclick="window.print()" class="print-button">Imprimir Esta Página</button>
+
+    <h2>💉 Locais de Aplicação (Tecido Subcutâneo)</h2>
+
+    <div class="image-section">
+        <img src="local-aplicaçao.png" alt="Esquema dos locais de aplicação de insulina no corpo: Abdômen, Coxas, Braços e Glúteos." />
+    </div>
+    
+    <p style="font-size: 12px; text-align: center; margin-bottom: 15px;">**Regiões Destacadas:** Abdômen (azul), Coxas (verde), Braços (roxo), Glúteos (laranja).</p>
+    
+    <h2>🔄 Regra de Ouro: O Rodízio</h2>
+    
+    <div class="alerta-rodizio">
+        <p style="margin-top: 0; font-weight: bold;">Por que Rodar o Ponto de Aplicação?</p>
+        <ul>
+            <li>**Evita a Lipodistrofia:** O uso repetitivo no mesmo local causa caroços/inchaços, o que prejudica a absorção da insulina.</li>
+            <li>**Como Fazer:** Mude o ponto exato da aplicação a cada injeção. O novo ponto deve estar a, pelo menos, <span class="destaque-positivo">1 cm de distância (um dedo)</span> do ponto anterior.</li>
+            <li>**Intervalo:** O mesmo ponto só deve ser reutilizado após **14 a 21 dias** de descanso.</li>
+            <li>**Zona Proibida:** Mantenha sempre uma **distância de 5 cm (2 ou 3 dedos)** do umbigo.</li>
+        </ul>
+    </div>
+
+    <h2>⏱️ Absorção da Insulina (Tempo de Ação)</h2>
+
+    <table class="absorcao-table">
+        <thead>
+            <tr>
+                <th>Área</th>
+                <th>Tempo de Absorção</th>
+                <th>Insulina Recomendada</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>**Abdômen**</td>
+                <td><span class="destaque-positivo">Mais Rápida</span></td>
+                <td>Insulinas de Ação Rápida ou Ultra-rápida (antes das refeições).</td>
+            </tr>
+            <tr>
+                <td>**Braços**</td>
+                <td>Média/Rápida</td>
+                <td>Pode ser usada para insulinas rápidas, mas a absorção é menos constante que no abdômen.</td>
+            </tr>
+            <tr>
+                <td>**Coxas**</td>
+                <td>Média/Lenta</td>
+                <td>Insulinas de Ação Lenta/Basal (ex: Glargina, Detemir).</td>
+            </tr>
+            <tr>
+                <td>**Glúteos**</td>
+                <td><span class="destaque-positivo">Mais Lenta</span></td>
+                <td>Insulinas de Ação Lenta/Basal (para garantir absorção prolongada e estável).</td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <p style="text-align: center; margin-top: 15px; font-size: 0.75em; color: #6c757d;">
+        *Sempre aperte o botão da caneta e conte até 10 antes de retirar a agulha da pele.
+    </p>
+
+</div>
+
+</body>
+</html>
