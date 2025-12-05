@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitação de Limpeza Auditiva</title>
+    <style>
+        /* Estilos do Body e Container (Padrão) */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7f6;
+            padding: 10px; 
+            margin: 0;
+            color: #333;
+            font-size: 14px; 
+        }
+        .container {
+            background-color: #ffffa5; 
+            max-width: 550px; 
+            margin: 20px auto; 
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15); 
+            padding: 20px; 
+            border: 1px solid #e0e08c;
+        }
+        
+        /* Cabeçalho */
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #333; 
+            padding-bottom: 8px; 
+            margin-bottom: 10px; 
+        }
+        .header img {
+            width: 150px; 
+            height: auto;
+        }
+        #solicitacao-title { 
+            font-size: 1.3em; 
+            margin-top: 5px;
+        }
+
+        /* Layout de Edição (Tela) */
+        .editable-info {
+            font-size: 1em;
+            margin-bottom: 15px; 
+            padding: 5px 0; 
+            border: 1px solid #ccc; 
+            border-radius: 5px;
+            background-color: #fff;
+        }
+        .editable-info label {
+            font-weight: bold;
+            display: block;
+            margin-top: 5px;
+            padding: 0 10px;
+            color: #444;
+        }
+        .editable-info input {
+            width: calc(100% - 20px); 
+            border: 1px solid #aaa;
+            background-color: #f9f9f9;
+            border-radius: 4px; 
+            margin: 3px 10px 10px 10px; 
+            padding: 8px; 
+            font-size: 1em;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .editable-info input:focus {
+            border-color: #007bff;
+        }
+        
+        /* Restante do Formulário */
+        .section {
+            margin-bottom: 15px; 
+            padding: 3px 0; 
+        }
+        .label-text {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #444;
+        }
+        
+        /* CAMPO NOME DO PACIENTE (TELA) - AUMENTADO O ESPAÇO INTERNO */
+        #nome {
+            width: 98%;
+            border: none;
+            border-bottom: 2px solid #555;
+            padding: 10px 0; /* AUMENTADO O PADDING */
+            font-size: 1.1em;
+            outline: none;
+            background-color: transparent;
+        }
+
+        /* Checkbox Groups */
+        .checkbox-group {
+            gap: 5px; 
+        }
+        .checkbox-item {
+            font-size: 0.95em; 
+        }
+        
+        /* Área de Orientação de Medicamento */
+        .orientacao-medica {
+            padding: 10px; 
+            margin-top: 15px; 
+        }
+        .orientacao-medica h4 {
+            font-size: 1em; 
+            padding-bottom: 3px;
+        }
+        .orientacao-medica p {
+            font-size: 0.85em; 
+        }
+
+        /* Área de Assinatura (Visualização na Tela) */
+        .signature-area {
+            padding-top: 10px; 
+            margin-top: 20px; 
+            text-align: center;
+        }
+        #medico-print-name, #crm-print-number {
+             display: none; 
+        }
+        #signature-line-manual {
+            display: inline-block;
+            width: 90%;
+            border-bottom: 1px dashed #333;
+            margin-top: 25px; 
+            margin-bottom: 3px;
+        }
+        .signature-text {
+            font-size: 0.75em; 
+        }
+        
+        /* Data/Hora e Aviso Importante (visível apenas na impressão) */
+        .print-only {
+            display: none; 
+        }
+
+        /* Botão de Impressão */
+        .print-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 15px; 
+            background-color: #007bff; 
+            color: white;
+            border: 2px solid #0056b3;
+            border-radius: 3px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-transform: uppercase;
+        }
+
+        /* =============================== */
+        /* ESTILOS ESPECÍFICOS PARA IMPRESSÃO */
+        /* =============================== */
+        @page {
+            margin: 1cm;
+            size: A4;
+        }
+        @media print {
+            body {
+                font-size: 11pt !important; 
+                margin: 0;
+                padding: 0;
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                min-height: 100vh;
+                width: 100%;
+            }
+            .container {
+                border: 2px solid #000 !important; 
+                box-shadow: none !important;
+                background-color: #fff !important; 
+                padding: 10px !important; 
+                margin: 0 !important;
+                width: 100%;
+                max-width: 18cm;
+            }
+            .print-button {
+                display: none; 
+            }
+            .editable-info {
+                display: none; 
+            }
+            
+            /* Nome do Paciente (Impressão) - FONTE MAIOR E NEGRITO */
+            #nome {
+                border: none !important; /* Remove a linha de input na impressão */
+                display: block; 
+                width: 100%;
+                padding: 0;
+                font-size: 1.4em !important; /* Fonte maior */
+                font-weight: bold !important; /* Negrito */
+                color: #000 !important;
+                text-transform: uppercase;
+                margin-top: 5px; 
+                margin-bottom: 15px;
+            }
+            
+            /* Oculta itens desmarcados (Checklists) */
+            .checkbox-item:has(input[type="checkbox"]:not(:checked)) {
+                display: none;
+            }
+            #med_cerumim:disabled:checked {
+                 display: inline-block;
+            }
+
+            /* ÁREA DE ASSINATURA: Centralização e Exibição do Médico/CRM */
+            .signature-area {
+                border-top: none !important; 
+                padding-top: 40px !important; 
+                margin-top: 10px; 
+                display: block; 
+                text-align: center;
+            }
+            #signature-line-manual {
+                border-bottom: 1px dashed #000 !important;
+                margin-top: 0px !important; 
+            }
+            #medico-print-name {
+                display: block !important;
+                font-weight: bold;
+                text-align: center !important; 
+                margin-top: 5px;
+            }
+            #crm-print-number {
+                display: block !important;
+                text-align: center !important; 
+                font-size: 0.9em;
+                margin-bottom: 10px;
+            }
+            .signature-text {
+                margin-top: 5px;
+                display: block;
+                text-align: center;
+            }
+            
+            /* Demais ajustes */
+            .orientacao-medica {
+                background-color: #fff !important; 
+                border: 1px solid #000;
+            }
+            .print-only {
+                display: block;
+                padding-top: 5px;
+                text-align: center;
+                border-top: 1px dashed #000;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div class="header-top">
+            <img src="saude.jpg" alt="Logo Governo Municipal de Toledo e Secretaria da Saúde">
+            <div class="header-text">
+                <div class="subtitle" id="unidade-display"></div> 
+            </div>
+        </div>
+        <div class="subtitle" id="solicitacao-title">SOLICITAÇÃO DE LIMPEZA DE CONDUTO AUDITIVO</div>
+        <hr style="border: none; border-top: 1px solid #333; margin-top: 5px;">
+    </div>
+
+    <div class="editable-info">
+        <label for="medico">Médico Solicitante:</label>
+        <input type="text" id="medico" onchange="salvarDados()">
+        
+        <label for="crmpr">CRM/PR:</label>
+        <input type="text" id="crmpr" onchange="salvarDados()">
+        
+        <label for="unidade">Unidade de Saúde/Local:</label>
+        <input type="text" id="unidade" onchange="salvarDados()">
+    </div>
+
+    <form id="solicitacaoForm">
+        <div class="section">
+            <label class="label-text" for="nome">NOME DO PACIENTE:</label>
+            <input type="text" id="nome" onchange="this.value = this.value.toUpperCase()">
+        </div>
+
+        <div class="section">
+            <label class="label-text">LIMPEZA SOLICITADA PARA OUVIDO(S):</label>
+            <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <input type="checkbox" name="localizacao" value="DIREITO" onchange="handleSingleCheck(this, 'localizacao')"> OUVIDO DIREITO
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" name="localizacao" value="ESQUERDO" onchange="handleSingleCheck(this, 'localizacao')"> OUVIDO ESQUERDO
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" name="localizacao" value="BILATERAL" onchange="handleSingleCheck(this, 'localizacao')"> BILATERAL
+                </div>
+            </div>
+        </div>
+
+        <div class="section orientacao-medica">
+            <h4>ORIENTAÇÃO MÉDICA - PREPARO PRÉ-LIMPEZA</h4>
+            <div class="checkbox-item">
+                <input type="checkbox" name="medicamento" id="med_cerumim" value="CERUMIM" checked disabled> 
+                Utilizar medicamento: <label class="label-text"> 1. Cerumim Gotas Otológicas ou Aceratum</label>
+            </div>
+            
+            <p style="font-size: 0.9em; margin-top: 10px; margin-bottom: 0;">
+                **POSOLOGIA E MODO DE USAR**
+                <br>Pingar **5 gotas** no ouvido, **3 vezes por dia**. 
+                <br>A aplicação deve ser feita com a pessoa deitada com o ouvido afetado para cima. Esta posição deve ser mantida por **5 minutos** para facilitar a penetração do produto.
+            </p>
+            <p style="font-size: 0.8em; font-weight: bold; color: #d32f2f; margin-top: 10px;">
+                *OBS: O medicamento deve ser adquirido na farmácia com esta solicitação.*
+            </p>
+        </div>
+
+
+        <div class="section">
+            <label class="label-text" style="margin-top: 10px;">AGENDAMENTO DA LIMPEZA:</label>
+            <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <input type="checkbox" name="agendamento" value="VAGAS_DIA" onchange="handleSingleCheck(this, 'agendamento')"> Agendar nas **2 últimas vagas** de consulta do dia (na Unidade de Saúde)
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" name="agendamento" value="MINI_HOSPITAL" onchange="handleSingleCheck(this, 'agendamento')"> Agendar limpeza de conduto auditivo no **Mini Hospital**
+                </div>
+            </div>
+        </div>
+        
+    </form>
+    
+    <div class="signature-area">
+        <div id="signature-line-manual"></div>
+
+        <p id="medico-print-name"></p> 
+        
+        <p id="crm-print-number"></p>
+
+        <p class="signature-text">Assinatura e carimbo do profissional</p>
+    </div>
+
+    <div class="print-only">
+        <p id="data-hora-impressao"></p>
+        <p id="aviso-importante">
+            **ORIENTAÇÃO IMPORTANTE:** Agendar na recepção da unidade de saúde. O medicamento deve ser utilizado por **5 a 7 dias** prévios à limpeza de conduto.
+        </p>
+    </div>
+
+    <button class="print-button" onclick="prepararImpressao()">
+        🖨️ IMPRIMIR SOLICITAÇÃO
+    </button>
+</div>
+
+<script>
+    const medicoInput = document.getElementById('medico');
+    const crmprInput = document.getElementById('crmpr');
+    const unidadeInput = document.getElementById('unidade');
+    const unidadeDisplay = document.getElementById('unidade-display');
+    const dataHoraImpressao = document.getElementById('data-hora-impressao');
+    const nomePacienteInput = document.getElementById('nome');
+    const medicoPrintName = document.getElementById('medico-print-name');
+    const crmPrintNumber = document.getElementById('crm-print-number');
+
+    const STORAGE_KEY = 'dadosMedicoLimpezaAuditiva';
+
+    // Função para atualizar os campos de impressão (CORREÇÃO DE BUG E REQUISITO)
+    function atualizarCamposImpressao() {
+        const medicoNome = medicoInput.value;
+        const crmpr = crmprInput.value;
+        
+        medicoPrintName.textContent = medicoNome ? medicoNome.toUpperCase() : '';
+        crmPrintNumber.textContent = crmpr ? 'CRM/PR ' + crmpr.toUpperCase() : '';
+    }
+
+    // Função para garantir que apenas um item por grupo seja checado (Localização e Agendamento)
+    function handleSingleCheck(checkbox, groupName) {
+        if (checkbox.checked) {
+            document.querySelectorAll(`input[name="${groupName}"]`).forEach(cb => {
+                if (cb !== checkbox) {
+                    cb.checked = false;
+                }
+            });
+        }
+    }
+    
+    // Função para formatar a data e hora
+    function formatarDataHora() {
+        const agora = new Date();
+        const dataFormatada = agora.toLocaleDateString('pt-BR');
+        const horaFormatada = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        return `Data e Hora da solicitação: ${dataFormatada} ${horaFormatada}`; 
+    }
+
+    // Função para salvar os dados do cabeçalho e atualizar campos de impressão
+    function salvarDados() {
+        const dadosMedico = {
+            medico: medicoInput.value,
+            crmpr: crmprInput.value,
+            unidade: unidadeInput.value
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(dadosMedico)); 
+        unidadeDisplay.textContent = dadosMedico.unidade ? dadosMedico.unidade.toUpperCase() : 'SECRETARIA DA SAÚDE';
+        
+        // Atualiza os campos de impressão após salvar
+        atualizarCamposImpressao();
+    }
+
+    // Função para carregar os dados
+    function carregarDados() {
+        const dadosSalvos = localStorage.getItem(STORAGE_KEY); 
+        if (dadosSalvos) {
+            const dadosMedico = JSON.parse(dadosSalvos);
+            medicoInput.value = dadosMedico.medico || '';
+            crmprInput.value = dadosMedico.crmpr || '';
+            unidadeInput.value = dadosMedico.unidade || '';
+            
+            unidadeDisplay.textContent = dadosMedico.unidade ? dadosMedico.unidade.toUpperCase() : 'SECRETARIA DA SAÚDE';
+        } else {
+             unidadeDisplay.textContent = 'SECRETARIA DA SAÚDE';
+        }
+
+        // Prepara os campos de impressão da assinatura ao carregar
+        atualizarCamposImpressao();
+
+        // Reset do Nome do Paciente e Checklists (apenas localizacao e agendamento)
+        nomePacienteInput.value = '';
+        
+        // Desmarca os checkboxes (exceto o medicamento que é fixo)
+        document.querySelectorAll('input[name="localizacao"]').forEach(cb => cb.checked = false);
+        document.querySelectorAll('input[name="agendamento"]').forEach(cb => cb.checked = false);
+
+        // O medicamento é fixo e deve estar sempre checado, mas desabilitado para edição.
+        document.getElementById('med_cerumim').checked = true;
+    }
+    
+    // Função unificada para preparar e imprimir
+    function prepararImpressao() {
+        // Garante que os campos de impressão estejam atualizados no momento de imprimir
+        atualizarCamposImpressao();
+        dataHoraImpressao.textContent = formatarDataHora();
+        window.print();
+    }
+    
+    window.onload = carregarDados;
+</script>
+
+</body>
+</html>

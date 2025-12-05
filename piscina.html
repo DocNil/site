@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atestado de Exame Dermatológico</title>
+    <style>
+        /* Estilos do Body e Container para efeito Post-it */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7f6;
+            padding: 20px;
+            margin: 0;
+            color: #333;
+        }
+        .container {
+            /* Cor de fundo para simular o Post-it */
+            background-color: #ffffa5; 
+            max-width: 550px; 
+            margin: 40px auto;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15); 
+            padding: 25px;
+            border: 1px solid #e0e08c;
+        }
+        /* Cabeçalho Flexível */
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #333; 
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between; 
+            margin-bottom: 10px;
+        }
+        .header img {
+            width: 180px; 
+            height: auto;
+        }
+        .header-text {
+            text-align: right; 
+            flex-grow: 1;
+            padding-left: 10px;
+        }
+        .header .subtitle {
+            font-size: 1.2em; 
+            font-weight: bold;
+            color: #333;
+            margin: 0;
+            line-height: 1.2;
+        }
+        #atestado-title {
+            font-size: 1.4em;
+            margin-top: 5px;
+        }
+
+        /* Campos de edição na visualização normal */
+        .editable-info {
+            font-size: 0.9em;
+            text-align: left;
+            margin-bottom: 15px;
+            padding: 5px;
+            border-bottom: 1px dashed #999;
+        }
+        .editable-info input {
+            width: 100%;
+            border: none;
+            background-color: transparent;
+            border-bottom: 1px dotted #666;
+            margin-top: 3px;
+            padding: 2px 0;
+            font-size: 1em;
+            outline: none;
+        }
+        .editable-info label {
+            font-weight: bold;
+            display: block;
+            margin-top: 5px;
+        }
+
+        /* Restante do Formulário */
+        .section {
+            margin-bottom: 25px; 
+            padding: 5px 0;
+        }
+        .label-text {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #444;
+        }
+        .input-line {
+            width: 98%;
+            border: none;
+            border-bottom: 2px solid #555;
+            padding: 5px 0;
+            font-size: 1.1em;
+            outline: none;
+            background-color: transparent;
+        }
+        
+        /* Checkbox APROVADO */
+        .aprovacao-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        .aprovacao-item {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #007bff;
+        }
+        .aprovacao-item input[type="checkbox"] {
+            margin-right: 10px;
+            width: 25px;
+            height: 25px;
+        }
+
+        /* Área de Assinatura (Visualização na Tela) */
+        .signature-area {
+            /* Linha pontilhada na tela */
+            border-top: 1px dashed #999; 
+            padding-top: 15px;
+            margin-top: 40px; 
+            text-align: center;
+        }
+        /* Hidden fields to separate name and CRM */
+        #medico-print-name, #crm-print-number {
+             display: none; 
+        }
+        
+        /* Linha para assinatura, próxima ao nome */
+        #signature-line-manual {
+            display: inline-block;
+            width: 90%;
+            border-bottom: 1px dashed #333;
+            margin-top: 35px;
+            margin-bottom: 5px;
+        }
+        .signature-text {
+            font-size: 0.8em;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        /* Data/Hora e Aviso Importante (visível apenas na impressão) */
+        .print-only {
+            display: none; 
+        }
+
+        /* Botão de Impressão */
+        .print-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 25px;
+            background-color: #28a745; 
+            color: white;
+            border: 2px solid #218838;
+            border-radius: 3px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-transform: uppercase;
+        }
+
+        /* =============================== */
+        /* ESTILOS ESPECÍFICOS PARA IMPRESSÃO */
+        /* =============================== */
+        @media print {
+            body {
+                background-color: white !important;
+                margin: 0; 
+                padding: 0;
+            }
+            .container {
+                /* Borda profissional (retângulo) */
+                border: 2px solid #000 !important; 
+                box-shadow: none !important;
+                background-color: #fff !important; 
+                padding: 15px; 
+            }
+            .print-button {
+                display: none; 
+            }
+            
+            /* ÁREA DE ASSINATURA: NOVO LAYOUT */
+            .signature-area {
+                /* Remove linha da tela */
+                border-top: none !important; 
+                /* Espaço antes da linha de assinatura manual (para assinatura acima) */
+                padding-top: 50px !important; 
+                margin-top: 20px; 
+                display: block; 
+                text-align: center;
+            }
+            
+            /* Linha para assinatura manual (PONTILHADA) */
+            #signature-line-manual {
+                border-bottom: 1px dashed #000 !important;
+                margin-top: 0px !important; /* Zera o margin-top */
+            }
+
+            /* Nome do Profissional (Linha 1) - VISÍVEL APENAS NA IMPRESSÃO */
+            #medico-print-name {
+                display: block !important;
+                font-weight: bold;
+                text-align: center; 
+                margin-top: 5px;
+            }
+            
+            /* CRM (Linha 2) - VISÍVEL APENAS NA IMPRESSÃO */
+            #crm-print-number {
+                display: block !important;
+                text-align: center;
+                font-size: 0.9em;
+                margin-bottom: 10px;
+            }
+            
+            /* Texto 'Assinatura e carimbo...' */
+            .signature-text {
+                margin-top: 5px;
+                display: block;
+                text-align: center;
+            }
+
+            /* Mantém o resto */
+            .print-only {
+                display: block;
+                margin-top: 10px;
+                padding-top: 10px;
+                text-align: center;
+                border-top: 1px dashed #000;
+                font-size: 0.9em;
+            }
+            #aviso-importante {
+                font-weight: bold;
+                color: #000; 
+                margin-top: 10px;
+                padding: 5px;
+                font-size: 0.8em;
+                display: block;
+            }
+            .editable-info {
+                display: none;
+            }
+            /* ... (regras do checkbox de aprovação) ... */
+            #aprovado-checkbox {
+                -webkit-appearance: none; 
+                -moz-appearance: none;    
+                appearance: none;         
+                border: 2px solid #000;
+                width: 25px;
+                height: 25px;
+                position: relative;
+            }
+            #aprovado-checkbox:checked::after {
+                content: '✓'; 
+                font-weight: bold;
+                font-size: 20px;
+                color: #000;
+                position: absolute;
+                top: -5px;
+                left: 3px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div class="header-top">
+            <img src="saude.jpg" alt="Logo Governo Municipal de Toledo e Secretaria da Saúde">
+            <div class="header-text">
+                <div class="subtitle" id="unidade-display"></div> 
+            </div>
+        </div>
+        <div class="subtitle" id="atestado-title">ATESTADO DE EXAME DERMATOLÓGICO</div>
+        <hr style="border: none; border-top: 1px solid #333; margin-top: 10px;">
+    </div>
+
+    <div class="editable-info">
+        <label for="medico">Médico Responsável:</label>
+        <input type="text" id="medico" onchange="salvarDados()">
+        
+        <label for="crmpr">CRM/PR:</label>
+        <input type="text" id="crmpr" onchange="salvarDados()">
+        
+        <label for="unidade">Local do Exame:</label>
+        <input type="text" id="unidade" onchange="salvarDados()">
+    </div>
+
+    <form id="atestadoForm">
+        <div class="section">
+            <label class="label-text" for="nome">ATESTAMOS PARA FINS DE PISCINAS COLETIVAS QUE O(A) PACIENTE:</label>
+            <input type="text" id="nome" class="input-line">
+        </div>
+
+        <div class="aprovacao-group">
+            <div class="aprovacao-item">
+                <p style="margin-right: 20px;">FOI AVALIADO E CONSIDERADO:</p>
+                <input type="checkbox" id="aprovado-checkbox"> LIBERADO PARA USO DE PISCINA
+            </div>
+        </div>
+    </form>
+    
+    <div class="signature-area">
+        
+        <div id="signature-line-manual"></div>
+
+        <p id="medico-print-name"></p> 
+        
+        <p id="crm-print-number"></p>
+
+        <p class="signature-text">Assinatura e carimbo do profissional</p>
+    </div>
+
+    <div class="print-only">
+        <p id="data-hora-impressao"></p>
+        <p id="aviso-importante">AVISO IMPORTANTE: A validade deste atestado depende das normas municipais e próprias de cada estabelecimento, respeitada a data de realização do exame e emissão deste documento.</p>
+    </div>
+
+    <button class="print-button" onclick="prepararImpressao()">
+        🖨️ IMPRIMIR ATESTADO
+    </button>
+</div>
+
+<script>
+    const medicoInput = document.getElementById('medico');
+    const crmprInput = document.getElementById('crmpr');
+    const unidadeInput = document.getElementById('unidade');
+    const unidadeDisplay = document.getElementById('unidade-display');
+    const dataHoraImpressao = document.getElementById('data-hora-impressao');
+    const nomePacienteInput = document.getElementById('nome');
+    const aprovadoCheckbox = document.getElementById('aprovado-checkbox');
+
+    // Novos elementos de impressão da assinatura
+    const medicoPrintName = document.getElementById('medico-print-name');
+    const crmPrintNumber = document.getElementById('crm-print-number');
+
+
+    // Função para formatar a data e hora
+    function formatarDataHora() {
+        const agora = new Date();
+        const dataFormatada = agora.toLocaleDateString('pt-BR');
+        const horaFormatada = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        return `Data e Hora da realização do exame: ${dataFormatada} ${horaFormatada}`; 
+    }
+
+    // Função para salvar os dados do cabeçalho no LocalStorage
+    function salvarDados() {
+        const dadosMedico = {
+            medico: medicoInput.value,
+            crmpr: crmprInput.value,
+            unidade: unidadeInput.value
+        };
+        localStorage.setItem('dadosMedicoDermato', JSON.stringify(dadosMedico)); 
+        unidadeDisplay.textContent = dadosMedico.unidade ? dadosMedico.unidade.toUpperCase() : 'SECRETARIA DA SAÚDE';
+    }
+
+    // Função para carregar os dados e fazer o setup
+    function carregarDados() {
+        const dadosSalvos = localStorage.getItem('dadosMedicoDermato'); 
+        if (dadosSalvos) {
+            const dadosMedico = JSON.parse(dadosSalvos);
+            medicoInput.value = dadosMedico.medico || '';
+            crmprInput.value = dadosMedico.crmpr || '';
+            unidadeInput.value = dadosMedico.unidade || '';
+            
+            unidadeDisplay.textContent = dadosMedico.unidade ? dadosMedico.unidade.toUpperCase() : 'SECRETARIA DA SAÚDE';
+        } else {
+             unidadeDisplay.textContent = 'SECRETARIA DA SAÚDE';
+        }
+
+        // Prepara os campos de impressão da assinatura para serem populados
+        const medicoNome = medicoInput.value;
+        const crmpr = crmprInput.value;
+        
+        medicoPrintName.textContent = medicoNome ? medicoNome.toUpperCase() : '';
+        crmPrintNumber.textContent = crmpr ? 'CRM/PR ' + crmpr.toUpperCase() : '';
+
+        // Reset do Nome do Paciente e Checkbox 
+        nomePacienteInput.value = '';
+        aprovadoCheckbox.checked = false;
+    }
+    
+    // Função unificada para preparar e imprimir
+    function prepararImpressao() {
+        dataHoraImpressao.textContent = formatarDataHora();
+        window.print();
+    }
+    
+    window.onload = carregarDados;
+</script>
+
+</body>
+</html>

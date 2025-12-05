@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitação de Retorno Médico</title>
+    <style>
+        /* Estilos do Body e Container para efeito Post-it */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7f6;
+            padding: 20px;
+            margin: 0;
+            color: #333;
+        }
+        .container {
+            /* Cor de fundo para simular o Post-it */
+            background-color: #ffffa5; 
+            max-width: 550px; 
+            margin: 40px auto;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15); 
+            padding: 25px;
+            border: 1px solid #e0e08c;
+        }
+        /* Cabeçalho Flexível */
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #333; 
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between; 
+            margin-bottom: 10px;
+        }
+        .header img {
+            width: 180px; 
+            height: auto;
+        }
+        .header-text {
+            text-align: right; 
+            flex-grow: 1;
+            padding-left: 10px;
+        }
+        .header .subtitle {
+            font-size: 1.2em; 
+            font-weight: bold;
+            color: #333;
+            margin: 0;
+            line-height: 1.2;
+        }
+        #retornos-medicos-title {
+            font-size: 1.4em;
+            margin-top: 5px;
+        }
+
+        /* Campos de edição na visualização normal */
+        .editable-info {
+            font-size: 0.9em;
+            text-align: left;
+            margin-bottom: 15px;
+            padding: 5px;
+            border-bottom: 1px dashed #999;
+        }
+        .editable-info input {
+            width: 100%;
+            border: none;
+            background-color: transparent;
+            border-bottom: 1px dotted #666;
+            margin-top: 3px;
+            padding: 2px 0;
+            font-size: 1em;
+            outline: none;
+        }
+        .editable-info label {
+            font-weight: bold;
+            display: block;
+            margin-top: 5px;
+        }
+
+        /* Restante do Formulário */
+        .section {
+            margin-bottom: 15px;
+            padding: 5px 0;
+        }
+        .label-text {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #444;
+        }
+        .input-line {
+            width: 98%;
+            border: none;
+            border-bottom: 2px solid #555;
+            padding: 5px 0;
+            font-size: 1.1em;
+            outline: none;
+            background-color: transparent;
+        }
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            font-size: 1em;
+        }
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Área de Assinatura */
+        .signature-area {
+            border-top: 1px dashed #999;
+            padding-top: 15px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .signature-line {
+            display: inline-block;
+            width: 90%;
+            border-bottom: 1px dashed #333;
+            margin-top: 25px;
+        }
+        .signature-text {
+            font-size: 0.8em;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        /* NOVO: Estilo para a Data e o Aviso Importante (visível apenas na impressão) */
+        .print-only {
+            display: none; 
+        }
+
+        /* Botão de Impressão */
+        .print-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 25px;
+            background-color: #007bff; 
+            color: white;
+            border: 2px solid #0056b3;
+            border-radius: 3px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-transform: uppercase;
+        }
+
+        /* =============================== */
+        /* ESTILOS ESPECÍFICOS PARA IMPRESSÃO */
+        /* =============================== */
+        @media print {
+            body {
+                background-color: white !important;
+                margin: 0; 
+                padding: 0;
+            }
+            .container {
+                /* Borda profissional */
+                border: 2px solid #000 !important; 
+                box-shadow: none !important;
+                background-color: #fff !important; 
+                padding: 15px; 
+            }
+            .print-button {
+                display: none; 
+            }
+            
+            /* Mostra elementos de impressão */
+            .print-only {
+                display: block;
+                margin-top: 10px;
+                padding-top: 10px;
+                text-align: center;
+                border-top: 1px dashed #000;
+                font-size: 0.9em;
+            }
+            
+            /* Estilo para o Aviso Importante */
+            #aviso-importante {
+                font-weight: bold;
+                color: #c00; /* Vermelho escuro para destacar o aviso */
+                margin-top: 15px;
+                padding: 5px;
+                border: 1px solid #c00;
+                display: inline-block;
+            }
+            
+            /* Esconde os campos de edição */
+            .editable-info {
+                display: none;
+            }
+            
+            /* Oculta itens que NÃO estão checados */
+            .checkbox-item:has(input[type="checkbox"]:not(:checked)) {
+                display: none;
+            }
+            
+            /* Assinatura */
+            #assinatura-medico-nome {
+                border-bottom: none !important;
+                display: block !important;
+                font-weight: bold;
+                margin-top: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div class="header-top">
+            <img src="saude.jpg" alt="Logo Governo Municipal de Toledo e Secretaria da Saúde">
+            <div class="header-text">
+                <div class="subtitle" id="unidade-display"></div> 
+            </div>
+        </div>
+        <div class="subtitle" id="retornos-medicos-title">SOLICITAÇÃO DE RETORNO MÉDICO</div>
+        <hr style="border: none; border-top: 1px solid #333; margin-top: 10px;">
+    </div>
+
+    <div class="editable-info">
+        <label for="medico">Médico:</label>
+        <input type="text" id="medico" onchange="salvarDados()">
+        
+        <label for="crmpr">CRM/PR:</label>
+        <input type="text" id="crmpr" onchange="salvarDados()">
+        
+        <label for="unidade">Unidade de Saúde:</label>
+        <input type="text" id="unidade" onchange="salvarDados()">
+    </div>
+
+    <form id="retornoForm">
+        <div class="section">
+            <label class="label-text" for="nome">NOME DO PACIENTE:</label>
+            <input type="text" id="nome" class="input-line">
+        </div>
+
+        <div class="section">
+            <h3 style="margin-top: 0; color: #333; font-size: 1.1em;">Agendar retorno em:</h3>
+            <div class="checkbox-group">
+                <div class="checkbox-item">
+                    (<input type="checkbox" name="agendamento" value="dias"> ) <input type="text" style="width: 40px; border: none; border-bottom: 1px dashed #333; text-align: center; background-color: transparent;"> dias
+                </div>
+                <div class="checkbox-item">
+                    (<input type="checkbox" name="agendamento" value="semanas"> ) <input type="text" style="width: 40px; border: none; border-bottom: 1px dashed #333; text-align: center; background-color: transparent;"> semanas
+                </div>
+                <div class="checkbox-item">
+                    (<input type="checkbox" name="agendamento" value="meses"> ) <input type="text" style="width: 40px; border: none; border-bottom: 1px dashed #333; text-align: center; background-color: transparent;"> meses
+                </div>
+                <div class="checkbox-item">
+                    (<input type="checkbox" name="agendamento" value="apos_exames"> ) após exames
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="checkbox-group">
+                <div class="checkbox-item">
+                    (<input type="checkbox" name="local" value="medico_solicitante"> ) Com médico solicitante
+                </div>
+                <div class="checkbox-item">
+                    (<input type="checkbox" name="local" value="unidade_origem"> ) Na unidade de origem
+                </div>
+            </div>
+        </div>
+
+        <div class="signature-area">
+            <p class="signature-line" id="assinatura-medico-nome"></p> 
+            <p class="signature-text">Assinatura e carimbo do profissional</p>
+        </div>
+    </form>
+    
+    <div class="print-only">
+        <p id="data-hora-impressao"></p>
+        <p id="aviso-importante">AVISO IMPORTANTE: AGENDE SEU RETORNO NA RECEPÇAO COM ESTA SOLICITAÇÃO.</p>
+    </div>
+
+    <button class="print-button" onclick="prepararImpressao()">
+        🖨️ IMPRIMIR
+    </button>
+</div>
+
+<script>
+    const medicoInput = document.getElementById('medico');
+    const crmprInput = document.getElementById('crmpr');
+    const unidadeInput = document.getElementById('unidade');
+    const unidadeDisplay = document.getElementById('unidade-display');
+    const assinaturaMedicoNome = document.getElementById('assinatura-medico-nome');
+    const dataHoraImpressao = document.getElementById('data-hora-impressao');
+
+    // Função para formatar a data e hora
+    function formatarDataHora() {
+        const agora = new Date();
+        const dataFormatada = agora.toLocaleDateString('pt-BR');
+        const horaFormatada = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        return `Data e Hora da Solicitação: ${dataFormatada} ${horaFormatada}`;
+    }
+
+    // Função para salvar os dados do cabeçalho no LocalStorage
+    function salvarDados() {
+        const dadosMedico = {
+            medico: medicoInput.value,
+            crmpr: crmprInput.value,
+            unidade: unidadeInput.value
+        };
+        localStorage.setItem('dadosMedicoToledo', JSON.stringify(dadosMedico));
+        unidadeDisplay.textContent = dadosMedico.unidade ? dadosMedico.unidade.toUpperCase() : 'SECRETARIA DA SAÚDE';
+    }
+
+    // Função para carregar os dados e fazer o reset/setup
+    function carregarDados() {
+        const dadosSalvos = localStorage.getItem('dadosMedicoToledo');
+        if (dadosSalvos) {
+            const dadosMedico = JSON.parse(dadosSalvos);
+            medicoInput.value = dadosMedico.medico || '';
+            crmprInput.value = dadosMedico.crmpr || '';
+            unidadeInput.value = dadosMedico.unidade || '';
+            
+            unidadeDisplay.textContent = dadosMedico.unidade ? dadosMedico.unidade.toUpperCase() : 'SECRETARIA DA SAÚDE';
+        } else {
+             unidadeDisplay.textContent = 'SECRETARIA DA SAÚDE';
+        }
+
+        // Prepara a área de assinatura 
+        const medicoNome = medicoInput.value;
+        const crmpr = crmprInput.value;
+        
+        if (medicoNome || crmpr) {
+             assinaturaMedicoNome.textContent = (medicoNome ? medicoNome.toUpperCase() : '') + (crmpr ? ' - CRM/PR ' + crmpr.toUpperCase() : '');
+        } else {
+             assinaturaMedicoNome.innerHTML = ''; 
+        }
+
+        // Reset de campos do Paciente e Checkboxes a cada novo carregamento
+        document.getElementById('nome').value = '';
+        const checkboxes = document.querySelectorAll('#retornoForm input[type="checkbox"]');
+        checkboxes.forEach(cb => cb.checked = false);
+        
+        const textInputs = document.querySelectorAll('#retornoForm input[type="text"]:not(#nome)');
+        textInputs.forEach(input => input.value = '');
+    }
+    
+    // Função unificada para preparar e imprimir
+    function prepararImpressao() {
+        // 1. Atualiza o campo de Data/Hora antes de imprimir
+        dataHoraImpressao.textContent = formatarDataHora();
+        
+        // 2. Garante que os estilos de assinatura estejam corretos para a impressão
+        assinaturaMedicoNome.style.borderBottom = 'none';
+
+        // 3. Chama a impressão
+        window.print();
+    }
+    
+    // Função para restaurar o estilo da assinatura após a impressão
+    window.onafterprint = () => {
+         assinaturaMedicoNome.style.borderBottom = '';
+    };
+
+    // Carrega os dados ao iniciar a página
+    window.onload = carregarDados;
+</script>
+
+</body>
+</html>
