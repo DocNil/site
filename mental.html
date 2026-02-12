@@ -389,31 +389,177 @@
         });
 
         document.getElementById('riscoForm').addEventListener('submit', function(event) {
-            event.preventDefault();
+    event.preventDefault();
 
-            const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-            let pontuacaoTotal = 0;
-            checkboxes.forEach((checkbox) => {
-                pontuacaoTotal += parseInt(checkbox.value);
-            });
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+    let pontuacaoTotal = 0;
+    checkboxes.forEach((checkbox) => {
+        pontuacaoTotal += parseInt(checkbox.value);
+    });
 
-            let estratificacao;
-            if (pontuacaoTotal >= 0 && pontuacaoTotal <= 40) {
-                estratificacao = "BAIXO RISCO";
-            } else if (pontuacaoTotal >= 42 && pontuacaoTotal <= 70) {
-                estratificacao = "MÉDIO RISCO";
-            } else if (pontuacaoTotal >= 72 && pontuacaoTotal <= 240) {
-                estratificacao = "ALTO RISCO";
-            } else {
-                estratificacao = "Pontuação fora do intervalo esperado";
-            }
+    let estratificacao;
+    if (pontuacaoTotal >= 0 && pontuacaoTotal <= 40) {
+        estratificacao = "BAIXO RISCO";
+    } else if (pontuacaoTotal >= 42 && pontuacaoTotal <= 70) {
+        estratificacao = "MÉDIO RISCO";
+    } else if (pontuacaoTotal >= 72 && pontuacaoTotal <= 240) {
+        estratificacao = "ALTO RISCO";
+    } else {
+        estratificacao = "Pontuação fora do intervalo esperado";
+    }
 
-            document.getElementById('resultado').innerHTML = `
-                <p class="pontuacao-total">Pontuação Total: ${pontuacaoTotal}</p>
-                <p class="destaque">Estratificação: ${estratificacao}</p>
-                <button onclick="window.print()">Imprimir Formulário</button>
-            `;
-        });
-    </script>
+    document.getElementById('resultado').innerHTML = `
+        <p class="pontuacao-total">Pontuação Total: ${pontuacaoTotal}</p>
+        <p class="destaque">Estratificação: ${estratificacao}</p>
+        <div style="display:flex; gap:10px; margin-top:8px;">
+            <button type="button" onclick="window.print()">Imprimir Formulário</button>
+            <button type="button" onclick="resumirFormulario()">Resumir Formulário</button>
+        </div>
+    `;
+});
+
+function resumirFormulario() {
+    const nome = document.getElementById('nome').value || "Não informado";
+    const ocupacao = document.getElementById('ocupacao').value || "Não informado";
+    const profissional = document.getElementById('profissional').value || "Não informado";
+    const servico = document.getElementById('servico').value || "Não informado";
+    let dataRaw = document.getElementById('data').value;
+
+let data = "Não informado";
+if (dataRaw) {
+    const partes = dataRaw.split("-");
+    data = `${partes[2]}/${partes[1]}/${partes[0]}`;
+}
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+    let pontuacaoTotal = 0;
+    let listaItens = "";
+
+    checkboxes.forEach((checkbox) => {
+        const texto = checkbox.parentElement.textContent.replace(/\(\d+\)/, '').trim();
+        const valor = parseInt(checkbox.value);
+        pontuacaoTotal += valor;
+        listaItens += `<li>${texto} - ${valor} pontos</li>`;
+    });
+
+    let estratificacao;
+    let cid;
+
+    if (pontuacaoTotal >= 0 && pontuacaoTotal <= 40) {
+        estratificacao = "BAIXO RISCO";
+        cid = "manter acomapnhamento na APS e reestratificar se mudança no quadro clinico";
+    } else if (pontuacaoTotal >= 42 && pontuacaoTotal <= 70) {
+        estratificacao = "MÉDIO RISCO";
+        cid = "(necessita avaliação especializada Saúde Mental)";
+    } else if (pontuacaoTotal >= 72 && pontuacaoTotal <= 240) {
+        estratificacao = "ALTO RISCO";
+        cid = "(necessita avaliação especializada CAPS)";
+    } else {
+        estratificacao = "Pontuação fora do intervalo esperado";
+        cid = "";
+    }
+
+    const resumoTexto = `
+SERVIÇO: ${servico}
+PROFISSIONAL: ${profissional}
+DATA: ${data}
+
+Nome do Paciente: ${nome}
+Ocupação: ${ocupacao}
+
+Itens Positivos:
+${Array.from(checkboxes).map(cb => {
+    const texto = cb.parentElement.textContent.replace(/\(\d+\)/, '').trim();
+    return `- ${texto} (${cb.value} pontos)`;
+}).join("\n")}
+
+Pontuação Total: ${pontuacaoTotal}
+Nível de Risco: ${estratificacao}
+${cid}
+`;
+
+    const novaJanela = window.open('', '_blank');
+
+    novaJanela.document.write(`
+        <html>
+        <head>
+            <title>Resumo da Estratificação</title>
+            <style>
+                body { font-family: Arial; padding: 30px; }
+                h2 { color: #003366; margin-bottom: 5px; }
+                .cabecalho { margin-bottom: 20px; }
+                .cid { margin-top: 10px; font-style: italic; }
+                button {
+                    background-color: #003366;
+                    color: #fff;
+                    padding: 6px 12px;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    margin-right: 10px;
+                }
+                button:hover { background-color: #005599; }
+
+                @media print {
+                    button { display: none; }
+                }
+            </style>
+        </head>
+        <body>
+
+            <div class="cabecalho">
+                <h2>Resumo da Estratificação de Risco</h2>
+                <p><strong>Serviço:</strong> ${servico}</p>
+                <p><strong>Profissional:</strong> ${profissional}</p>
+                <p><strong>Data:</strong> ${data}</p>
+            </div>
+
+            <p><strong>Nome do Paciente:</strong> ${nome}</p>
+            <p><strong>Ocupação:</strong> ${ocupacao}</p>
+
+            <h3>Itens Positivos</h3>
+            <ul>
+                ${checkboxes.length === 0 ? "<li>Nenhum item selecionado</li>" : listaItens}
+            </ul>
+
+            <p><strong>Pontuação Total:</strong> ${pontuacaoTotal}</p>
+            <p><strong>Nível de Risco:</strong> ${estratificacao}</p>
+            <p class="cid"><strong>${cid}</strong></p>
+
+            <br><br>
+
+            <button onclick="window.print()">Imprimir</button>
+            <button onclick="gerarPDF()">Gerar PDF</button>
+            <button onclick="copiarResumo()">Copiar</button>
+
+            <script>
+                function copiarResumo() {
+    const texto = \`${resumoTexto}\`;
+
+    const textarea = document.createElement("textarea");
+    textarea.value = texto;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand("copy");
+    document.body.removeChild(textarea);
+
+    alert("Resumo copiado com sucesso!");
+}
+
+function gerarPDF() {
+    const conteudo = document.documentElement.outerHTML;
+    const blob = new Blob([conteudo], { type: "text/html" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "Resumo_Estratificacao.html";
+    link.click();
+}
+            <\/script>
+
+        </body>
+        </html>
+    `);
+
+    novaJanela.document.close();
+}    </script>
 </body>
 </html>
