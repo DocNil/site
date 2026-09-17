@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-BR" class="ubs-theme">
-<link rel="icon" href="favicon.ico" type="image/x-icon">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ferramentas Clínicas</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -79,6 +79,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            color: var(--text-primary);
         }
 
         .card-gradient {
@@ -94,11 +95,6 @@
             box-shadow: 0 15px 40px rgba(0,0,0,0.15);
         }
 
-        /* Ensure text visibility */
-        body {
-            color: var(--text-primary);
-        }
-
         h1 {
             color: var(--title-color) !important;
         }
@@ -111,7 +107,6 @@
             color: var(--text-primary) !important;
         }
 
-        /* Rest of the CSS remains the same as in the previous version */
         .theme-selector {
             position: fixed;
             bottom: 15px;
@@ -324,6 +319,33 @@
                 </a>
             </div>
 
+            <!-- NOVOS CONTAINERS ADICIONADOS -->
+            <div class="card-gradient rounded-lg overflow-hidden transform transition duration-500 hover:scale-105">
+                <a href="laqueadura.html" class="block p-3 text-center">
+                    <div class="bg-gradient-to-br from-pink-500 to-purple-600 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-2 shadow-lg">
+                        <i class="fas fa-venus text-xl"></i>
+                    </div>
+                    <h2 class="text-sm font-bold mb-1">Laqueadura</h2>
+                    <p class="mb-1 text-xs">Anexos I e III</p>
+                    <span class="inline-block bg-pink-50 text-pink-600 px-2 py-1 rounded-full text-xs font-semibold">
+                        Acessar
+                    </span>
+                </a>
+            </div>
+
+            <div class="card-gradient rounded-lg overflow-hidden transform transition duration-500 hover:scale-105">
+                <a href="vasectomia.html" class="block p-3 text-center">
+                    <div class="bg-gradient-to-br from-blue-600 to-indigo-700 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-2 shadow-lg">
+                        <i class="fas fa-mars text-xl"></i>
+                    </div>
+                    <h2 class="text-sm font-bold mb-1">Vasectomia</h2>
+                    <p class="mb-1 text-xs">Anexos II e III</p>
+                    <span class="inline-block bg-blue-50 text-blue-600 px-2 py-1 rounded-full text-xs font-semibold">
+                        Acessar
+                    </span>
+                </a>
+            </div>
+
             <div class="card-gradient rounded-lg overflow-hidden transform transition duration-500 hover:scale-105">
                 <a href="https://farmaciacidada.es.gov.br/Media/farmaciacidada/Cidada Estadual/LME - Atualizado - 6 meses.pdf" class="block p-3 text-center" target="_blank">
                     <div class="bg-gradient-to-br from-orange-400 to-amber-500 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-2 shadow-lg">
@@ -363,7 +385,7 @@
                 </a>
             </div>
 
-           <div class="card-gradient rounded-lg overflow-hidden transform transition duration-500 hover:scale-105">
+            <div class="card-gradient rounded-lg overflow-hidden transform transition duration-500 hover:scale-105">
                 <a href="https://pixeon.clickvita.com.br/#/instituicao/hgu" class="block p-3 text-center" target="_blank">
                     <div class="bg-gradient-to-br from-violet-400 to-purple-500 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-2 shadow-lg">
                         <i class="fas fa-x-ray text-xl"></i>
@@ -376,7 +398,6 @@
                 </a>
             </div>
 
-            
             <div class="card-gradient rounded-lg overflow-hidden transform transition duration-500 hover:scale-105">
                 <a href="https://pacs.diagnosetoledo.com.br/" class="block p-3 text-center" target="_blank">
                     <div class="bg-gradient-to-br from-violet-400 to-purple-500 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-2 shadow-lg">
@@ -389,7 +410,7 @@
                     </span>
                 </a>
             </div>
-            
+
             <div class="card-gradient rounded-lg overflow-hidden transform transition duration-500 hover:scale-105">
                 <a href="retorno.html" class="block p-3 text-center">
                     <div class="bg-gradient-to-br from-yellow-400 to-orange-500 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-2 shadow-lg">
@@ -415,7 +436,7 @@
                     </span>
                 </a>
             </div>
-            
+
             <div class="card-gradient rounded-lg overflow-hidden transform transition duration-500 hover:scale-105">
                 <a href="ouvido.html" class="block p-3 text-center">
                     <div class="bg-gradient-to-br from-gray-400 to-gray-500 text-white rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-2 shadow-lg">
@@ -432,7 +453,7 @@
         </div>
 
         <footer class="text-center mt-4">
-            <p class="text-xs">© 2025 Plataforma Clínica</p>
+            <p class="text-xs">© 2026 Plataforma Clínica</p>
         </footer>
 
         <div class="theme-selector">
@@ -446,25 +467,14 @@
     </div>
 
     <script>
-        // Function to set theme
         function setTheme(theme) {
-            // Remove all theme classes
             document.documentElement.classList.remove('light-theme', 'dark-theme', 'ubs-theme', 'forest-theme', 'terra-theme', 'hosp-theme');
-            
-            // Add the selected theme class
             document.documentElement.classList.add(`${theme}-theme`);
-            
-            // Remove active class from all buttons
             document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
-            
-            // Add active class to the selected theme button
             document.querySelector(`.theme-btn[data-theme="${theme}"]`).classList.add('active');
-            
-            // Save theme preference to localStorage
             localStorage.setItem('selectedTheme', theme);
         }
 
-        // Event listeners for theme buttons
         document.querySelectorAll('.theme-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const theme = btn.getAttribute('data-theme');
@@ -472,7 +482,6 @@
             });
         });
 
-        // Load saved theme on page load, default to UBS if no saved theme
         document.addEventListener('DOMContentLoaded', () => {
             const savedTheme = localStorage.getItem('selectedTheme') || 'ubs';
             setTheme(savedTheme);
