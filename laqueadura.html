@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Esterilização Cirúrgica - Anexos I e III - SESA/PR</title>
+<style>
+  :root{
+    --verde: #0a6b3e;
+    --amarelo: #f5c518;
+    --cinza: #555;
+    --borda: #999;
+  }
+  *{ box-sizing: border-box; }
+  body{
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #eef1f0;
+    color: #222;
+  }
+
+  /* ===================== ÁREA DE EDIÇÃO (NÃO IMPRIME) ===================== */
+  #app-editor{
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .app-header{
+    background: var(--verde);
+    color: #fff;
+    padding: 18px 24px;
+    border-radius: 8px 8px 0 0;
+    display:flex;
+    justify-content: space-between;
+    align-items:center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .app-header h1{
+    margin:0;
+    font-size: 20px;
+  }
+  .app-header p{
+    margin: 4px 0 0;
+    font-size: 12px;
+    opacity: .9;
+  }
+  .toolbar{
+    display:flex;
+    gap:10px;
+    flex-wrap: wrap;
+  }
+  .btn{
+    border:none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor:pointer;
+    font-weight:600;
+  }
+  .btn-print{ background: var(--amarelo); color:#222; }
+  .btn-clear{ background:#c0392b; color:#fff; }
+  .btn-print:hover{ filter:brightness(0.95); }
+  .btn-clear:hover{ filter:brightness(0.9); }
+
+  form{
+    background:#fff;
+    padding: 20px 24px 30px;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+  }
+  fieldset{
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-bottom: 18px;
+    padding: 14px 18px 18px;
+  }
+  legend{
+    font-weight: 700;
+    color: var(--verde);
+    padding: 0 8px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: .3px;
+  }
+  .grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+    gap: 12px 16px;
+  }
+  .field{
+    display:flex;
+    flex-direction: column;
+  }
+  .field.wide{ grid-column: 1 / -1; }
+  label{
+    font-size: 12px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 4px;
+  }
+  input[type=text], input[type=date], input[type=tel], input[type=number], textarea, select{
+    padding: 8px 10px;
+    border: 1px solid #bbb;
+    border-radius: 5px;
+    font-size: 14px;
+    font-family: inherit;
+    width:100%;
+  }
+  textarea{ resize: vertical; min-height: 60px; }
+  .checkline{
+    display:flex;
+    align-items:flex-start;
+    gap: 8px;
+    margin: 8px 0;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  .checkline input{ margin-top: 3px; }
+  .hint{
+    font-size: 11px;
+    color: #888;
+    margin-top: 6px;
+  }
+  .badge-auto{
+    display:inline-block;
+    font-size: 10px;
+    background:#eef7f0;
+    color: var(--verde);
+    border:1px solid var(--verde);
+    border-radius: 10px;
+    padding: 1px 8px;
+    margin-left: 6px;
+  }
+
+  /* ===================== ÁREA DE IMPRESSÃO (VIAS) ===================== */
+  .sheet{
+    background:#fff;
+    width: 210mm;
+    min-height: 297mm;
+    margin: 30px auto;
+    padding: 12mm 14mm;
+    box-shadow: 0 0 10px rgba(0,0,0,.15);
+    font-size: 11px;
+    line-height: 1.25;
+    position: relative;
+  }
+  .doc-header{
+    display:flex;
+    justify-content: flex-end;
+    align-items:center;
+    border-bottom: 2px solid var(--verde);
+    padding-bottom: 4px;
+    margin-bottom: 6px;
+  }
+  .logo-img{
+    height: 42px;
+    width: auto;
+    max-width: 160px;
+    object-fit: contain;
+    flex: 0 0 auto;
+  }
+  .doc-title{
+    text-align:center;
+    margin: 5px 0 2px;
+  }
+  .doc-title .anexo{
+    font-weight:800;
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+  .doc-title .subtitulo{
+    font-size: 11px;
+    margin-top: 2px;
+    white-space: nowrap;
+  }
+  .via-tag{
+    position:absolute;
+    top: 18mm;
+    left: 16mm;
+    font-size: 10px;
+    font-weight:700;
+    color:#fff;
+    background: var(--cinza);
+    padding: 3px 10px;
+    border-radius: 3px 3px 3px 0;
+  }
+  .section-title{
+    font-weight: 800;
+    margin-top: 7px;
+    margin-bottom: 3px;
+    font-size: 11px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 1px;
+  }
+  .legal-ref{
+    text-align:center;
+    font-size: 9.5px;
+    color:#555;
+    margin-bottom: 5px;
+  }
+  .fillrow{
+    display:flex;
+    flex-wrap: wrap;
+    gap: 2px 24px;
+    margin: 2px 0;
+  }
+  .fillrow .fi{
+    flex: 1 1 auto;
+    white-space: nowrap;
+  }
+  .fillrow .fi b{ font-weight:700; }
+  
+  .fillrow .fi span.val-clean{
+    border-bottom: none;
+    padding: 0 4px 1px;
+    display:inline-block;
+  }
+  ol.legal-list, ol.med-list{
+    padding-left: 16px;
+    margin: 3px 0;
+  }
+  ol.legal-list li, ol.med-list li{
+    margin-bottom: 2px;
+    text-align: justify;
+  }
+  ul.med-sublist{
+    padding-left: 16px;
+    margin: 1px 0 2px;
+  }
+  ul.med-sublist li{
+    margin-bottom: 1px;
+  }
+  .checkbox-item{
+    display:flex;
+    align-items:flex-start;
+    gap: 5px;
+    margin: 2px 0;
+  }
+  .box{
+    width: 10px;
+    height: 10px;
+    border: 1.2px solid #333;
+    flex: 0 0 auto;
+    margin-top: 1px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    font-size: 9px;
+    font-weight:900;
+    line-height: 1;
+  }
+  .sig-area{
+    margin-top: 30px;
+    display:flex;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .sig-box{
+    flex: 1 1 260px;
+    text-align:center;
+  }
+  .sig-line{
+    border-top: 1px solid #333;
+    margin-top: 18px;
+    padding-top: 3px;
+    font-size: 10px;
+  }
+  .parecer-lines{
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px 8px;
+    min-height: 45px;
+    white-space: pre-wrap;
+    font-size: 10.5px;
+  }
+  .footer-doc{
+    margin-top: 8px;
+    font-size: 8px;
+    color:#999;
+    border-top: 1px solid #ddd;
+    padding-top: 3px;
+    text-align:center;
+  }
+  .criteria-box{
+    border:1px solid #ccc;
+    border-radius:4px;
+    padding: 5px 8px;
+    margin: 4px 0;
+  }
+
+  /* Oculta URLs e números de páginas nativos da impressora */
+  @page {
+    margin: 0;
+  }
+
+  @media print{
+    body{ 
+      background:#fff; 
+      padding: 10mm 12mm;
+    }
+    #app-editor, .screen-only-label { display:none !important; }
+    .sheet{
+      box-shadow:none;
+      margin:0;
+      width:auto;
+      min-height:auto;
+      padding: 5mm 5mm;
+      page-break-after: always;
+      break-after: page;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+  }
+  @media screen{
+    #print-area{ background:#eef1f0; padding-bottom: 40px; }
+    .screen-only-label{
+      text-align:center;
+      font-weight:700;
+      color:#888;
+      margin: 20px 0 -10px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!-- ÁREA DE EDIÇÃO / FORMULÁRIO                                  -->
+<!-- ============================================================ -->
+<div id="app-editor">
+  <div class="app-header">
+    <div>
+      <h1>Anexos I e III — Esterilização Cirúrgica (Laqueadura Tubária)</h1>
+      <p>SESA/PR — Lei nº 9.263/96 • Portaria nº 48/99 • Lei nº 14.443/22</p>
+    </div>
+    <div class="toolbar">
+      <button type="button" class="btn btn-clear" id="btnClear">Limpar / Nova Paciente</button>
+      <button type="button" class="btn btn-print" id="btnPrint">🖨️ Imprimir Documentos</button>
+    </div>
+  </div>
+
+  <form id="mainForm" onsubmit="return false;">
+
+    <fieldset>
+      <legend>a) Dados da Unidade de Saúde e Médico <span class="badge-auto">salvo automaticamente</span></legend>
+      <div class="grid">
+        <div class="field">
+          <label>UBS de origem</label>
+          <input type="text" id="ubsNome" placeholder="Ex: UBS Central">
+        </div>
+        <div class="field">
+          <label>Telefone da UBS</label>
+          <input type="tel" id="ubsTelefone" placeholder="(45) 0000-0000">
+        </div>
+        <div class="field">
+          <label>Nome do médico responsável</label>
+          <input type="text" id="medicoNome" placeholder="Dr(a). ...">
+        </div>
+        <div class="field">
+          <label>CRM</label>
+          <input type="text" id="medicoCRM" placeholder="CRM/PR 00000">
+        </div>
+      </div>
+      <p class="hint">Estes dados ficam gravados no navegador (localStorage) e serão restaurados automaticamente na próxima vez que você abrir esta página.</p>
+    </fieldset>
+
+    <fieldset>
+      <legend>b) Dados da Paciente</legend>
+      <div class="grid">
+        <div class="field wide">
+          <label>Nome completo da paciente</label>
+          <input type="text" id="pacNome">
+        </div>
+        <div class="field">
+          <label>Estado civil</label>
+          <select id="pacEstadoCivil">
+            <option value="">Selecione...</option>
+            <option>Solteira</option>
+            <option>Casada</option>
+            <option>União Estável</option>
+            <option>Divorciada</option>
+            <option>Viúva</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>RG nº</label>
+          <input type="text" id="pacRG">
+        </div>
+        <div class="field">
+          <label>CPF nº</label>
+          <input type="text" id="pacCPF">
+        </div>
+        <div class="field">
+          <label>Data de nascimento</label>
+          <input type="date" id="pacNascimento">
+        </div>
+        <div class="field">
+          <label>Idade <span class="badge-auto">auto</span></label>
+          <input type="number" id="pacIdade" min="0" placeholder="anos">
+        </div>
+        <div class="field">
+          <label>Cartão SUS</label>
+          <input type="text" id="pacSUS">
+        </div>
+        <div class="field">
+          <label>Nº de filhos vivos</label>
+          <input type="number" id="pacFilhos" min="0">
+        </div>
+        <div class="field wide">
+          <label>Residente à (endereço completo)</label>
+          <input type="text" id="pacEndereco">
+        </div>
+        <div class="field">
+          <label>Número</label>
+          <input type="text" id="pacNumero">
+        </div>
+        <div class="field">
+          <label>Cidade</label>
+          <input type="text" id="pacCidade" value="Toledo">
+        </div>
+        <div class="field">
+          <label>Telefone de contato</label>
+          <input type="tel" id="pacTelefone">
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>c) Datas e Critérios do Procedimento</legend>
+      <div class="grid">
+        <div class="field">
+          <label>Data da manifestação da vontade na UBS</label>
+          <input type="date" id="dataManifestacao">
+        </div>
+        <div class="field">
+          <label>Data do encaminhamento (mín. 60 dias após)</label>
+          <input type="date" id="dataEncaminhamento">
+        </div>
+      </div>
+
+      <p class="section-label" style="font-weight:700;margin:14px 0 4px;">Declaração da usuária (Anexo I)</p>
+      <div class="checkline"><input type="checkbox" id="chkCapacidade" checked><label>1. Estou em gozo de minha plena capacidade civil.</label></div>
+      <div class="checkline"><input type="checkbox" id="chkIdadeFilhos" checked><label>2. Sou maior de 21 anos e/ou tenho pelo menos dois filhos vivos.</label></div>
+      <div class="checkline"><input type="checkbox" id="chkPrazo" checked><label>3. Estou ciente do prazo mínimo de 60 dias entre a manifestação da vontade e o ato cirúrgico.</label></div>
+      <div class="checkline"><input type="checkbox" id="chkVontade" checked><label>4. Declaro que estou manifestando minha vontade livremente e recebi informações sobre riscos, efeitos colaterais, irreversibilidade do método e opções de contraceptivos reversíveis existentes.</label></div>
+      <div class="checkline"><input type="checkbox" id="chkAtoCirurgico" checked><label>5. Estou ciente do ato cirúrgico que será realizado e de suas possíveis consequências.</label></div>
+      <div class="checkline"><input type="checkbox" id="chkAlteracaoCapacidade" checked><label>6. Estou ciente de que não será considerada a esterilização de vontade expressa sob alteração de capacidade de discernimento (álcool, drogas, estados emocionais alterados ou incapacidade mental temporária/permanente).</label></div>
+
+      <p class="section-label" style="font-weight:700;margin:14px 0 4px;">Critérios para autorização (Anexo III)</p>
+      <div class="checkline"><input type="checkbox" id="critCapacidade" checked><label>1. Mulher com capacidade civil plena.</label></div>
+      <div class="checkline"><input type="checkbox" id="critIdade" checked><label>2. Maior de 21 anos ou, pelo menos, com dois filhos vivos.</label></div>
+      <div class="checkline"><input type="checkbox" id="critIncapaz"><label>3. Incapaz com autorização judicial.</label></div>
+      <div class="checkline"><input type="checkbox" id="critAconselhamento" checked><label>4. Passou por aconselhamento por equipe multidisciplinar, visando desencorajar a esterilização precoce, com informação dos riscos, possíveis efeitos colaterais, dificuldade de reversão e opções de contracepção reversíveis existentes.</label></div>
+    </fieldset>
+
+    <fieldset>
+      <legend>d) Parecer Médico e da Equipe APS</legend>
+      <div class="grid">
+        <div class="field wide">
+          <label>3. Parecer médico quanto às condições de saúde da paciente</label>
+          <textarea id="parecerMedico" rows="3">No momento da avaliação médica, a paciente apresenta plenas condições de saúde física e capacidade mental preservada para compreender a natureza, os riscos e as consequências do procedimento, demonstrando aptidão para a tomada de decisão consciente.</textarea>
+        </div>
+      </div>
+
+      <p class="section-label" style="font-weight:700;margin:18px 0 4px;">4. Parecer da Equipe da APS</p>
+      
+      <div style="font-size: 13px; margin-bottom: 6px; font-weight: 600;">Métodos Contraceptivos usados anteriormente pela solicitante:</div>
+      <div class="grid">
+          <div class="field">
+              <div class="checkline"><input type="checkbox" id="chkMetodoDIU"><label>Contracepção intra uterina</label></div>
+              <div class="checkline"><input type="checkbox" id="chkMetodoBarreira"><label>Métodos barreira</label></div>
+              <div class="checkline"><input type="checkbox" id="chkMetodoOral"><label>Anticoncepcional hormonal oral</label></div>
+          </div>
+          <div class="field">
+              <div class="checkline"><input type="checkbox" id="chkMetodoInjetavel"><label>Anticoncepcional hormonal injetável</label></div>
+              <div class="checkline"><input type="checkbox" id="chkMetodoNatural"><label>Métodos naturais</label></div>
+              <div class="checkline"><input type="checkbox" id="chkMetodoNenhum"><label>Nenhum</label></div>
+          </div>
+      </div>
+      <div class="field wide" style="margin-top: 8px;">
+          <label>Observações</label>
+          <textarea id="obsAPS" rows="3">A solicitante declara ter sido devidamente orientada e compreender a existência e disponibilidade de métodos contraceptivos reversíveis fornecidos pela rede pública. Contudo, manifesta de forma livre e consciente sua preferência pelo método contraceptivo definitivo (cirúrgico), ciente de sua irreversibilidade.</textarea>
+      </div>
+
+      <div style="font-size: 13px; margin: 18px 0 6px; font-weight: 600;">Aconselhamento/Orientações realizadas pela equipe:</div>
+      <div class="grid">
+          <div class="field">
+              <div class="checkline"><input type="checkbox" id="chkAconsMetodos" checked><label>Apresentação de métodos contraceptivos reversíveis</label></div>
+              <div class="checkline"><input type="checkbox" id="chkAconsRiscos" checked><label>Esclarecimento sobre riscos e complicações do método definitivo</label></div>
+              <div class="checkline"><input type="checkbox" id="chkAconsReversao" checked><label>Esclarecimento sobre a dificuldade de reversão do método definitivo</label></div>
+          </div>
+          <div class="field">
+              <div class="checkline"><input type="checkbox" id="chkAconsPsico"><label>Encaminhamento com psicologia</label></div>
+              <div class="checkline"><input type="checkbox" id="chkAconsSocial"><label>Encaminhamento com Serviço Social (Assistente Social)</label></div>
+              <div class="checkline"><input type="checkbox" id="chkAconsOutros"><label>Outros</label></div>
+          </div>
+      </div>
+      <div class="field wide" style="margin-top: 8px; margin-bottom: 18px;">
+          <label>Quais (Outros)</label>
+          <textarea id="aconsOutrosTexto" rows="3" placeholder="Especifique outros encaminhamentos/orientações..."></textarea>
+      </div>
+
+      <div class="grid">
+        <div class="field wide">
+          <label>5. Local do encaminhamento</label>
+          <input type="text" id="localEncaminhamento" placeholder="Cidade / UBS / Unidade">
+        </div>
+        <div class="field wide">
+          <label>6. Conclusão</label>
+          <textarea id="conclusao" rows="3">Encaminhada para realização do procedimento cirúrgico.</textarea>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+</div>
+
+<!-- ============================================================ -->
+<!-- ÁREA DE IMPRESSÃO — GERADA DINAMICAMENTE                       -->
+<!-- ============================================================ -->
+<div id="print-area">
+
+  <div class="screen-only-label">Pré-visualização — Anexo I (3 vias)</div>
+  <div id="anexoI-container"></div>
+
+  <div class="screen-only-label">Pré-visualização — Anexo III (2 vias)</div>
+  <div id="anexoIII-container"></div>
+
+</div>
+
+<script>
+(function(){
+
+  /* ---------------------------------------------------------------
+     UTIL
+  --------------------------------------------------------------- */
+  function $(id){ return document.getElementById(id); }
+
+  function formatDateBR(isoDate){
+    if(!isoDate) return '';
+    var parts = isoDate.split('-');
+    if(parts.length !== 3) return isoDate;
+    return parts[2] + '/' + parts[1] + '/' + parts[0];
+  }
+
+  function formatDateExtenso(isoDate, cidade){
+    if(!isoDate) return '';
+    var parts = isoDate.split('-');
+    if(parts.length !== 3) return isoDate;
+    
+    var dia = parseInt(parts[2], 10);
+    var mesNum = parseInt(parts[1], 10) - 1;
+    var ano = parts[0];
+    
+    var meses = [
+      'janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
+      'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'
+    ];
+    
+    var nomeCidade = cidade && cidade.trim().length ? cidade.trim() : 'Toledo';
+    return nomeCidade + ', ' + dia + ' de ' + meses[mesNum] + ' de ' + ano;
+  }
+
+  function esc(str){
+    if(str === undefined || str === null) return '';
+    var div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  /* ---------------------------------------------------------------
+     CAMPOS PERSISTENTES (localStorage) — UBS e Médico
+  --------------------------------------------------------------- */
+  var persistentFields = ['ubsNome','ubsTelefone','medicoNome','medicoCRM'];
+  var STORAGE_PREFIX = 'anexoLaqueadura_';
+
+  function loadPersistent(){
+    persistentFields.forEach(function(id){
+      var saved = localStorage.getItem(STORAGE_PREFIX + id);
+      if(saved !== null){ $(id).value = saved; }
+    });
+  }
+
+  function savePersistentField(id){
+    localStorage.setItem(STORAGE_PREFIX + id, $(id).value);
+  }
+
+  /* ---------------------------------------------------------------
+     CAMPOS DA PACIENTE (não persistem)
+  --------------------------------------------------------------- */
+  var patientFieldIds = [
+    'pacNome','pacEstadoCivil','pacRG','pacCPF','pacNascimento','pacIdade',
+    'pacSUS','pacFilhos','pacEndereco','pacNumero','pacCidade','pacTelefone',
+    'dataManifestacao','dataEncaminhamento','parecerMedico','obsAPS',
+    'aconsOutrosTexto','localEncaminhamento', 'conclusao'
+  ];
+  
+  var patientCheckboxIds = [
+    'chkCapacidade','chkIdadeFilhos','chkPrazo','chkVontade','chkAtoCirurgico','chkAlteracaoCapacidade',
+    'critCapacidade','critIdade','critIncapaz','critAconselhamento',
+    'chkMetodoDIU', 'chkMetodoBarreira', 'chkMetodoOral', 'chkMetodoInjetavel', 'chkMetodoNatural', 'chkMetodoNenhum',
+    'chkAconsMetodos', 'chkAconsRiscos', 'chkAconsReversao', 'chkAconsPsico', 'chkAconsSocial', 'chkAconsOutros'
+  ];
+
+  // Quais checkboxes devem iniciar marcados
+  var defaultCheckedIds = [
+    'chkCapacidade','chkIdadeFilhos','chkPrazo','chkVontade','chkAtoCirurgico','chkAlteracaoCapacidade',
+    'critCapacidade','critIdade','critAconselhamento',
+    'chkAconsMetodos', 'chkAconsRiscos', 'chkAconsReversao'
+  ];
+
+  function clearPatientData(){
+    patientFieldIds.forEach(function(id){ 
+      if(id === 'conclusao') {
+        $(id).value = 'Encaminhada para realização do procedimento cirúrgico.';
+      } else if (id === 'pacCidade') {
+        $(id).value = 'Toledo';
+      } else if (id === 'parecerMedico') {
+        $(id).value = 'No momento da avaliação médica, a paciente apresenta plenas condições de saúde física e capacidade mental preservada para compreender a natureza, os riscos e as consequências do procedimento, demonstrando aptidão para a tomada de decisão consciente.';
+      } else if (id === 'obsAPS') {
+        $(id).value = 'A solicitante declara ter sido devidamente orientada e compreender a existência e disponibilidade de métodos contraceptivos reversíveis fornecidos pela rede pública. Contudo, manifesta de forma livre e consciente sua preferência pelo método contraceptivo definitivo (cirúrgico), ciente de sua irreversibilidade.';
+      } else {
+        $(id).value = ''; 
+      }
+    });
+    
+    patientCheckboxIds.forEach(function(id){
+      $(id).checked = defaultCheckedIds.includes(id);
+    });
+    updatePreview();
+  }
+
+  /* ---------------------------------------------------------------
+     GERAÇÃO DO CABEÇALHO OFICIAL
+  --------------------------------------------------------------- */
+  function officialHeader(){
+    return ''
+      + '<div class="doc-header">'
+      + '  <img class="logo-img" src="logopr.png" alt="Governo do Estado do Paraná - Secretaria de Estado da Saúde">'
+      + '</div>';
+  }
+
+  function footerDoc(){
+    return '<div class="footer-doc">Documento gerado conforme Lei nº 9.263/1996, Portaria nº 48/1999 e Lei nº 14.443/2022 — Fluxo de Esterilização Cirúrgica (Del CIB PR nº 047/2023).</div>';
+  }
+
+  /* ---------------------------------------------------------------
+     TEMPLATE — ANEXO I (LAQUEADURA)
+  --------------------------------------------------------------- */
+  function anexoITemplate(viaLabel){
+    return ''
+    + '<div class="sheet">'
+    + '  <div class="via-tag">' + esc(viaLabel) + '</div>'
+    + officialHeader()
+    + '  <div class="doc-title">'
+    + '    <div class="anexo">ANEXO I</div>'
+    + '    <div class="subtitulo">Documento de Consentimento Livre e Esclarecido obrigatoriamente necessário para Cirurgia de <b>LAQUEADURA TUBÁRIA BILATERAL</b></div>'
+    + '  </div>'
+    + '  <div class="section-title" style="text-align:center;border:none;">DECLARAÇÃO DA USUÁRIA</div>'
+    + '  <div class="legal-ref">Fundamentação legal — Lei nº 9.263 de 12/01/96; Portaria nº 48 de 11/02/99 e Lei nº 14.443 de 02/09/22</div>'
+
+    + '  <div class="fillrow">'
+    + '    <div class="fi" style="flex:2 1 300px;"><b>Eu,</b> <span class="val-clean fld-pacNome">&nbsp;</span></div>'
+    + '    <div class="fi" style="flex:1 1 150px;"><b>Estado Civil:</b> <span class="val-clean fld-pacEstadoCivil">&nbsp;</span></div>'
+    + '  </div>'
+    + '  <div class="fillrow">'
+    + '    <div class="fi"><b>Portadora do RG nº</b> <span class="val-clean fld-pacRG">&nbsp;</span></div>'
+    + '    <div class="fi"><b>CPF nº</b> <span class="val-clean fld-pacCPF">&nbsp;</span></div>'
+    + '    <div class="fi"><b>Data de Nascimento:</b> <span class="val-clean fld-pacNascimentoBR">&nbsp;</span></div>'
+    + '  </div>'
+    + '  <div class="fillrow">'
+    + '    <div class="fi" style="flex:3 1 350px;"><b>Residente:</b> <span class="val-clean fld-pacEndereco">&nbsp;</span></div>'
+    + '    <div class="fi" style="flex:1 1 80px;"><b>nº</b> <span class="val-clean fld-pacNumero">&nbsp;</span></div>'
+    + '  </div>'
+    + '  <div class="fillrow">'
+    + '    <div class="fi" style="flex-basis:100%;"><b>Na cidade de</b> <span class="val-clean fld-pacCidade">&nbsp;</span>, Estado do Paraná. Desejo fazer cirurgia de <b>LAQUEADURA TUBÁRIA</b>.</div>'
+    + '  </div>'
+
+    + '  <div class="section-title">DECLARO, para todos os fins de direito, que estou ciente das exigências da Lei nº 9.263/96 e Lei nº 14.443/22, quanto à cirurgia que pretendo realizar, conforme segue:</div>'
+    + '  <div class="checkbox-item">' + boxMarkPlaceholder('chkCapacidade') + '<div>1- Estou em gozo de minha plena capacidade civil.</div></div>'
+    + '  <div class="checkbox-item">' + boxMarkPlaceholder('chkIdadeFilhos') + '<div>2- Sou maior de 21 (vinte e um) anos de idade e/ou tenho pelo menos dois filhos vivos.</div></div>'
+    + '  <div class="checkbox-item">' + boxMarkPlaceholder('chkPrazo') + '<div>3- Estou ciente de que deverei observar o prazo mínimo de 60 (sessenta) dias entre a manifestação da vontade e o ato cirúrgico para os devidos aconselhamentos e informações.</div></div>'
+    + '  <div class="checkbox-item">' + boxMarkPlaceholder('chkVontade') + '<div>4- Declaro para todos os fins de direito que estou manifestando neste ato, a minha vontade de me submeter à cirurgia acima indicada e que recebi informações a respeito dos riscos da cirurgia, possíveis efeitos colaterais, irreversibilidade do método e opções de contraceptivos reversíveis existentes.</div></div>'
+    + '  <div class="checkbox-item">' + boxMarkPlaceholder('chkAtoCirurgico') + '<div>5- Estou ciente do ato cirúrgico que será realizado e de suas possíveis consequências.</div></div>'
+    + '  <div class="checkbox-item">' + boxMarkPlaceholder('chkAlteracaoCapacidade') + '<div>6- Estou ciente de que não será considerada a esterilização de vontade expressa, para fins de esterilização cirúrgica (laqueadura), durante a ocorrência de alterações na capacidade de discernimento por influência de álcool, drogas, estados emocionais alterados ou incapacidade mental temporária ou permanente. A esterilização cirúrgica em pessoas absolutamente incapazes somente poderá ocorrer mediante autorização judicial, regulamentada na forma da Lei.</div></div>'
+
+    + '  <div class="section-title">ESCLARECIMENTO MÉDICO:</div>'
+    + '  <div class="fillrow">'
+    + '    <div class="fi"><b>Declaro que o(a) Dr(a).</b> <span class="val-clean fld-medicoNome">&nbsp;</span> <b>CRM nº</b> <span class="val-clean fld-medicoCRM">&nbsp;</span></div>'
+    + '  </div>'
+    + '  <p style="margin:4px 0 2px;">Informou-me que, sendo minha vontade buscar uma contracepção definitiva, seria conveniente e indicado proceder À INTERVENÇÃO DE LAQUEADURA TUBÁRIA BILATERAL. Esclareceu-me que:</p>'
+    + '  <ol class="med-list">'
+    + '    <li>A intervenção de laqueadura tubária consiste basicamente na INTERRUPÇÃO DA CONTINUIDADE DAS TROMPAS DE FALÓPIO, com o objetivo de impedir uma nova gravidez.</li>'
+    + '    <li>Para realização da técnica existem várias formas de abordagem cirúrgica: a) Laparoscópica; b) Minilaparotomia; c) Vaginal; d) Pós-cesárea (laqueadura tubária no momento da prática de uma cesárea);</li>'
+    + '    <li>Esta técnica necessita de anestesia.</li>'
+    + '    <li>Sua eficácia é de 99 a 99,8% com índice de Pearl de 0,5 ou menos de falhas por 100 mulheres por ano.</li>'
+    + '    <li>Como em toda intervenção cirúrgica, existe um risco excepcional de mortalidade derivado do ato cirúrgico e da situação vital de cada paciente.</li>'
+    + '    <li>As complicações que poderão surgir são:'
+    + '      <ul class="med-sublist">'
+    + '        <li><b>a) Intra-operatória:</b> hemorragias, lesões de órgãos, queimaduras por bisturi elétrico.</li>'
+    + '        <li><b>b) Pós-operatórias:</b>'
+    + '          <br>• <i>Leves e mais frequentes:</i> seromas, hemorragias, cistites, anemia, etc.'
+    + '          <br>• <i>Graves e excepcionais:</i> eventração, apnéia, trombose, hematomas, pelviperitonites, sépsis, hemorragias, perfurações de órgãos.'
+    + '        </li>'
+    + '      </ul>'
+    + '    </li>'
+    + '    <li>Se no momento do ato cirúrgico surgir algum imprevisto, a equipe médica poderá variar a técnica cirúrgica programada.</li>'
+    + '    <li>Existem outros métodos de contracepção que não são irreversíveis:'
+    + '      <ul class="med-sublist">'
+    + '        <li>• Método de barreira (preservativo masculino e feminino, diafragma, etc);</li>'
+    + '        <li>• Anticoncepção hormonal (pílula, injetáveis, implantes);</li>'
+    + '        <li>• Contracepção intra-uterina (DIUs);</li>'
+    + '        <li>• Métodos naturais (tabelinha - Método Billings).</li>'
+    + '      </ul>'
+    + '    </li>'
+    + '  </ol>'
+    
+    + '  <p style="text-align: justify; margin: 6px 0 10px; line-height: 1.25;">DECLARO que entendi as explicações que me foram prestadas em linguagem clara e simples, esclarecendo-me todas as dúvidas que me ocorreram. Também entendi que, a qualquer momento e sem necessidade de dar nenhuma explicação poderei revogar o consentimento que agora presto, antes que o procedimento objeto deste documento se realize. Assim, declaro agora que estou satisfeita com a informação recebida e que compreendo o alcance e riscos do procedimento. Por tal razão e nestas condições, CONSINTO que se realize a INTERVENÇÃO DE LAQUEADURA TUBÁRIA PROPOSTA.</p>'
+
+    + '  <div class="fillrow" style="margin-top:10px; margin-bottom:8px;">'
+    + '    <div class="fi"><b>Local e Data:</b> <span class="val-clean fld-dataExtenso">&nbsp;</span></div>'
+    + '  </div>'
+
+    + '  <div class="sig-area">'
+    + '    <div class="sig-box"><div class="sig-line">Assinatura da Paciente</div></div>'
+    + '    <div class="sig-box"><div class="sig-line">Assinatura do médico<br><span class="fld-medicoNome"></span> — CRM <span class="fld-medicoCRM"></span></div></div>'
+    + '  </div>'
+
+    + '  <div style="margin-top: 12px; font-size: 9.5px; text-align: justify; line-height: 1.3;">'
+    + '    <b>Observação:</b> Preenchimento completo deste termo em três vias, ficando uma arquivada no prontuário do paciente, outra entregue ao paciente, e a terceira será entregue ao serviço especializado que realizará a cirurgia.<br>'
+    + '    Del CIB PR no 047/2023-Fluxo para realização de Esterilização Cirúrgica (Laqueadura e Vasectomia).'
+    + '  </div>'
+
+    + footerDoc()
+    + '</div>';
+  }
+
+  function boxMarkPlaceholder(id){
+    return '<span class="box chkmark-' + id + '"></span>';
+  }
+
+  /* ---------------------------------------------------------------
+     TEMPLATE — ANEXO III
+  --------------------------------------------------------------- */
+  function anexoIIITemplate(viaLabel){
+    return ''
+    + '<div class="sheet">'
+    + '  <div class="via-tag">' + esc(viaLabel) + '</div>'
+    + officialHeader()
+    + '  <div class="doc-title">'
+    + '    <div class="anexo">ANEXO III</div>'
+    + '    <div class="subtitulo">Encaminhamento da Atenção Primária à Saúde (APS) para realização de <b>Laqueadura Tubária</b> ou Vasectomia</div>'
+    + '  </div>'
+    + '  <div class="legal-ref">Lei nº 9.263 de 12/01/1996 / Portaria nº 48 de 11/02/1999 / Lei nº 14.443 de 02/09/2022</div>'
+
+    + '  <div class="section-title">1-Dados Gerais</div>'
+    + '  <div class="fillrow">'
+    + '    <div class="fi" style="flex:2 1 250px;"><b>UBS:</b> <span class="val-clean fld-ubsNome">&nbsp;</span></div>'
+    + '    <div class="fi" style="flex:1 1 200px;"><b>Telefone para contato com a UBS:</b> <span class="val-clean fld-ubsTelefone">&nbsp;</span></div>'
+    + '  </div>'
+    + '  <div class="fillrow">'
+    + '    <div class="fi" style="flex-basis:100%;"><b>Data da manifestação da vontade na UBS:</b> <span class="val-clean fld-dataManifestacaoBR">&nbsp;</span></div>'
+    + '  </div>'
+    + '  <div class="fillrow">'
+    + '    <div class="fi" style="flex-basis:100%;"><b>Data do encaminhamento para realização do procedimento cirúrgico (mínimo de 60 dias após manifestação da vontade):</b> <span class="val-clean fld-dataEncaminhamentoBR">&nbsp;</span></div>'
+    + '  </div>'
+    + '  <div class="fillrow">'
+    + '    <div class="fi" style="flex:3 1 350px;"><b>Nome:</b> <span class="val-clean fld-pacNome">&nbsp;</span></div>'
+    + '    <div class="fi" style="flex:1 1 180px;"><b>Data de Nascimento:</b> <span class="val-clean fld-pacNascimentoBR">&nbsp;</span></div>'
+    + '  </div>'
+    + '  <div class="fillrow">'
+    + '    <div class="fi"><b>Idade:</b> <span class="val-clean fld-pacIdade">&nbsp;</span></div>'
+    + '    <div class="fi"><b>Situação Conjugal:</b> <span class="val-clean fld-pacEstadoCivil">&nbsp;</span></div>'
+    + '    <div class="fi"><b>Cartão SUS:</b> <span class="val-clean fld-pacSUS">&nbsp;</span></div>'
+    + '    <div class="fi"><b>telefone:</b> <span class="val-clean fld-pacTelefone">&nbsp;</span></div>'
+    + '  </div>'
+    + '  <div class="fillrow">'
+    + '    <div class="fi" style="flex:3 1 300px;"><b>Endereço:</b> <span class="val-clean fld-pacEndereco">&nbsp;</span></div>'
+    + '    <div class="fi" style="flex:0 1 70px;"><b>nº</b> <span class="val-clean fld-pacNumero">&nbsp;</span></div>'
+    + '    <div class="fi" style="flex:1 1 150px;"><b>Cidade:</b> <span class="val-clean fld-pacCidade">&nbsp;</span></div>'
+    + '  </div>'
+
+    + '  <div class="section-title">2-Critérios para autorização:</div>'
+    + '  <div class="criteria-box" style="border:none; padding:0; margin: 4px 0;">'
+    + '    <div class="checkbox-item">' + boxMarkPlaceholder('critCapacidade') + '<div>1- Mulher ou Homem com capacidade civil plena;</div></div>'
+    + '    <div class="checkbox-item">' + boxMarkPlaceholder('critIdade') + '<div>2- Ser maior de 21 anos ou, pelo menos com dois filhos vivos;*</div></div>'
+    + '    <div class="checkbox-item">' + boxMarkPlaceholder('critIncapaz') + '<div>3- Incapaz com autorização judicial;</div></div>'
+    + '    <div class="checkbox-item">' + boxMarkPlaceholder('critAconselhamento') + '<div>4- Passou por aconselhamento por equipe multidisciplinar, visando desencorajar a esterilização precoce, informação dos riscos da cirurgia, possíveis efeitos colaterais, dificuldade de reversão e opções de contracepção reversíveis existentes.</div></div>'
+    + '    <div class="fillrow" style="margin-top:6px;"><div class="fi"><b>*Nº de filhos vivos:</b> <span class="val-clean fld-pacFilhos">&nbsp;</span></div></div>'
+    + '  </div>'
+
+    + '  <div class="section-title">3- Parecer médico quanto as condições de saúde do(a) paciente:</div>'
+    + '  <div class="parecer-lines fld-parecerMedico" style="min-height: 45px;">&nbsp;</div>'
+    + '  <div class="fillrow" style="margin-top:6px;">'
+    + '    <div class="fi"><b>Médico Responsável (Nome/CRM/Ass.):</b> <span class="val-clean fld-medicoNome">&nbsp;</span> <b>CRM:</b> <span class="val-clean fld-medicoCRM">&nbsp;</span></div>'
+    + '  </div>'
+
+    + '  <div class="section-title">4-Parecer da Equipe da APS</div>'
+    + '  <div style="margin: 4px 0 2px;"><b>Métodos Contraceptivos usados anteriormente pelo solicitante:</b></div>'
+    + '  <div class="checkbox-item">' + boxMarkPlaceholder('chkMetodoDIU') + '<div>Contracepção intra uterina:</div></div>'
+    + '  <div class="checkbox-item">' + boxMarkPlaceholder('chkMetodoBarreira') + '<div>Métodos barreira:</div></div>'
+    + '  <div class="checkbox-item">' + boxMarkPlaceholder('chkMetodoOral') + '<div>Anticoncepcional hormonal oral:</div></div>'
+    + '  <div class="checkbox-item">' + boxMarkPlaceholder('chkMetodoInjetavel') + '<div>Anticoncepcional hormonal injetável:</div></div>'
+    + '  <div class="checkbox-item">' + boxMarkPlaceholder('chkMetodoNatural') + '<div>Métodos naturais.</div></div>'
+    + '  <div class="checkbox-item">' + boxMarkPlaceholder('chkMetodoNenhum') + '<div>Nenhum.</div></div>'
+    
+    + '  <div style="margin-top:6px;"><b>Observações:</b></div>'
+    + '  <div class="parecer-lines fld-obsAPS" style="min-height: 45px;">&nbsp;</div>'
+    
+    + '  <div style="margin: 8px 0 2px;"><b>Aconselhamento/Orientações realizadas pela equipe:</b></div>'
+    + '  <div class="checkbox-item">' + boxMarkPlaceholder('chkAconsMetodos') + '<div>Apresentação de métodos contraceptivos reversíveis.</div></div>'
+    + '  <div class="checkbox-item">' + boxMarkPlaceholder('chkAconsRiscos') + '<div>Esclarecimento sobre riscos e complicações do método definitivo.</div></div>'
+    + '  <div class="checkbox-item">' + boxMarkPlaceholder('chkAconsReversao') + '<div>Esclarecimento sobre a dificuldade de reversão do método definitivo.</div></div>'
+    + '  <div class="checkbox-item">' + boxMarkPlaceholder('chkAconsPsico') + '<div>Encaminhamento com psicologia.</div></div>'
+    + '  <div class="checkbox-item">' + boxMarkPlaceholder('chkAconsSocial') + '<div>Encaminhamento com Serviço Social (Assistente Social).</div></div>'
+    + '  <div class="checkbox-item">' + boxMarkPlaceholder('chkAconsOutros') + '<div>Outros.</div></div>'
+    
+    + '  <div style="margin-top:6px;"><b>Quais:</b></div>'
+    + '  <div class="parecer-lines fld-aconsOutrosTexto" style="min-height: 45px;">&nbsp;</div>'
+
+    + '  <div class="section-title">5-Local do encaminhamento:</div>'
+    + '  <div class="fillrow">'
+    + '    <div class="fi" style="flex-basis:100%;"><span class="val-clean fld-localEncaminhamento">&nbsp;</span></div>'
+    + '  </div>'
+
+    + '  <div class="section-title">6-Conclusão:</div>'
+    + '  <div class="parecer-lines fld-conclusao" style="min-height: 45px;">&nbsp;</div>'
+
+    + '  <div class="sig-area">'
+    + '    <div class="sig-box"><div class="sig-line">Assinatura do(a) paciente</div></div>'
+    + '    <div class="sig-box"><div class="sig-line">Assinatura dos profissionais da APS responsáveis pelas orientações</div></div>'
+    + '  </div>'
+    + footerDoc()
+    + '</div>';
+  }
+
+  /* ---------------------------------------------------------------
+     MONTAGEM DAS VIAS
+  --------------------------------------------------------------- */
+  function buildDocuments(){
+    var viasI = ['VIA 1 — PRONTUÁRIO','VIA 2 — PACIENTE','VIA 3 — SERVIÇO ESPECIALIZADO'];
+    var viasIII = ['VIA 1 — UBS DE ORIGEM','VIA 2 — SERVIÇO DE REFERÊNCIA'];
+
+    var containerI = $('anexoI-container');
+    containerI.innerHTML = viasI.map(anexoITemplate).join('');
+
+    var containerIII = $('anexoIII-container');
+    containerIII.innerHTML = viasIII.map(anexoIIITemplate).join('');
+  }
+
+  /* ---------------------------------------------------------------
+     ATUALIZAÇÃO EM TEMPO REAL DOS DOCUMENTOS
+  --------------------------------------------------------------- */
+  function setAllByClass(className, value){
+    var els = document.getElementsByClassName(className);
+    for(var i=0;i<els.length;i++){
+      els[i].textContent = value && value.length ? value : '\u00A0';
+    }
+  }
+
+  function setAllChecked(id, checked){
+    var els = document.getElementsByClassName('chkmark-' + id);
+    for(var i=0;i<els.length;i++){
+      els[i].textContent = checked ? '✕' : '';
+    }
+  }
+
+  function updatePreview(){
+    // Dados UBS/Médico
+    setAllByClass('fld-ubsNome', $('ubsNome').value);
+    setAllByClass('fld-ubsTelefone', $('ubsTelefone').value);
+    setAllByClass('fld-medicoNome', $('medicoNome').value);
+    setAllByClass('fld-medicoCRM', $('medicoCRM').value);
+
+    // Dados da paciente
+    setAllByClass('fld-pacNome', $('pacNome').value);
+    setAllByClass('fld-pacEstadoCivil', $('pacEstadoCivil').value);
+    setAllByClass('fld-pacRG', $('pacRG').value);
+    setAllByClass('fld-pacCPF', $('pacCPF').value);
+    setAllByClass('fld-pacNascimentoBR', formatDateBR($('pacNascimento').value));
+    setAllByClass('fld-pacIdade', $('pacIdade').value);
+    setAllByClass('fld-pacSUS', $('pacSUS').value);
+    setAllByClass('fld-pacFilhos', $('pacFilhos').value);
+    setAllByClass('fld-pacEndereco', $('pacEndereco').value);
+    setAllByClass('fld-pacNumero', $('pacNumero').value);
+    setAllByClass('fld-pacCidade', $('pacCidade').value);
+    setAllByClass('fld-pacTelefone', $('pacTelefone').value);
+
+    // Datas
+    setAllByClass('fld-dataManifestacaoBR', formatDateBR($('dataManifestacao').value));
+    setAllByClass('fld-dataEncaminhamentoBR', formatDateBR($('dataEncaminhamento').value));
+    setAllByClass('fld-dataExtenso', formatDateExtenso($('dataEncaminhamento').value, $('pacCidade').value));
+
+    // Pareceres
+    setAllByClass('fld-parecerMedico', $('parecerMedico').value);
+    setAllByClass('fld-obsAPS', $('obsAPS').value);
+    setAllByClass('fld-aconsOutrosTexto', $('aconsOutrosTexto').value);
+    setAllByClass('fld-localEncaminhamento', $('localEncaminhamento').value);
+    setAllByClass('fld-conclusao', $('conclusao').value);
+
+    // Checkboxes
+    patientCheckboxIds.forEach(function(id){
+      setAllChecked(id, $(id).checked);
+    });
+  }
+
+  /* ---------------------------------------------------------------
+     EVENTOS E CÁLCULOS
+  --------------------------------------------------------------- */
+  function attachEvents(){
+    persistentFields.forEach(function(id){
+      $(id).addEventListener('input', function(){
+        savePersistentField(id);
+        updatePreview();
+      });
+    });
+
+    patientFieldIds.forEach(function(id){
+      $(id).addEventListener('input', updatePreview);
+    });
+    patientCheckboxIds.forEach(function(id){
+      $(id).addEventListener('change', updatePreview);
+    });
+    
+    // Cálculo de idade automático
+    $('pacNascimento').addEventListener('change', function(){
+      var dob = this.value;
+      if(dob){
+        var parts = dob.split('-');
+        var birthYear = parseInt(parts[0], 10);
+        var birthMonth = parseInt(parts[1], 10) - 1;
+        var birthDay = parseInt(parts[2], 10);
+        
+        var today = new Date();
+        var age = today.getFullYear() - birthYear;
+        var m = today.getMonth() - birthMonth;
+        
+        if (m < 0 || (m === 0 && today.getDate() < birthDay)) {
+            age--;
+        }
+        $('pacIdade').value = age;
+      } else {
+        $('pacIdade').value = '';
+      }
+      updatePreview();
+    });
+
+    $('btnPrint').addEventListener('click', function(){
+      window.print();
+    });
+
+    $('btnClear').addEventListener('click', function(){
+      if(confirm('Isso irá limpar todos os dados da paciente preenchidos (os dados da UBS e do médico serão mantidos). Deseja continuar?')){
+        clearPatientData();
+      }
+    });
+
+    // Limpa os dados da paciente automaticamente após a impressão
+    window.addEventListener('afterprint', function(){
+      clearPatientData();
+    });
+  }
+
+  /* ---------------------------------------------------------------
+     INICIALIZAÇÃO
+  --------------------------------------------------------------- */
+  document.addEventListener('DOMContentLoaded', function(){
+    buildDocuments();
+    loadPersistent();
+    attachEvents();
+    updatePreview();
+  });
+
+})();
+</script>
+</body>
+</html>
